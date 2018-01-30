@@ -1,3 +1,4 @@
+/*
 Copyright (c) 2018, Valeriy Soldatov
 All rights reserved.
 
@@ -22,3 +23,38 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package ru.mojgorod.football.xml;
+
+import java.util.List;
+import ru.mojgorod.football.xml.aggregate.AggregatorManager;
+import ru.mojgorod.football.xml.aggregate.Season;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.config.Config;
+
+/**
+ *
+ * @author sova
+ */
+public class PrintXML {
+
+    public static void main(String[] args) {
+
+        List<Season> seasons = Config.readConfig();
+        SeasonManager seasonsManager = new SeasonManager();
+        for (Season season : seasons) {
+            seasonsManager.add(season,
+                    AggregatorManager.createMatchesAggregator(),
+                    AggregatorManager.createTeamAttendanceAggregator(),
+                    AggregatorManager.createStadiumsAggregator(),
+                    AggregatorManager.createStrongWinAggregator(),
+                    AggregatorManager.createStrongLoseAggregator(),
+                    AggregatorManager.createGoalsForAggregetor(),
+                    AggregatorManager.createGoalsAgainstAggregetor()
+            );
+        }
+        seasonsManager.aggregate();
+        seasonsManager.print();
+    }
+
+}

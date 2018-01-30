@@ -1,3 +1,4 @@
+/*
 Copyright (c) 2018, Valeriy Soldatov
 All rights reserved.
 
@@ -22,3 +23,36 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package ru.mojgorod.football.xml.library;
+
+/**
+ *
+ * @author sova
+ */
+public class FootballXmlPlayer {
+
+    private String name;
+    private String id;
+
+    public FootballXmlPlayer(String name) {
+        this.name = name;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+}

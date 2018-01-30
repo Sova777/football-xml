@@ -1,3 +1,4 @@
+/*
 Copyright (c) 2018, Valeriy Soldatov
 All rights reserved.
 
@@ -22,3 +23,29 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package ru.mojgorod.football.xml.aggregate;
+
+/**
+ *
+ * @author sova
+ */
+public class Season {
+
+    private final String title;
+    private final String[] folder;
+
+    public Season(final String title, final String... folder) {
+        this.title = title;
+        this.folder = folder;
+    }
+
+    public String[] getFolders() {
+        return folder;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+}

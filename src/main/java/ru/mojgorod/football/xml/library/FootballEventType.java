@@ -1,3 +1,4 @@
+/*
 Copyright (c) 2018, Valeriy Soldatov
 All rights reserved.
 
@@ -22,3 +23,41 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package ru.mojgorod.football.xml.library;
+
+/**
+ *
+ * @author sova
+ */
+public enum FootballEventType {
+
+    GOAL, PENALTY_GOAL, AUTOGOAL, PENALTY_MISSED, SUBSTITUTION, UNKNOWN;
+
+    public boolean isAnyGoal() {
+        return this.equals(FootballEventType.GOAL)
+                || this.equals(FootballEventType.PENALTY_GOAL)
+                || this.equals(FootballEventType.AUTOGOAL);
+    }
+
+    public boolean isAutoGoal() {
+        return this.equals(FootballEventType.AUTOGOAL);
+    }
+
+    public boolean isGoal() {
+        return this.equals(FootballEventType.GOAL);
+    }
+
+    public boolean isPenaltyGoal() {
+        return this.equals(FootballEventType.PENALTY_GOAL);
+    }
+
+    public boolean isPenaltyMissed() {
+        return this.equals(FootballEventType.PENALTY_MISSED);
+    }
+
+    public boolean isSubstitution() {
+        return this.equals(FootballEventType.SUBSTITUTION);
+    }
+
+}
