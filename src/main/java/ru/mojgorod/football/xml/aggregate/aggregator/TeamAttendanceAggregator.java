@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -77,22 +78,25 @@ public class TeamAttendanceAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final String title) {
+    public void print(final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        System.out.println("===============================================================");
-        System.out.println("| Команда              | Дома       | В гостях   | Общая      |");
-        System.out.println("===============================================================");
+        out.println("<h2>Средняя командная посещаемость</h2>");
+        out.println( "<pre>");
+        out.println("===============================================================");
+        out.println("| Команда              | Дома       | В гостях   | Общая      |");
+        out.println("===============================================================");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             int home = (stat.homeGames == 0) ? 0 : stat.homeAttendance / stat.homeGames;
             int away = (stat.awayGames == 0) ? 0 : stat.awayAttendance / stat.awayGames;
             int total = ((stat.homeGames + stat.awayGames) == 0) ? 0
                     : (stat.homeAttendance + stat.awayAttendance) / (stat.homeGames + stat.awayGames);
-            System.out.printf("| %-20s | %-10d | %-10d | %-10d |%n",
+            out.printf("| %-20s | %-10d | %-10d | %-10d |%n",
                     stat.team, home, away, total);
         }
-        System.out.println("===============================================================");
+        out.println("===============================================================");
+        out.println( "</pre>");
     }
 
     static private class TournamentStat {

@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -108,19 +109,22 @@ public class GoalsForAggregetor implements Aggregator {
     }
 
     @Override
-    public void print(final String title) {
+    public void print(final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        System.out.println("==============================================================================================================");
-        System.out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");
-        System.out.println("==============================================================================================================");
+        out.println("<h2>Время матча и забитые мячи</h2>");
+        out.println("<pre>");
+        out.println("==============================================================================================================");
+        out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");
+        out.println("==============================================================================================================");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
-            System.out.printf("| %-20s | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-8d | %-8d |%n",
+            out.printf("| %-20s | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-8d | %-8d |%n",
                     stat.team, stat.time0, stat.time15, stat.time30, stat.time45,
                     stat.time46, stat.time60, stat.time75, stat.time90, stat.half1, stat.half2);
         }
-        System.out.println("==============================================================================================================");
+        out.println("==============================================================================================================");
+        out.println("</pre>");
     }
 
     static private class TournamentStat {

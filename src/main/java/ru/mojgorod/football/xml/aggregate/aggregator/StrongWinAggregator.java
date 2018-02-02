@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -102,18 +103,21 @@ public class StrongWinAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final String title) {
+    public void print(final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        System.out.println("=====================================");
-        System.out.println("| Команда              | Побед      |");
-        System.out.println("=====================================");
+        out.println("<h2>Волевые победы</h2>");
+        out.println("<pre>");
+        out.println("=====================================");
+        out.println("| Команда              | Побед      |");
+        out.println("=====================================");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
-            System.out.printf("| %-20s | %-10d |%n",
+            out.printf("| %-20s | %-10d |%n",
                     stat.team, stat.games);
         }
-        System.out.println("=====================================");
+        out.println("=====================================");
+        out.println("</pre>");
     }
 
     static private class TournamentStat {

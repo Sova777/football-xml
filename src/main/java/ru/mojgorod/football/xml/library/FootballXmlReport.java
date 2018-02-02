@@ -356,6 +356,9 @@ public class FootballXmlReport {
     }
 
     public boolean isValidScore() {
+        if (goals1 == null || goals2 == null) {
+            return false;
+        }
         return goals1.matches("^[0-9]+$") && goals2.matches("^[0-9]+$");
     }
 

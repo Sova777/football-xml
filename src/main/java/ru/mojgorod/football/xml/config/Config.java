@@ -49,7 +49,7 @@ public class Config {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(configPath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                int pos = line.indexOf("=");
+                int pos = line.indexOf('=');
                 if (pos != -1) {
                     String key = line.substring(0, pos);
                     String value = line.substring(pos + 1);

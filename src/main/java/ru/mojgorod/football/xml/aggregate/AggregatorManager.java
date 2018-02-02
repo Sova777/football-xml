@@ -88,10 +88,4 @@ public class AggregatorManager {
         }
     }
 
-    public void print(final String title) {
-        for (Aggregator aggregator : aggregators) {
-            aggregator.print(title);
-        }
-    }
-
 }

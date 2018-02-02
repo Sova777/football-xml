@@ -26,7 +26,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -50,8 +52,8 @@ public class SeasonManager {
     public SeasonManager() {
     }
 
-    public void add(final Season season, final Aggregator... aggregator) {
-        items.add(new Item(season, aggregator));
+    public void add(final Season season, final String filePath, final Aggregator... aggregator) {
+        items.add(new Item(season, filePath, aggregator));
     }
 
     public void aggregate() {
@@ -79,11 +81,18 @@ public class SeasonManager {
 
     public void print() {
         for (Item item : items) {
-            String title = item.getSeason().getTitle();
-            System.out.println("============= " + title + " =============");
-            for (Aggregator aggregator : item.getAggregators()) {
-                System.out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
-                aggregator.print(title);
+            PrintStream out = item.getOutput();
+            if (out != null) {
+                try {
+                    String title = item.getSeason().getTitle();
+//                    out.println("============= " + title + " =============");
+                    for (Aggregator aggregator : item.getAggregators()) {
+//                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
+                        aggregator.print(out, title);
+                    }
+                } finally {
+                    item.closeOutput();
+                }
             }
         }
     }
@@ -91,10 +100,13 @@ public class SeasonManager {
     private static class Item {
 
         private final Season season;
+        private final String filePath;
         private final Aggregator[] aggregators;
+        private PrintStream out = null;
 
-        public Item(final Season season, final Aggregator[] aggregator) {
+        public Item(final Season season, final String filePath, final Aggregator[] aggregator) {
             this.season = season;
+            this.filePath = filePath;
             this.aggregators = aggregator;
         }
 
@@ -102,10 +114,40 @@ public class SeasonManager {
             return season;
         }
 
+        public String getFilePath() {
+            return filePath;
+        }
+
         public Aggregator[] getAggregators() {
             return aggregators;
         }
 
+        private PrintStream getOutput() {
+            if (out == null) {
+                if (filePath == null) {
+                    out = System.out;
+                } else {
+                    try {
+                        out = new PrintStream(new FileOutputStream(filePath), true, "Windows-1251");
+                    } catch (IOException ex) {
+                        if (out != null) {
+                            out.close();
+                        }
+                        out = null;
+                        Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            return out;
+        }
+
+        private void closeOutput() {
+            if (out == null || System.out.equals(out)) {
+                return;
+            }
+            out.close();
+            out = null;
+        }
     }
 
 }

@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -80,23 +81,26 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final String title) {
+    public void print(final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
-        System.out.println("=======================================================================================================================");
-        System.out.println("| Стадион                                  | Город                | Матчей     |               Зрителей               |");
-        System.out.println("|                                          |                      |            |------------|------------|------------|");
-        System.out.println("|                                          |                      |            | В среднем  | Минимум    | Максимум   |");
-        System.out.println("=======================================================================================================================");
+        out.println("<h2>Средняя посещаемость по стадиону</h2>");
+        out.println("<pre>");
+        out.println("=======================================================================================================================");
+        out.println("| Стадион                                  | Город                | Матчей     |               Зрителей               |");
+        out.println("|                                          |                      |            |------------|------------|------------|");
+        out.println("|                                          |                      |            | В среднем  | Минимум    | Максимум   |");
+        out.println("=======================================================================================================================");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);
-            System.out.printf("| %-40s | %-20s | %-10d | %-10d | %-10d | %-10d |%n",
+            out.printf("| %-40s | %-20s | %-10d | %-10d | %-10d | %-10d |%n",
                     stat.name, stat.city, stat.games, stat.attendance / stat.games, stat.minAttendance, stat.maxAttendance);
         }
-        System.out.println("-----------------------------------------------------------------------------------------------------------------------");
-        System.out.format("| Итого                                    |                      | %-10d | %-10d | %-10d | %-10d |%n",
+        out.println("-----------------------------------------------------------------------------------------------------------------------");
+        out.format("| Итого                                    |                      | %-10d | %-10d | %-10d | %-10d |%n",
                 games, attendance / games, minAttendance, maxAttendance);
-        System.out.println("=======================================================================================================================");
+        out.println("=======================================================================================================================");
+        out.println("</pre>");
     }
 
     static private class TournamentStat {
