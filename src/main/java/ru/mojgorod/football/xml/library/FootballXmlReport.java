@@ -109,6 +109,14 @@ public class FootballXmlReport {
         return teamId1;
     }
 
+    public String getTeamKey1() {
+        String key = teamId1;
+        if ("".equals(key)) {
+            key = team1;
+        }
+        return (key == null) ? "" : key;
+    }
+
     public void setTeam2(final String team2) {
         this.team2 = team2;
     }
@@ -123,6 +131,14 @@ public class FootballXmlReport {
 
     public String getTeamId2() {
         return teamId2;
+    }
+
+    public String getTeamKey2() {
+        String key = teamId2;
+        if ("".equals(key)) {
+            key = team2;
+        }
+        return (key == null) ? "" : key;
     }
 
     public void setGoals1(final String goals1) {
@@ -225,6 +241,14 @@ public class FootballXmlReport {
 
     public String getStadiumId() {
         return stadiumId;
+    }
+
+    public String getStadiumKey() {
+        String key = stadiumId;
+        if ("".equals(key)) {
+            key = stadium;
+        }
+        return (key == null) ? "" : key;
     }
 
     public void setStadiumCity(final String stadiumCity) {

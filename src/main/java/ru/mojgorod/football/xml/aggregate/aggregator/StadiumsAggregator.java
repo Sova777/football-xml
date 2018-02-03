@@ -46,19 +46,10 @@ public class StadiumsAggregator implements Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
-        String stadiumKey = xmlReport.getStadiumId();
-        if ("".equals(stadiumKey)) {
-            stadiumKey = xmlReport.getStadium();
-        }
+        String stadiumKey = xmlReport.getStadiumKey();
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
         int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
-        TournamentStat stat = null;
-        if (!stadiums.containsKey(stadiumKey)) {
-            stat = new TournamentStat();
-            stadiums.put(stadiumKey, stat);
-        } else {
-            stat = stadiums.get(stadiumKey);
-        }
+        TournamentStat stat = TournamentStat.get(stadiums, stadiumKey);
         stat.attendance += attendanceValue;
         if (attendanceValue < stat.minAttendance) {
             stat.minAttendance = attendanceValue;
@@ -94,13 +85,25 @@ public class StadiumsAggregator implements Aggregator {
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);
             out.printf("| %-40s | %-20s | %-10d | %-10d | %-10d | %-10d |%n",
-                    stat.name, stat.city, stat.games, stat.attendance / stat.games, stat.minAttendance, stat.maxAttendance);
+                    fixStadiumName(stat.name), stat.city, stat.games, stat.attendance / stat.games, stat.minAttendance, stat.maxAttendance);
         }
         out.println("-----------------------------------------------------------------------------------------------------------------------");
         out.format("| Итого                                    |                      | %-10d | %-10d | %-10d | %-10d |%n",
                 games, attendance / games, minAttendance, maxAttendance);
         out.println("=======================================================================================================================");
         out.println("</pre>");
+    }
+
+    private String fixStadiumName(String name) {
+         name = name.replaceFirst("^Стадион Стадион ", "Стадион ");
+         name = name.replaceFirst("^Стадион &quot;Стадион (.+)&quot;$", "Стадион $1");
+         name = name.replaceFirst("^Стадион \"Стадион (.+)\"$", "Стадион $1");
+         name = name.replaceFirst("^Стадион Футбольный манеж (.+)$", "Футбольный манеж $1");
+         name = name.replaceFirst("^Стадион &quot;Арена (.+)&quot;$", "Арена $1");
+         name = name.replaceFirst("^Стадион &quot;(.+) Арена&quot;$", "$1 Арена");
+         name = name.replaceFirst("^Стадион \"Арена (.+)\"$", "Арена $1");
+         name = name.replaceFirst("^Стадион \"(.+) Арена\"$", "$1 Арена");
+         return name;
     }
 
     static private class TournamentStat {
@@ -111,6 +114,13 @@ public class StadiumsAggregator implements Aggregator {
         private int games = 0;
         private String name = "";
         private String city = "";
+
+        public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
+            if (!hashStat.containsKey(keyStat)) {
+                hashStat.put(keyStat, new TournamentStat());
+            }
+            return hashStat.get(keyStat);
+        }
 
     }
 

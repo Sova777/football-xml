@@ -52,7 +52,8 @@ public class PrintXML {
                     AggregatorManager.createStrongWinAggregator(),
                     AggregatorManager.createStrongLoseAggregator(),
                     AggregatorManager.createGoalsForAggregetor(),
-                    AggregatorManager.createGoalsAgainstAggregetor()
+                    AggregatorManager.createGoalsAgainstAggregetor(),
+                    AggregatorManager.createTeamsAggregator()
             );
         }
         seasonsManager.aggregate();

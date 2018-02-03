@@ -42,39 +42,20 @@ public class TeamAttendanceAggregator implements Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
-        String teamKey1 = xmlReport.getTeamId1();
-        if ("".equals(teamKey1)) {
-            teamKey1 = xmlReport.getTeam1();
-        }
-        Integer attendanceInteger1 = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue1 = (attendanceInteger1 == null) ? 0 : attendanceInteger1;
-        TournamentStat stat1;
-        if (!teams.containsKey(teamKey1)) {
-            stat1 = new TournamentStat();
-            teams.put(teamKey1, stat1);
-        } else {
-            stat1 = teams.get(teamKey1);
-        }
+        String teamKey1 = xmlReport.getTeamKey1();
+        String teamKey2 = xmlReport.getTeamKey2();
+        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+        int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+
+        TournamentStat stat1 = TournamentStat.get(teams, teamKey1);
         stat1.team = xmlReport.getTeam1();
         stat1.homeGames++;
-        stat1.homeAttendance += attendanceValue1;
+        stat1.homeAttendance += attendanceValue;
 
-        String teamKey2 = xmlReport.getTeamId2();
-        if ("".equals(teamKey2)) {
-            teamKey2 = xmlReport.getTeam2();
-        }
-        Integer attendanceInteger2 = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue2 = (attendanceInteger2 == null) ? 0 : attendanceInteger2;
-        TournamentStat stat2;
-        if (!teams.containsKey(teamKey2)) {
-            stat2 = new TournamentStat();
-            teams.put(teamKey2, stat2);
-        } else {
-            stat2 = teams.get(teamKey2);
-        }
+        TournamentStat stat2 = TournamentStat.get(teams, teamKey2);
         stat2.team = xmlReport.getTeam2();
         stat2.awayGames++;
-        stat2.awayAttendance += attendanceValue2;
+        stat2.awayAttendance += attendanceValue;
     }
 
     @Override
@@ -106,6 +87,13 @@ public class TeamAttendanceAggregator implements Aggregator {
         private int homeGames = 0;
         private int awayGames = 0;
         private String team = "";
+
+        public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
+            if (!hashStat.containsKey(keyStat)) {
+                hashStat.put(keyStat, new TournamentStat());
+            }
+            return hashStat.get(keyStat);
+        }
 
     }
 

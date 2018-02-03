@@ -36,6 +36,7 @@ import ru.mojgorod.football.xml.aggregate.aggregator.StadiumsAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.StrongLoseAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.StrongWinAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.TeamAttendanceAggregator;
+import ru.mojgorod.football.xml.aggregate.aggregator.TeamsAggregator;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -72,6 +73,10 @@ public class AggregatorManager {
 
     public static Aggregator createStrongLoseAggregator() {
         return new StrongLoseAggregator();
+    }
+
+    public static Aggregator createTeamsAggregator() {
+        return new TeamsAggregator();
     }
 
     public AggregatorManager(Aggregator... aggregators) {

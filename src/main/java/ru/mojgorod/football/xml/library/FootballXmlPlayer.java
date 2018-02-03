@@ -55,4 +55,12 @@ public class FootballXmlPlayer {
         return name;
     }
 
+    public String getKey() {
+        String key = id;
+        if ("".equals(key)) {
+            key = name;
+        }
+        return (key == null) ? "" : key;
+    }
+
 }

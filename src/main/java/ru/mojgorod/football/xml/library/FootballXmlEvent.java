@@ -111,6 +111,14 @@ public class FootballXmlEvent {
         return player1;
     }
 
+    public String getPlayerKey1() {
+        String key = playerId;
+        if ("".equals(key)) {
+            key = player1;
+        }
+        return (key == null) ? "" : key;
+    }
+
     void setPlayerId2(final String playerId2) {
         this.playerId2 = playerId2;
     }
@@ -127,6 +135,14 @@ public class FootballXmlEvent {
         return player2;
     }
 
+    public String getPlayerKey2() {
+        String key = playerId2;
+        if ("".equals(key)) {
+            key = player2;
+        }
+        return (key == null) ? "" : key;
+    }
+
     public boolean isAnyGoal() {
         return ("Гол".equals(type) || "Гол с пенальти".equals(type) || "Гол в свои ворота".equals(type));
     }
@@ -141,8 +157,20 @@ public class FootballXmlEvent {
                 return FootballEventType.GOAL;
             case "Гол с пенальти":
                 return FootballEventType.PENALTY_GOAL;
+            case "Незабитый пенальти":
+                return FootballEventType.PENALTY_MISSED;
             case "Гол в свои ворота":
                 return FootballEventType.AUTOGOAL;
+            case "Замена":
+                return FootballEventType.SUBSTITUTION;
+            case "Замена вратаря":
+                return FootballEventType.SUBSTITUTION_GOALKEEPER;
+            case "Предупреждение":
+                return FootballEventType.YELLOW_CARD;
+            case "Удаление":
+                return FootballEventType.RED_CARD;
+            case "Удаление и предупреждение":
+                return FootballEventType.RED_AND_YELLOW_CARD;
             default:
                 Logger.getLogger(FootballXmlEvent.class.getName()).log(Level.SEVERE, "Unknown event type: {0}", type);
                 return FootballEventType.UNKNOWN;

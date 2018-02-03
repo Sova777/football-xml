@@ -55,15 +55,9 @@ public class StrongWinAggregator implements Aggregator {
         }
 
         String team1 = xmlReport.getTeam1();
-        String teamKey1 = xmlReport.getTeamId1();
-        if ("".equals(teamKey1)) {
-            teamKey1 = team1;
-        }
+        String teamKey1 = xmlReport.getTeamKey1();
         String team2 = xmlReport.getTeam2();
-        String teamKey2 = xmlReport.getTeamId2();
-        if ("".equals(teamKey2)) {
-            teamKey2 = team2;
-        }
+        String teamKey2 = xmlReport.getTeamKey2();
 
         int difference = 0;
         String winnerKey = (goals1 > goals2) ? teamKey1 : teamKey2;
@@ -88,13 +82,7 @@ public class StrongWinAggregator implements Aggregator {
                 }
             }
             if (difference < 0) {
-                TournamentStat stat;
-                if (!teams.containsKey(winnerKey)) {
-                    stat = new TournamentStat();
-                    teams.put(winnerKey, stat);
-                } else {
-                    stat = teams.get(winnerKey);
-                }
+                TournamentStat stat = TournamentStat.get(teams, winnerKey);
                 stat.team = winnerName;
                 stat.games++;
                 return;
@@ -124,6 +112,13 @@ public class StrongWinAggregator implements Aggregator {
 
         private String team = "";
         private int games = 0;
+
+        public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
+            if (!hashStat.containsKey(keyStat)) {
+                hashStat.put(keyStat, new TournamentStat());
+            }
+            return hashStat.get(keyStat);
+        }
 
     }
 

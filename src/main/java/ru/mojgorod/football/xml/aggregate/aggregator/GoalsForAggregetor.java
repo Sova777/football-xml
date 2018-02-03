@@ -47,15 +47,10 @@ public class GoalsForAggregetor implements Aggregator {
     @Override
     public void add(FootballXmlReport xmlReport) {
         String team1 = xmlReport.getTeam1();
-        String teamKey1 = xmlReport.getTeamId1();
-        if ("".equals(teamKey1)) {
-            teamKey1 = team1;
-        }
+        String teamKey1 = xmlReport.getTeamKey1();
         String team2 = xmlReport.getTeam2();
-        String teamKey2 = xmlReport.getTeamId2();
-        if ("".equals(teamKey2)) {
-            teamKey2 = team2;
-        }
+        String teamKey2 = xmlReport.getTeamKey2();
+
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
             if (event.isAnyGoal()) {
@@ -71,13 +66,7 @@ public class GoalsForAggregetor implements Aggregator {
                 } else {
                     Logger.getLogger(GoalsForAggregetor.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
                 }
-                TournamentStat stat;
-                if (!teams.containsKey(key)) {
-                    stat = new TournamentStat();
-                    teams.put(key, stat);
-                } else {
-                    stat = teams.get(key);
-                }
+                TournamentStat stat = TournamentStat.get(teams, key);
                 stat.team = teamValue;
                 Integer timeInt = event.getTimeInt();
                 int time = (timeInt == null) ? 0 : timeInt;
@@ -140,6 +129,13 @@ public class GoalsForAggregetor implements Aggregator {
         private int time90 = 0;
         private int half1 = 0;
         private int half2 = 0;
+
+        public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
+            if (!hashStat.containsKey(keyStat)) {
+                hashStat.put(keyStat, new TournamentStat());
+            }
+            return hashStat.get(keyStat);
+        }
 
     }
 
