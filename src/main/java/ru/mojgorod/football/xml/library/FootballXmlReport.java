@@ -68,6 +68,8 @@ public class FootballXmlReport {
     private ArrayList<FootballXmlPlayer> players1 = new ArrayList<>();
     private ArrayList<FootballXmlPlayer> players2 = new ArrayList<>();
     private ArrayList<FootballXmlEvent> events = new ArrayList<>();
+    private final String CODE_WIN = "+";
+    private final String CODE_LOSE = "-";
 
     public void setTournament(final String tournament) {
         this.tournament = tournament;
@@ -219,6 +221,17 @@ public class FootballXmlReport {
         return date;
     }
 
+    public String getDateString() {
+        if (date == null) {
+            return "";
+        }
+        if (date.length() != 8) {
+            Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE, "Wrong date format: {0}", date);
+            return "";
+        }
+        return date.substring(6, 8) + "/" + date.substring(4, 6) + "/" + date.substring(0, 4);
+    }
+
     public void setTime(final String time) {
         this.time = time;
     }
@@ -272,7 +285,7 @@ public class FootballXmlReport {
         try {
             matchAttendance = Integer.parseInt(getStadiumAttendance());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return matchAttendance;
@@ -284,6 +297,14 @@ public class FootballXmlReport {
 
     public String getReferee() {
         return referee;
+    }
+
+    public String getRefereeKey() {
+        String key = refereeId;
+        if ("".equals(key)) {
+            key = referee;
+        }
+        return (key == null) ? "" : key;
     }
 
     public void setRefereeId(final String refereeId) {
@@ -311,6 +332,20 @@ public class FootballXmlReport {
         return coach1;
     }
 
+    public String getCoachKey1() {
+        String key = coachId1;
+        if ("".equals(key)) {
+            key = coach1;
+        }
+        return (key == null) ? "" : key;
+    }
+
+    public String getCoachKeyWithTeam1() {
+        String coach = getCoachKey1();
+        String team = getTeamKey1();
+        return String.format("%s|%s", coach, team);
+    }
+
     public void setCoachId1(final String coachId1) {
         this.coachId1 = coachId1;
     }
@@ -325,6 +360,20 @@ public class FootballXmlReport {
 
     public String getCoach2() {
         return coach2;
+    }
+
+    public String getCoachKey2() {
+        String key = coachId2;
+        if ("".equals(key)) {
+            key = coach2;
+        }
+        return (key == null) ? "" : key;
+    }
+
+    public String getCoachKeyWithTeam2() {
+        String coach = getCoachKey2();
+        String team = getTeamKey2();
+        return String.format("%s|%s", coach, team);
     }
 
     public void setCoachId2(final String coachId2) {
@@ -386,79 +435,59 @@ public class FootballXmlReport {
         return goals1.matches("^[0-9]+$") && goals2.matches("^[0-9]+$");
     }
 
-//#------------------------------------------
-//sub get_winner {
-//  my $myself=shift;
-//  my $t1=$myself->get_team1();
-//  my $t2=$myself->get_team2();
-//  my $g1=0+$myself->get_goals1();
-//  my $g2=0+$myself->get_goals2();
-//  my $tLoser;
-//  my $diff=0;
-//  if ($g1 eq "+") {return $t1;}
-//  if ($g2 eq "+") {return $t2;}
-//  if ($g1 eq "-") {return $t2;}
-//  if ($g2 eq "-") {return $t1;}
-//  $g1=0+$g1;
-//  $g2=0+$g2;
-//  if ($g1==$g2) {return "";}
-//  if ($g1>$g2) {return $t1;}
-//  return $t2;
-//}
-//
-//#------------------------------------------------
-//# Получить юлиансий день
-//#------------------------------------------------
-//sub mjd {
-//  my $myself=shift;
-//  my $Year=shift;
-//  my $Month=shift;
-//  my $Day=shift;
-//  my $MjdMidnight;
-//  my $b;
-//  if ($Month<=2) { $Month+=12; --$Year;}
-//  $b = int($Year/400)-int($Year/100)+int($Year/4);
-//  $MjdMidnight = 365*$Year - 679004 + $b + int(30.6001*($Month+1)) + $Day;
-//  return $MjdMidnight;
-//}
-//
-//#------------------------------------------------
-//# Количество лет между двумя датами
-//#------------------------------------------------
-//sub diff_dates {
-//  my $myself=shift;
-//  my($date0)=shift;
-//  my($date1)=shift;
-//  my($numbers)=shift;
-//  my $Y0=int($date0/10000);
-//  my $Y1=int($date1/10000);
-//  my $M0=int(($date0-10000*$Y0)/100);
-//  my $M1=int(($date1-10000*$Y1)/100);
-//  my $D0=$date0-10000*$Y0-100*$M0;
-//  my $D1=$date1-10000*$Y1-100*$M1;
-//  my $years=int(($date1-$date0)/10000);
-//  my $fromY=(($M1*100+$D1)-($M0*100+$D0) >= 0) ? $Y1 : $Y1-1;
-//  my $days=$myself->mjd($Y1,$M1,$D1)-$myself->mjd($fromY,$M0,$D0);
-//  my $dif=$years+$days/366;
-//  if (defined($numbers)) {
-//    return sprintf("%.${numbers}f",$dif);
-//  }
-//  return $dif;
-//}
-//
-//#------------------------------------------------
-//# Нормализовать дату
-//#------------------------------------------------
-//sub normalize_date {
-//  my $myself=shift;
-//  my $d = shift;
-//  if ($d ne '') {
-//    $d=~s/\./,/g;
-//    my @Date=split(',',$d);
-//    return $Date[0]+100*$Date[1]+10000*$Date[2];
-//  }
-//  return "";
-//}
+    public boolean isWinTeam1() {
+        if (!isValidScore()) {
+            return CODE_WIN.equals(goals1);
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 > g2);
+    }
+
+    public boolean isDrawTeam1() {
+        if (!isValidScore()) {
+            return false;
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 == g2);
+    }
+
+    public boolean isLoseTeam1() {
+        if (!isValidScore()) {
+            return CODE_LOSE.equals(goals1);
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 < g2);
+    }
+
+    public boolean isWinTeam2() {
+        if (!isValidScore()) {
+            return CODE_WIN.equals(goals2);
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 < g2);
+    }
+
+    public boolean isDrawTeam2() {
+        if (!isValidScore()) {
+            return false;
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 == g2);
+    }
+
+    public boolean isLoseTeam2() {
+        if (!isValidScore()) {
+            return CODE_LOSE.equals(goals2);
+        }
+        int g1 = getGoalsInt1();
+        int g2 = getGoalsInt2();
+        return (g1 > g2);
+    }
 
     public void print() {
         System.out.print(getRound());

@@ -29,9 +29,12 @@ package ru.mojgorod.football.xml.aggregate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
+import ru.mojgorod.football.xml.aggregate.aggregator.CoachesAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.GoalsAgainstAggregetor;
 import ru.mojgorod.football.xml.aggregate.aggregator.GoalsForAggregetor;
+import ru.mojgorod.football.xml.aggregate.aggregator.HatTricsAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.MatchesAggregator;
+import ru.mojgorod.football.xml.aggregate.aggregator.RefereesAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.StadiumsAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.StrongLoseAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.StrongWinAggregator;
@@ -77,6 +80,18 @@ public class AggregatorManager {
 
     public static Aggregator createTeamsAggregator() {
         return new TeamsAggregator();
+    }
+
+    public static Aggregator createRefereesAggregator() {
+        return new RefereesAggregator();
+    }
+
+    public static Aggregator createHatTricsAggregator() {
+        return new HatTricsAggregator();
+    }
+
+    public static Aggregator createCoachesAggregator() {
+        return new CoachesAggregator();
     }
 
     public AggregatorManager(Aggregator... aggregators) {
