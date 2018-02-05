@@ -58,7 +58,8 @@ public class PrintXML {
                     new RefereesAggregator(),
                     new HatTricsAggregator(),
                     new CoachesAggregator(),
-                    new GoalkeepersAggregator()
+                    new GoalkeepersAggregator(),
+                    new TopScoresAggregator()
             );
         }
         seasonsManager.aggregate();
