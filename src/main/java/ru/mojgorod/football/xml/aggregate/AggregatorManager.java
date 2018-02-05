@@ -29,17 +29,6 @@ package ru.mojgorod.football.xml.aggregate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.CoachesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.GoalsAgainstAggregetor;
-import ru.mojgorod.football.xml.aggregate.aggregator.GoalsForAggregetor;
-import ru.mojgorod.football.xml.aggregate.aggregator.HatTricsAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.MatchesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.RefereesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StadiumsAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StrongLoseAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StrongWinAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.TeamAttendanceAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.TeamsAggregator;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -49,50 +38,6 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public class AggregatorManager {
 
     private final ArrayList<Aggregator> aggregators = new ArrayList<>();
-
-    public static Aggregator createStadiumsAggregator() {
-        return new StadiumsAggregator();
-    }
-
-    public static Aggregator createMatchesAggregator() {
-        return new MatchesAggregator();
-    }
-
-    public static Aggregator createTeamAttendanceAggregator() {
-        return new TeamAttendanceAggregator();
-    }
-
-    public static Aggregator createGoalsForAggregetor() {
-        return new GoalsForAggregetor();
-    }
-
-    public static Aggregator createGoalsAgainstAggregetor() {
-        return new GoalsAgainstAggregetor();
-    }
-
-    public static Aggregator createStrongWinAggregator() {
-        return new StrongWinAggregator();
-    }
-
-    public static Aggregator createStrongLoseAggregator() {
-        return new StrongLoseAggregator();
-    }
-
-    public static Aggregator createTeamsAggregator() {
-        return new TeamsAggregator();
-    }
-
-    public static Aggregator createRefereesAggregator() {
-        return new RefereesAggregator();
-    }
-
-    public static Aggregator createHatTricsAggregator() {
-        return new HatTricsAggregator();
-    }
-
-    public static Aggregator createCoachesAggregator() {
-        return new CoachesAggregator();
-    }
 
     public AggregatorManager(Aggregator... aggregators) {
         this.aggregators.addAll(Arrays.asList(aggregators));

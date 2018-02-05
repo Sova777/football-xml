@@ -428,6 +428,46 @@ public class FootballXmlReport {
         return events;
     }
 
+    public String getGoalkeeper1() {
+        if (players1 == null || players1.isEmpty()) {
+            return null;
+        }
+        return players1.get(0).getName();
+    }
+
+    public String getGoalkeeperKey1() {
+        if (players1 == null || players1.isEmpty()) {
+            return null;
+        }
+        return players1.get(0).getKey();
+    }
+
+    public String getGoalkeeperKeyWithTeam1() {
+        String goalkeeper = getGoalkeeper1();
+        String team = getTeamKey1();
+        return String.format("%s|%s", goalkeeper, team);
+    }
+
+    public String getGoalkeeper2() {
+        if (players2 == null || players2.isEmpty()) {
+            return null;
+        }
+        return players2.get(0).getName();
+    }
+
+    public String getGoalkeeperKey2() {
+        if (players2 == null || players2.isEmpty()) {
+            return null;
+        }
+        return players2.get(0).getKey();
+    }
+
+    public String getGoalkeeperKeyWithTeam2() {
+        String goalkeeper = getGoalkeeper2();
+        String team = getTeamKey2();
+        return String.format("%s|%s", goalkeeper, team);
+    }
+
     public boolean isValidScore() {
         if (goals1 == null || goals2 == null) {
             return false;

@@ -30,6 +30,7 @@ import java.util.List;
 import ru.mojgorod.football.xml.aggregate.AggregatorManager;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.aggregate.aggregator.*;
 import ru.mojgorod.football.xml.config.Config;
 
 /**
@@ -46,17 +47,18 @@ public class PrintXML {
             seasonsManager.add(season,
                     "stat_v" + season.getTitle() + ".html",
 //                    null,
-                    AggregatorManager.createMatchesAggregator(),
-                    AggregatorManager.createTeamAttendanceAggregator(),
-                    AggregatorManager.createStadiumsAggregator(),
-                    AggregatorManager.createStrongWinAggregator(),
-                    AggregatorManager.createStrongLoseAggregator(),
-                    AggregatorManager.createGoalsForAggregetor(),
-                    AggregatorManager.createGoalsAgainstAggregetor(),
-                    AggregatorManager.createTeamsAggregator(),
-                    AggregatorManager.createRefereesAggregator(),
-                    AggregatorManager.createHatTricsAggregator(),
-                    AggregatorManager.createCoachesAggregator()
+                    new MatchesAggregator(),
+                    new TeamAttendanceAggregator(),
+                    new StadiumsAggregator(),
+                    new StrongWinAggregator(),
+                    new StrongLoseAggregator(),
+                    new GoalsForAggregetor(),
+                    new GoalsAgainstAggregetor(),
+                    new TeamsAggregator(),
+                    new RefereesAggregator(),
+                    new HatTricsAggregator(),
+                    new CoachesAggregator(),
+                    new GoalkeepersAggregator()
             );
         }
         seasonsManager.aggregate();

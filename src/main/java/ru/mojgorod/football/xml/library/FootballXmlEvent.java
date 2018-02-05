@@ -119,6 +119,18 @@ public class FootballXmlEvent {
         return (key == null) ? "" : key;
     }
 
+    public String getPlayerWithTeamKey1(final String teamId) {
+        String player = getPlayer1();
+        String teamKey = teamId;
+        if ("".equals(teamKey)) {
+            teamKey = team;
+        }
+        if (teamKey == null) {
+            teamKey = "";
+        }
+        return String.format("%s|%s", player, teamKey);
+    }
+
     void setPlayerId2(final String playerId2) {
         this.playerId2 = playerId2;
     }
@@ -141,6 +153,18 @@ public class FootballXmlEvent {
             key = player2;
         }
         return (key == null) ? "" : key;
+    }
+
+    public String getPlayerWithTeamKey2(final String teamId) {
+        String player = getPlayer2();
+        String teamKey = teamId;
+        if ("".equals(teamKey)) {
+            teamKey = team;
+        }
+        if (teamKey == null) {
+            teamKey = "";
+        }
+        return String.format("%s|%s", player, teamKey);
     }
 
     public boolean isAnyGoal() {
