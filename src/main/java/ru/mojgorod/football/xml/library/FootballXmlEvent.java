@@ -120,7 +120,7 @@ public class FootballXmlEvent {
     }
 
     public String getPlayerWithTeamKey1(final String teamId) {
-        String player = getPlayer1();
+        String player = getPlayerKey1();
         String teamKey = teamId;
         if ("".equals(teamKey)) {
             teamKey = team;
@@ -156,7 +156,7 @@ public class FootballXmlEvent {
     }
 
     public String getPlayerWithTeamKey2(final String teamId) {
-        String player = getPlayer2();
+        String player = getPlayerKey2();
         String teamKey = teamId;
         if ("".equals(teamKey)) {
             teamKey = team;

@@ -27,7 +27,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml;
 
 import java.util.List;
-import ru.mojgorod.football.xml.aggregate.AggregatorManager;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.aggregate.aggregator.*;
@@ -57,6 +56,7 @@ public class PrintXML {
                     new TeamsAggregator(),
                     new RefereesAggregator(),
                     new HatTricsAggregator(),
+                    new PlayersAggregator(),
                     new CoachesAggregator(),
                     new GoalkeepersAggregator(),
                     new TopScoresAggregator()

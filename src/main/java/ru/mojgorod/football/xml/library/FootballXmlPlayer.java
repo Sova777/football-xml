@@ -63,4 +63,16 @@ public class FootballXmlPlayer {
         return (key == null) ? "" : key;
     }
 
+    public String getNameWithTeamKey(final String teamId, final String team) {
+        String player = getKey();
+        String teamKey = teamId;
+        if ("".equals(teamKey)) {
+            teamKey = team;
+        }
+        if (teamKey == null) {
+            teamKey = "";
+        }
+        return String.format("%s|%s", player, teamKey);
+    }
+
 }
