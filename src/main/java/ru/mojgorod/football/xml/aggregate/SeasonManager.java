@@ -36,7 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import ru.mojgorod.football.xml.PrintXML;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.library.FootballXmlParser;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -48,6 +47,8 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public class SeasonManager {
 
     private final ArrayList<Item> items = new ArrayList<>();
+    private PlayersManager playersManager;
+    private final Config config = new Config();
 
     public SeasonManager() {
     }
@@ -68,15 +69,19 @@ public class SeasonManager {
                                     aggregator.add(xmlReport);
                                 }
                             } catch (ParserConfigurationException | SAXException | IOException ex) {
-                                Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     });
                 } catch (IOException ex) {
-                    Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+    }
+
+    public void addPlayersInfo(PlayersManager playersManager) {
+        this.playersManager = playersManager;
     }
 
     public void print() {
@@ -88,7 +93,7 @@ public class SeasonManager {
 //                    out.println("============= " + title + " =============");
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
-                        aggregator.print(out, title);
+                        aggregator.print(config, out, title);
                     }
                 } finally {
                     item.closeOutput();
@@ -148,6 +153,16 @@ public class SeasonManager {
             out.close();
             out = null;
         }
+    }
+
+    public class Config {
+
+        public boolean isFixNames = true;
+
+        public String getName(String key) {
+            return playersManager.getName(key);
+        }
+
     }
 
 }

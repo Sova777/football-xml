@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -75,7 +76,7 @@ public class RefereesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final PrintStream out, final String title) {
+    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(referees));
         sortedMap.putAll(referees);
         out.println("<h2>Судейская статистика</h2>");

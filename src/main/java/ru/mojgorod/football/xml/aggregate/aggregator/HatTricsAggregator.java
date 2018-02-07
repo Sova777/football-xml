@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -72,7 +73,7 @@ public class HatTricsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final PrintStream out, final String title) {
+    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         Collections.sort(matches, new StatArrayComparator());
         out.println("<h2>3 и более мяча за матч (хет-трик, покер)</h2>");
         out.println("<pre>");

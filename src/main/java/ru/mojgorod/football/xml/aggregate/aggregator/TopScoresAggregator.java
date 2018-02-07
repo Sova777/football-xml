@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -57,6 +58,7 @@ public class TopScoresAggregator implements Aggregator {
                     TournamentStat stat = TournamentStat.get(players, event.getPlayerKey1());
                     stat.name = event.getPlayer1();
                     stat.team = event.getTeam();
+                    stat.id = event.getPlayerKey1();
                     stat.goals++;
                     if (eventType.equals(FootballEventType.PENALTY_GOAL)) {
                         stat.penalty++;
@@ -67,7 +69,7 @@ public class TopScoresAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final PrintStream out, final String title) {
+    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         final int max = 10;
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
@@ -86,7 +88,7 @@ public class TopScoresAggregator implements Aggregator {
             }
             previous = stat.goals;
             String goals = stat.penalty == 0 ? String.valueOf(stat.goals) : String.format("%s(%s)", stat.goals, stat.penalty);
-            out.printf("| %-25s | %-21s | %-12s |%n", stat.name, stat.team, goals);
+            out.printf("| %-25s | %-21s | %-12s |%n", config.getName(stat.id)/*stat.name*/, stat.team, goals);
             index++;
         }
         out.println("====================================================================");
@@ -99,6 +101,7 @@ public class TopScoresAggregator implements Aggregator {
         private int penalty = 0;
         private String name = "";
         private String team = "";
+        private String id = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
@@ -98,7 +99,7 @@ public class GoalsAgainstAggregetor implements Aggregator {
     }
 
     @Override
-    public void print(final PrintStream out, final String title) {
+    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2>Время матча и пропущенные мячи</h2>");

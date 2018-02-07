@@ -24,28 +24,37 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ru.mojgorod.football.xml.aggregate.aggregator;
+package ru.mojgorod.football.xml.aggregate;
 
-import java.io.PrintStream;
-import ru.mojgorod.football.xml.aggregate.SeasonManager;
-import ru.mojgorod.football.xml.library.FootballXmlReport;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 
 /**
  *
  * @author sova
  */
-public class MatchesAggregator implements Aggregator {
+public class PlayersManager {
+    
+    private final ArrayList<FootballXmlPlayersInfo> players = new ArrayList<>();
+    private final HashMap<String, FootballXmlPlayersInfo> playersHash = new HashMap<>();
 
-    private int games = 0;
-
-    @Override
-    public void add(FootballXmlReport xmlReport) {
-        games++;
+    public void addPlayer(FootballXmlPlayersInfo player) {
+        players.add(player);
+        playersHash.put(player.getId(), player);
     }
 
-    @Override
-    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
-        out.println("<p><b>Матчей</b>: " + games + "</p>");
+    public String getName(final String key) {
+        if (key == null) {
+            Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Key is null");
+        }
+        FootballXmlPlayersInfo playerInfo = playersHash.get(key);
+        if (playerInfo == null) {
+            Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Unknown key: {0}", key);
+        }
+        return playerInfo.getName();
     }
 
 }

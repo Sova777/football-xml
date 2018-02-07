@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
@@ -37,6 +38,7 @@ public class PlayersAggregator implements Aggregator {
             TournamentStat stat = TournamentStat.get(players, player.getNameWithTeamKey(teamId1, team1));
             stat.name = player.getName();
             stat.team = team1;
+            stat.id = player.getId();
             stat.games++;
         }
 
@@ -45,6 +47,7 @@ public class PlayersAggregator implements Aggregator {
             TournamentStat stat = TournamentStat.get(players, player.getNameWithTeamKey(teamId2, team2));
             stat.name = player.getName();
             stat.team = team2;
+            stat.id = player.getId();
             stat.games++;
         }
 
@@ -63,6 +66,7 @@ public class PlayersAggregator implements Aggregator {
             TournamentStat stat = TournamentStat.get(players, event.getPlayerWithTeamKey1(teamId));
             stat.name = event.getPlayer1();
             stat.team = team;
+            stat.id = event.getPlayerId();
 
             FootballEventType eventType = event.getEventType();
             switch (eventType) {
@@ -70,6 +74,7 @@ public class PlayersAggregator implements Aggregator {
                     TournamentStat stat2 = TournamentStat.get(players, event.getPlayerWithTeamKey2(teamId));
                     stat2.name = event.getPlayer2();
                     stat2.team = team;
+                    stat2.id = event.getPlayerId2();
                     stat2.games++;
                     break;
                 case RED_CARD:
@@ -99,7 +104,7 @@ public class PlayersAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final PrintStream out, final String title) {
+    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
         out.println("<h2>Статистика игроков</h2>");
@@ -119,7 +124,7 @@ public class PlayersAggregator implements Aggregator {
                     ? String.valueOf(stat.goals)
                     : String.format("%s(%s)", stat.goals, stat.penaltySuccess);
             out.printf("| %-25s | %-17s | %-10d | %-12s | %-10d | %-10d | %-10d | %-10d | %-11d |%n",
-                    stat.name, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
+                    config.getName(stat.id)/*stat.name*/, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
         }
         out.println("===============================================================================================================================================");
         out.println( "</pre>");
@@ -137,6 +142,7 @@ public class PlayersAggregator implements Aggregator {
         private int yellowCards = 0;
         private String name = "";
         private String team = "";
+        private String id = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {

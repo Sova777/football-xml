@@ -26,11 +26,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml;
 
+import java.io.File;
 import java.util.List;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.aggregate.aggregator.*;
 import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.library.FootballXmlPlayersParser;
 
 /**
  *
@@ -62,6 +64,11 @@ public class PrintXML {
                     new TopScoresAggregator()
             );
         }
+        String path = Config.getPlayersPath();
+        if (!new File(path).exists()) {
+            throw new RuntimeException("'" + path + "' файл не найден");
+        }
+        seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         seasonsManager.aggregate();
         seasonsManager.print();
     }
