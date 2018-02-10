@@ -27,9 +27,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -125,6 +127,7 @@ public class StrongWinAggregator implements Aggregator {
 
     static private class StatComparator implements Comparator<String> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
@@ -142,7 +145,7 @@ public class StrongWinAggregator implements Aggregator {
             } else if (stat1.games < stat2.games) {
                 return 1;
             }
-            return value1.compareTo(value2);
+            return collator.compare(value1, value2);
         }
         
     }

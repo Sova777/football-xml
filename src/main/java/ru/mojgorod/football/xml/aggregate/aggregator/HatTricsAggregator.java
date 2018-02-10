@@ -27,11 +27,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -123,11 +125,13 @@ public class HatTricsAggregator implements Aggregator {
 
     static private class StatArrayComparator implements Comparator<TournamentStat> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
+
         @Override
         public int compare(TournamentStat stat1, TournamentStat stat2) {
             String value1 = stat1.longkey + "|" + stat1.name;
             String value2 = stat2.longkey + "|" + stat2.name;
-            return value1.compareTo(value2);
+            return collator.compare(value1, value2);
         }
         
     }

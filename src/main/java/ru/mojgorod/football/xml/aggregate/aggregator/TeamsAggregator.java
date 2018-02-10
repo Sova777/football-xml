@@ -27,10 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -170,6 +172,7 @@ public class TeamsAggregator implements Aggregator {
 
     static private class StatComparator implements Comparator<String> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
@@ -182,9 +185,9 @@ public class TeamsAggregator implements Aggregator {
             TournamentStat stat2 = map.get(key2);
             String value1 = stat1.team;
             String value2 = stat2.team;
-            return value1.compareTo(value2);
+            return collator.compare(value1, value2);
         }
-        
+
     }
     
 }

@@ -6,9 +6,11 @@
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,6 +107,9 @@ public class PlayersAggregator implements Aggregator {
 
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+        for (TournamentStat pl : players.values()) {
+            pl.name = config.getPlayerInfo(pl.id).getName();
+        }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
         out.println("<h2>Статистика игроков</h2>");
@@ -124,7 +129,7 @@ public class PlayersAggregator implements Aggregator {
                     ? String.valueOf(stat.goals)
                     : String.format("%s(%s)", stat.goals, stat.penaltySuccess);
             out.printf("| %-25s | %-17s | %-10d | %-12s | %-10d | %-10d | %-10d | %-10d | %-11d |%n",
-                    config.getPlayerInfo(stat.id).getName()/*stat.name*/, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
+                    stat.name, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
         }
         out.println("===============================================================================================================================================");
         out.println( "</pre>");
@@ -155,6 +160,7 @@ public class PlayersAggregator implements Aggregator {
 
     static private class StatComparator implements Comparator<String> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
@@ -167,11 +173,11 @@ public class PlayersAggregator implements Aggregator {
             TournamentStat stat2 = map.get(key2);
             String team1 = stat1.team;
             String team2 = stat2.team;
-            int compare = team1.compareTo(team2);
+            int compare = collator.compare(team1, team2);
             if (compare == 0) {
                 String value1 = stat1.name;
                 String value2 = stat2.name;
-                return value1.compareTo(value2);
+                return collator.compare(value1, value2);
             }
             return compare;
         }

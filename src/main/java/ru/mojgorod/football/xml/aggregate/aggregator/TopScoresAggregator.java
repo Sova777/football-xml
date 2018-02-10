@@ -27,9 +27,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -71,6 +73,9 @@ public class TopScoresAggregator implements Aggregator {
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         final int max = 10;
+        for (TournamentStat pl : players.values()) {
+            pl.name = config.getPlayerInfo(pl.id).getName();
+        }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
         out.println("<h2>Список лучших бомбардиров</h2>");
@@ -88,7 +93,7 @@ public class TopScoresAggregator implements Aggregator {
             }
             previous = stat.goals;
             String goals = stat.penalty == 0 ? String.valueOf(stat.goals) : String.format("%s(%s)", stat.goals, stat.penalty);
-            out.printf("| %-25s | %-21s | %-12s |%n", config.getPlayerInfo(stat.id).getName()/*stat.name*/, stat.team, goals);
+            out.printf("| %-25s | %-21s | %-12s |%n", stat.name, stat.team, goals);
             index++;
         }
         out.println("====================================================================");
@@ -114,6 +119,7 @@ public class TopScoresAggregator implements Aggregator {
 
     static private class StatComparator implements Comparator<String> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
@@ -133,7 +139,7 @@ public class TopScoresAggregator implements Aggregator {
             }
             String name1 = stat1.name;
             String name2 = stat2.name;
-            return name1.compareTo(name2);
+            return collator.compare(name1, name2);
         }
         
     }
