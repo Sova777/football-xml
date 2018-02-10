@@ -32,7 +32,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -59,7 +61,7 @@ public class TopScoresAggregator implements Aggregator {
                 case PENALTY_GOAL:
                     TournamentStat stat = TournamentStat.get(players, event.getPlayerKey1());
                     stat.name = event.getPlayer1();
-                    stat.team = event.getTeam();
+                    stat.addTeam(event.getTeam());
                     stat.id = event.getPlayerKey1();
                     stat.goals++;
                     if (eventType.equals(FootballEventType.PENALTY_GOAL)) {
@@ -92,8 +94,17 @@ public class TopScoresAggregator implements Aggregator {
                 break;
             }
             previous = stat.goals;
+            StringBuilder teams = new StringBuilder("");
+            int counter = 0;
+            for (String item : stat.teams) {
+                if (counter != 0) {
+                    teams.append(", ");
+                }
+                teams.append(item);
+                counter++;
+            }
             String goals = stat.penalty == 0 ? String.valueOf(stat.goals) : String.format("%s(%s)", stat.goals, stat.penalty);
-            out.printf("| %-25s | %-21s | %-12s |%n", stat.name, stat.team, goals);
+            out.printf("| %-25s | %-21s | %-12s |%n", stat.name, teams, goals);
             index++;
         }
         out.println("====================================================================");
@@ -102,10 +113,11 @@ public class TopScoresAggregator implements Aggregator {
 
     static private class TournamentStat {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private int goals = 0;
         private int penalty = 0;
         private String name = "";
-        private String team = "";
+        private Set<String> teams = new TreeSet<>(collator);
         private String id = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
@@ -113,6 +125,12 @@ public class TopScoresAggregator implements Aggregator {
                 hashStat.put(keyStat, new TournamentStat());
             }
             return hashStat.get(keyStat);
+        }
+
+        public void addTeam(final String team) {
+            if (!teams.contains(team)) {
+                teams.add(team);
+            }
         }
 
     }
