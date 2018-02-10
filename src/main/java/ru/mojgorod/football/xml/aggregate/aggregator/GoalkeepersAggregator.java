@@ -59,11 +59,13 @@ public class GoalkeepersAggregator implements Aggregator {
         String goalkeeperKey2 = xmlReport.getGoalkeeperKey2();
 
         TournamentStat statKeeper1 = getMathStat(matchKeepers, xmlReport.getGoalkeeperKey1());
-        setMatchStat(statKeeper1, xmlReport.getGoalkeeper1(), xmlReport.getTeam1(), xmlReport.getGoalkeeperKeyWithTeam1());
+        setMatchStat(statKeeper1, xmlReport.getGoalkeeper1(),
+                xmlReport.getTeam1(), xmlReport.getGoalkeeperKey1(), xmlReport.getGoalkeeperKeyWithTeam1());
         statKeeper1.dry = 1;
 
         TournamentStat statKeeper2 = getMathStat(matchKeepers, xmlReport.getGoalkeeperKey2());
-        setMatchStat(statKeeper2, xmlReport.getGoalkeeper2(), xmlReport.getTeam2(), xmlReport.getGoalkeeperKeyWithTeam2());
+        setMatchStat(statKeeper2, xmlReport.getGoalkeeper2(),
+                xmlReport.getTeam2(), xmlReport.getGoalkeeperKey2(), xmlReport.getGoalkeeperKeyWithTeam2());
         statKeeper2.dry = 1;
 
         List<FootballXmlEvent> events = xmlReport.getEvents();
@@ -88,13 +90,15 @@ public class GoalkeepersAggregator implements Aggregator {
                     if (goalkeeperKey1.equals(event.getPlayerKey1())) {
                         statCurrent.dry = 0;
                         statKeeper1 = getMathStat(matchKeepers, event.getPlayerKey2());
-                        setMatchStat(statKeeper1, event.getPlayer2(), team1, event.getPlayerWithTeamKey2(teamId1));
+                        setMatchStat(statKeeper1, event.getPlayer2(),
+                                team1, event.getPlayerId2(), event.getPlayerWithTeamKey2(teamId1));
                         goalkeeperKey1 = event.getPlayerKey2();
                     }
                     if (goalkeeperKey2.equals(event.getPlayerKey1())) {
                         statCurrent.dry = 0;
                         statKeeper2 = getMathStat(matchKeepers, event.getPlayerKey2());
-                        setMatchStat(statKeeper2, event.getPlayer2(), team2, event.getPlayerWithTeamKey2(teamId2));
+                        setMatchStat(statKeeper2, event.getPlayer2(),
+                                team2, event.getPlayerId2(), event.getPlayerWithTeamKey2(teamId2));
                         goalkeeperKey2 = event.getPlayerKey2();
                     }
                     break;
@@ -102,11 +106,13 @@ public class GoalkeepersAggregator implements Aggregator {
                     statCurrent.dry = 0;
                     if (statKeeper1.equals(statCurrent)) {
                         statKeeper1 = getMathStat(matchKeepers, event.getPlayerKey1());
-                        setMatchStat(statKeeper1, event.getPlayer1(), team1, event.getPlayerWithTeamKey1(teamId1));
+                        setMatchStat(statKeeper1, event.getPlayer1(),
+                                team1, event.getPlayerId(), event.getPlayerWithTeamKey1(teamId1));
                         goalkeeperKey1 = event.getPlayerKey1();
                     } else {
                         statKeeper2 = getMathStat(matchKeepers, event.getPlayerKey1());
-                        setMatchStat(statKeeper2, event.getPlayer1(), team2, event.getPlayerWithTeamKey1(teamId2));
+                        setMatchStat(statKeeper2, event.getPlayer1(),
+                                team2, event.getPlayerId(), event.getPlayerWithTeamKey1(teamId2));
                         goalkeeperKey2 = event.getPlayerKey1();
                     }
                     break;
@@ -143,11 +149,12 @@ public class GoalkeepersAggregator implements Aggregator {
         }
         for (String s : matchKeepers.keySet()) {
             TournamentStat mathStat = matchKeepers.get(s);
-            TournamentStat stat = TournamentStat.get(keepers, mathStat.key);
+            TournamentStat stat = TournamentStat.get(keepers, mathStat.longkey);
             stat.dry += mathStat.dry;
             stat.games += mathStat.games;
             stat.goals += mathStat.goals;
             stat.key = mathStat.key;
+            stat.longkey = mathStat.longkey;
             stat.name = mathStat.name;
             stat.penaltyMissed += mathStat.penaltyMissed;
             stat.penaltySuccess += mathStat.penaltySuccess;
@@ -170,9 +177,9 @@ public class GoalkeepersAggregator implements Aggregator {
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = keepers.get(s);
             out.printf("| %-25s | %-17s | %-10d | %-10d | %-10d | %-10d | %-10d | %-10d |%n",
-                    stat.name, stat.team, stat.games, stat.goals, stat.dry, stat.penaltyMissed, stat.penaltySuccess, stat.redCards);
+                    config.getPlayerInfo(stat.key).getName()/**stat.name*/, stat.team, stat.games, stat.goals, stat.dry, stat.penaltyMissed, stat.penaltySuccess, stat.redCards);
         }
-        out.println("====================================================================================================================================");
+        out.println("===============================================================================================================================");
         out.println( "</pre>");
     }
 
@@ -183,11 +190,13 @@ public class GoalkeepersAggregator implements Aggregator {
         return hashStat.get(keyStat);
     }
 
-    private void setMatchStat(final TournamentStat statKeeper, final String name, final String team, final String key){
+    private void setMatchStat(final TournamentStat statKeeper,
+            final String name, final String team, final String key, final String longkey){
         statKeeper.name = name;
         statKeeper.team = team;
         statKeeper.games = 1;
         statKeeper.key = key;
+        statKeeper.longkey = longkey;
     }
 
     static private class TournamentStat {
@@ -201,6 +210,7 @@ public class GoalkeepersAggregator implements Aggregator {
         private String name = "";
         private String team = "";
         private String key = "";
+        private String longkey = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {

@@ -88,7 +88,7 @@ public class TopScoresAggregator implements Aggregator {
             }
             previous = stat.goals;
             String goals = stat.penalty == 0 ? String.valueOf(stat.goals) : String.format("%s(%s)", stat.goals, stat.penalty);
-            out.printf("| %-25s | %-21s | %-12s |%n", config.getName(stat.id)/*stat.name*/, stat.team, goals);
+            out.printf("| %-25s | %-21s | %-12s |%n", config.getPlayerInfo(stat.id).getName()/*stat.name*/, stat.team, goals);
             index++;
         }
         out.println("====================================================================");

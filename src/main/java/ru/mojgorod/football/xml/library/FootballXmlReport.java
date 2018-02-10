@@ -221,6 +221,17 @@ public class FootballXmlReport {
         return date;
     }
 
+    public Integer getDateInt() {
+        if (date == null) {
+            return null;
+        }
+        if (date.length() != 8) {
+            Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE, "Wrong date format: '{0}'", date);
+            return null;
+        }
+        return Integer.valueOf(date.substring(6, 8)) + 100 * Integer.valueOf(date.substring(4, 6)) + 10000 * Integer.valueOf(date.substring(0, 4));
+    }
+
     public String getDateString() {
         if (date == null) {
             return "";
@@ -443,7 +454,7 @@ public class FootballXmlReport {
     }
 
     public String getGoalkeeperKeyWithTeam1() {
-        String goalkeeper = getGoalkeeper1();
+        String goalkeeper = getGoalkeeperKey1();
         String team = getTeamKey1();
         return String.format("%s|%s", goalkeeper, team);
     }
@@ -463,7 +474,7 @@ public class FootballXmlReport {
     }
 
     public String getGoalkeeperKeyWithTeam2() {
-        String goalkeeper = getGoalkeeper2();
+        String goalkeeper = getGoalkeeperKey2();
         String team = getTeamKey2();
         return String.format("%s|%s", goalkeeper, team);
     }

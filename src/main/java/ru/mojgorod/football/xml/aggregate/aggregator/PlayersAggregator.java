@@ -124,7 +124,7 @@ public class PlayersAggregator implements Aggregator {
                     ? String.valueOf(stat.goals)
                     : String.format("%s(%s)", stat.goals, stat.penaltySuccess);
             out.printf("| %-25s | %-17s | %-10d | %-12s | %-10d | %-10d | %-10d | %-10d | %-11d |%n",
-                    config.getName(stat.id)/*stat.name*/, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
+                    config.getPlayerInfo(stat.id).getName()/*stat.name*/, stat.team, stat.games, goalsString, stat.penaltyMissed, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.autogoals);
         }
         out.println("===============================================================================================================================================");
         out.println( "</pre>");

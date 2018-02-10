@@ -26,6 +26,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -46,7 +48,7 @@ public class PlayersManager {
         playersHash.put(player.getId(), player);
     }
 
-    public String getName(final String key) {
+    public FootballXmlPlayersInfo getPlayerInfo(final String key) {
         if (key == null) {
             Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Key is null");
         }
@@ -54,7 +56,15 @@ public class PlayersManager {
         if (playerInfo == null) {
             Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Unknown key: {0}", key);
         }
-        return playerInfo.getName();
+        return playerInfo;
+    }
+
+    public String getName(final String key) {
+        return getPlayerInfo(key).getName();
+    }
+
+    public String getBirthday(final String key) {
+        return getPlayerInfo(key).getBirthday();
     }
 
 }

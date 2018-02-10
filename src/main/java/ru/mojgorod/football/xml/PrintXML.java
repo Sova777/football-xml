@@ -59,6 +59,7 @@ public class PrintXML {
                     new RefereesAggregator(),
                     new HatTricsAggregator(),
                     new PlayersAggregator(),
+                    new AgeAggregator(),
                     new CoachesAggregator(),
                     new GoalkeepersAggregator(),
                     new TopScoresAggregator()

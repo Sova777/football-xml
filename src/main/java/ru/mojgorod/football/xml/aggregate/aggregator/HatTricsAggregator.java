@@ -66,7 +66,8 @@ public class HatTricsAggregator implements Aggregator {
                 tournamentStat.match = String.format("%s %s - %s %s:%s",
                         xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getGoals1(), xmlReport.getGoals2());
                 tournamentStat.goals = itemStat.goals;
-                tournamentStat.key = key;
+                tournamentStat.key = itemStat.key;
+                tournamentStat.longkey = key;
                 matches.add(tournamentStat);
             }
         }
@@ -82,7 +83,7 @@ public class HatTricsAggregator implements Aggregator {
         out.println("=================================================================================================================");
         for (TournamentStat stat : matches) {
             out.printf("| %-25s | %-20s | %-50s | %-5s |%n",
-                    stat.name, stat.team, stat.match, stat.goals);
+                    config.getPlayerInfo(stat.key).getName()/*stat.name*/, stat.team, stat.match, stat.goals);
         }
         out.println("=================================================================================================================");
         out.println( "</pre>");
@@ -92,6 +93,7 @@ public class HatTricsAggregator implements Aggregator {
 
         private String name = "";
         private String team = "";
+        private String key = "";
         private int goals = 0;
         
         public static void add(final HashMap<String, MatchStat> hashMatch, final FootballXmlEvent event) {
@@ -103,6 +105,7 @@ public class HatTricsAggregator implements Aggregator {
             matchStat.goals++;
             matchStat.name = event.getPlayer1();
             matchStat.team = event.getTeam();
+            matchStat.key = event.getPlayerKey1();
         }
 
     }
@@ -114,6 +117,7 @@ public class HatTricsAggregator implements Aggregator {
         private String match = "";
         private int goals = 0;
         private String key = "";
+        private String longkey = "";
 
     }
 
@@ -121,8 +125,8 @@ public class HatTricsAggregator implements Aggregator {
 
         @Override
         public int compare(TournamentStat stat1, TournamentStat stat2) {
-            String value1 = stat1.key + "|" + stat1.name;
-            String value2 = stat2.key + "|" + stat2.name;
+            String value1 = stat1.longkey + "|" + stat1.name;
+            String value2 = stat2.longkey + "|" + stat2.name;
             return value1.compareTo(value2);
         }
         

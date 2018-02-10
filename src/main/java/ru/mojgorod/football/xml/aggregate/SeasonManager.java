@@ -38,6 +38,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.library.FootballXmlParser;
+import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -159,8 +160,8 @@ public class SeasonManager {
 
         public boolean isFixNames = true;
 
-        public String getName(String key) {
-            return playersManager.getName(key);
+        public FootballXmlPlayersInfo getPlayerInfo(String key) {
+            return playersManager.getPlayerInfo(key);
         }
 
     }
