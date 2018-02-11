@@ -130,7 +130,9 @@ public class RefereesAggregator implements Aggregator {
             TournamentStat stat2 = map.get(key2);
             String value1 = stat1.name;
             String value2 = stat2.name;
-            return collator.compare(value1, value2);
+            String comp1 = value1 + "|" + key1;
+            String comp2 = value2 + "|" + key2;
+            return collator.compare(comp1, comp2);
         }
         
     }

@@ -69,7 +69,7 @@ public class HatTricsAggregator implements Aggregator {
                         xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getGoals1(), xmlReport.getGoals2());
                 tournamentStat.goals = itemStat.goals;
                 tournamentStat.key = itemStat.key;
-                tournamentStat.longkey = key;
+                tournamentStat.date = xmlReport.getDate();
                 matches.add(tournamentStat);
             }
         }
@@ -119,7 +119,7 @@ public class HatTricsAggregator implements Aggregator {
         private String match = "";
         private int goals = 0;
         private String key = "";
-        private String longkey = "";
+        private String date = "";
 
     }
 
@@ -129,8 +129,8 @@ public class HatTricsAggregator implements Aggregator {
 
         @Override
         public int compare(TournamentStat stat1, TournamentStat stat2) {
-            String value1 = stat1.longkey + "|" + stat1.name;
-            String value2 = stat2.longkey + "|" + stat2.name;
+            String value1 = stat1.date + "|" + stat1.name + "|" + stat1.key;
+            String value2 = stat2.date + "|" + stat2.name + "|" + stat2.key;
             return collator.compare(value1, value2);
         }
         

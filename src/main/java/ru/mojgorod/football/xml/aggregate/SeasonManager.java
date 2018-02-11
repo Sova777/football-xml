@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -92,14 +93,52 @@ public class SeasonManager {
                 try {
                     String title = item.getSeason().getTitle();
 //                    out.println("============= " + title + " =============");
+                    printHeader(out);
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
                         aggregator.print(config, out, title);
                     }
+                    printFooter(out);
                 } finally {
                     item.closeOutput();
                 }
             }
+        }
+    }
+
+    public void addHeader(String header) {
+        config.header = header;
+    }
+
+    public void addFooter(String footer) {
+        config.footer = footer;
+    }
+
+    private void printHeader(PrintStream out) {
+        if (config.header == null) {
+            return;
+        }
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.header))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void printFooter(PrintStream out) {
+        if (config.footer == null) {
+            return;
+        }
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.footer))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -159,6 +198,8 @@ public class SeasonManager {
     public class Config {
 
         public boolean isFixNames = true;
+        public String header = null;
+        public String footer = null;
 
         public FootballXmlPlayersInfo getPlayerInfo(String key) {
             return playersManager.getPlayerInfo(key);

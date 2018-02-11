@@ -312,7 +312,7 @@ public class FootballXmlReport {
 
     public String getRefereeKey() {
         String key = refereeId;
-        if ("".equals(key)) {
+        if ("".equals(key) || key == null) {
             key = referee;
         }
         return (key == null) ? "" : key;
@@ -345,7 +345,7 @@ public class FootballXmlReport {
 
     public String getCoachKey1() {
         String key = coachId1;
-        if ("".equals(key)) {
+        if ("".equals(key) || key == null) {
             key = coach1;
         }
         return (key == null) ? "" : key;
@@ -375,7 +375,7 @@ public class FootballXmlReport {
 
     public String getCoachKey2() {
         String key = coachId2;
-        if ("".equals(key)) {
+        if ("".equals(key) || key == null) {
             key = coach2;
         }
         return (key == null) ? "" : key;

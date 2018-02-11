@@ -43,6 +43,8 @@ import ru.mojgorod.football.xml.aggregate.Season;
 public class Config {
 
     private static String playersPath = null;
+    private static String header = null;
+    private static String footer = null;
 
     public static List<Season> readConfig() {
         final String configPath = System.getProperty("config.properties", "config.properties");
@@ -59,6 +61,10 @@ public class Config {
                         root = value;
                     } else if ("players".equals(key)) {
                         playersPath = value;
+                    } else if ("header".equals(key)) {
+                        header = value;
+                    } else if ("footer".equals(key)) {
+                        footer = value;
                     } else if (key.startsWith("#")) { // комментарий
                     } else if (key.startsWith("season.")) {
                         String[] keyArray = key.split("\\.");
@@ -81,6 +87,14 @@ public class Config {
 
     public static String getPlayersPath() {
         return playersPath;
+    }
+
+    public static String getHeader() {
+        return header;
+    }
+
+    public static String getFooter() {
+        return footer;
     }
 
 }

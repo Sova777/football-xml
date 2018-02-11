@@ -70,6 +70,8 @@ public class PrintXML {
             throw new RuntimeException("'" + path + "' файл не найден");
         }
         seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
+        seasonsManager.addHeader(Config.getHeader());
+        seasonsManager.addFooter(Config.getFooter());
         seasonsManager.aggregate();
         seasonsManager.print();
     }
