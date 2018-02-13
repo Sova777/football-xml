@@ -26,14 +26,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.config;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.Season;
 
 /**
@@ -47,39 +54,40 @@ public class Config {
     private static String footer = null;
 
     public static List<Season> readConfig() {
-        final String configPath = System.getProperty("config.properties", "config.properties");
-        String root = null;
+        final String configPath = System.getProperty("config.xml", "config.xml");
         List<Season> seasons = new ArrayList<>();
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(configPath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                int pos = line.indexOf('=');
-                if (pos != -1) {
-                    String key = line.substring(0, pos);
-                    String value = line.substring(pos + 1);
-                    if ("root".equals(key)) {
-                        root = value;
-                    } else if ("players".equals(key)) {
-                        playersPath = value;
-                    } else if ("header".equals(key)) {
-                        header = value;
-                    } else if ("footer".equals(key)) {
-                        footer = value;
-                    } else if (key.startsWith("#")) { // комментарий
-                    } else if (key.startsWith("season.")) {
-                        String[] keyArray = key.split("\\.");
-                        if (keyArray.length == 2) {
-                            String[] folders = value.split(",");
-                            int size = folders.length;
-                            for (int i = 0; i < size; i++) {
-                                folders[i] = root + folders[i];
-                            }
-                            seasons.add(new Season(keyArray[1], folders));
+        String root = null;
+        try {
+            File inputFile = new File(configPath);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(inputFile);
+            document.getDocumentElement().normalize();
+            root = document.getElementsByTagName("root").item(0).getTextContent();
+            playersPath = document.getElementsByTagName("players").item(0).getTextContent();
+            header = document.getElementsByTagName("header").item(0).getTextContent();
+            footer = document.getElementsByTagName("footer").item(0).getTextContent();
+
+            NodeList seasonNodes = document.getElementsByTagName("season");
+            int size = seasonNodes.getLength();
+            for (int i = 0; i < size; i++) {
+                Node seasonNode = seasonNodes.item(i);
+                if (seasonNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) seasonNode;
+                    String id = element.getAttribute("id");
+                    String title = element.getAttribute("title");
+                    NodeList folderNodes = element.getElementsByTagName("folder");
+                    int sizeFolders = folderNodes.getLength();
+                    for (int j = 0; j < sizeFolders; j++) {
+                        Node folderNode = folderNodes.item(j);
+                        if (seasonNode.getNodeType() == Node.ELEMENT_NODE) {
+                            String folder = root + folderNode.getTextContent();
+                            seasons.add(new Season(id, title, folder));
                         }
                     }
                 }
             }
-        } catch (IOException ex) {
+        } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {
             Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
         }
         return seasons;

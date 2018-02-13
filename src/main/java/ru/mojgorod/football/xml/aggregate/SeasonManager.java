@@ -93,12 +93,12 @@ public class SeasonManager {
                 try {
                     String title = item.getSeason().getTitle();
 //                    out.println("============= " + title + " =============");
-                    printHeader(out);
+                    printHeader(out, title);
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
                         aggregator.print(config, out, title);
                     }
-                    printFooter(out);
+                    printFooter(out, title);
                 } finally {
                     item.closeOutput();
                 }
@@ -114,28 +114,28 @@ public class SeasonManager {
         config.footer = footer;
     }
 
-    private void printHeader(PrintStream out) {
+    private void printHeader(PrintStream out, final String title) {
         if (config.header == null) {
             return;
         }
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.header))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                out.println(line);
+                out.println(line.replaceAll("##title##", title));
             }
         } catch (IOException ex) {
             Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void printFooter(PrintStream out) {
+    private void printFooter(PrintStream out, final String title) {
         if (config.footer == null) {
             return;
         }
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.footer))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                out.println(line);
+                out.println(line.replaceAll("##title##", title));
             }
         } catch (IOException ex) {
             Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);

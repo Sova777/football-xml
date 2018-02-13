@@ -32,16 +32,22 @@ package ru.mojgorod.football.xml.aggregate;
  */
 public class Season {
 
+    private final String id;
     private final String title;
     private final String[] folder;
 
-    public Season(final String title, final String... folder) {
+    public Season(final String id, final String title, final String... folder) {
+        this.id = id;
         this.title = title;
         this.folder = folder;
     }
 
     public String[] getFolders() {
         return folder;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
