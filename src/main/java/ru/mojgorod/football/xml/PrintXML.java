@@ -72,6 +72,7 @@ public class PrintXML {
         seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         seasonsManager.addHeader(Config.getHeader());
         seasonsManager.addFooter(Config.getFooter());
+        seasonsManager.addLinks(Config.getCurrentSeason(), Config.getOtherSeason());
         seasonsManager.aggregate();
         seasonsManager.print();
     }

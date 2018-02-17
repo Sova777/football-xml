@@ -52,6 +52,8 @@ public class Config {
     private static String playersPath = null;
     private static String header = null;
     private static String footer = null;
+    private static String currentSeason = null;
+    private static String otherSeason = null;
 
     public static List<Season> readConfig() {
         final String configPath = System.getProperty("config.xml", "config.xml");
@@ -67,6 +69,8 @@ public class Config {
             playersPath = document.getElementsByTagName("players").item(0).getTextContent();
             header = document.getElementsByTagName("header").item(0).getTextContent();
             footer = document.getElementsByTagName("footer").item(0).getTextContent();
+            currentSeason = document.getElementsByTagName("current").item(0).getTextContent();
+            otherSeason = document.getElementsByTagName("other").item(0).getTextContent();
 
             NodeList seasonNodes = document.getElementsByTagName("season");
             int size = seasonNodes.getLength();
@@ -76,13 +80,14 @@ public class Config {
                     Element element = (Element) seasonNode;
                     String id = element.getAttribute("id");
                     String title = element.getAttribute("title");
+                    String linktitle = element.getAttribute("linktitle");
                     NodeList folderNodes = element.getElementsByTagName("folder");
                     int sizeFolders = folderNodes.getLength();
                     for (int j = 0; j < sizeFolders; j++) {
                         Node folderNode = folderNodes.item(j);
                         if (seasonNode.getNodeType() == Node.ELEMENT_NODE) {
                             String folder = root + folderNode.getTextContent();
-                            seasons.add(new Season(id, title, folder));
+                            seasons.add(new Season(id, title, linktitle, folder));
                         }
                     }
                 }
@@ -103,6 +108,14 @@ public class Config {
 
     public static String getFooter() {
         return footer;
+    }
+
+    public static String getCurrentSeason() {
+        return currentSeason;
+    }
+
+    public static String getOtherSeason() {
+        return otherSeason;
     }
 
 }

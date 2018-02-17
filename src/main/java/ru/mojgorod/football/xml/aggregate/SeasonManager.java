@@ -48,11 +48,12 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class SeasonManager {
 
-    private final ArrayList<Item> items = new ArrayList<>();
+    private final ArrayList<Item> items;
     private PlayersManager playersManager;
     private final Config config = new Config();
 
     public SeasonManager() {
+        items = new ArrayList<>();
     }
 
     public void add(final Season season, final String filePath, final Aggregator... aggregator) {
@@ -93,12 +94,12 @@ public class SeasonManager {
                 try {
                     String title = item.getSeason().getTitle();
 //                    out.println("============= " + title + " =============");
-                    printHeader(out, title);
+                    printHeader(out, item);
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
                         aggregator.print(config, out, title);
                     }
-                    printFooter(out, title);
+                    printFooter(out, item);
                 } finally {
                     item.closeOutput();
                 }
@@ -114,32 +115,50 @@ public class SeasonManager {
         config.footer = footer;
     }
 
-    private void printHeader(PrintStream out, final String title) {
-        if (config.header == null) {
+    public void addLinks(String currentSeason, String otherSeason) {
+        config.currentSeason = currentSeason;
+        config.otherSeason = otherSeason;
+    }
+
+    private void printSection(PrintStream out, final String file, final Item currentItem) {
+        if (file == null) {
             return;
         }
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.header))) {
+        StringBuilder seasonsLine = new StringBuilder("");
+        String previousId = null;
+        for (Item item : items) {
+            Season season = item.getSeason();
+            if (season.getId() == null || season.getId().equals(previousId)) {
+                continue;
+            }
+            previousId = season.getId();
+            if (seasonsLine.length() != 0) {
+                seasonsLine.append("\n");
+            }
+            String value = item.equals(currentItem) ? config.currentSeason : config.otherSeason;
+            seasonsLine.append(value
+                    .replaceAll("##title##", season.getTitle())
+                    .replaceAll("##linktitle##", season.getLinkTitle())
+                    .replaceAll("##id##", season.getId())
+            );
+        }
+        String title = currentItem.getSeason().getTitle();
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                out.println(line.replaceAll("##title##", title));
+                out.println(line.replaceAll("##title##", title).replaceAll("##seasons##", seasonsLine.toString()));
             }
         } catch (IOException ex) {
             Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void printFooter(PrintStream out, final String title) {
-        if (config.footer == null) {
-            return;
-        }
-        try (BufferedReader reader = Files.newBufferedReader(Paths.get(config.footer))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                out.println(line.replaceAll("##title##", title));
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void printHeader(PrintStream out, final Item currentItem) {
+        printSection(out, config.header, currentItem);
+    }
+
+    private void printFooter(PrintStream out, final Item currentItem) {
+        printSection(out, config.footer, currentItem);
     }
 
     private static class Item {
@@ -200,6 +219,8 @@ public class SeasonManager {
         public boolean isFixNames = true;
         public String header = null;
         public String footer = null;
+        public String currentSeason;
+        public String otherSeason;;
 
         public FootballXmlPlayersInfo getPlayerInfo(String key) {
             return playersManager.getPlayerInfo(key);
