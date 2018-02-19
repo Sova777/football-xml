@@ -99,7 +99,7 @@ public class AgeAggregator implements Aggregator {
             int agePlayers = 0;
             int agePlayers2 = 0;
             int agePlayers3 = 0;
-            boolean isAgeValid = true;
+            boolean isAgeValid1 = true;
             boolean isAgeValid2 = true;
             boolean isAgeValid3 = true;
 
@@ -110,7 +110,7 @@ public class AgeAggregator implements Aggregator {
             for (String key : stat.players.keySet()) {
                 Double playerAge = config.getPlayerInfo(key).getAge(maxDate);
                 if (playerAge == null) {
-                    isAgeValid = false;
+                    isAgeValid1 = false;
                 } else {
                     age += playerAge;
                     agePlayers++;
@@ -135,8 +135,12 @@ public class AgeAggregator implements Aggregator {
                     }
                 }
             }
-            out.printf(Locale.US, "| %-20s | %-11d | %-11.2f | %-11d | %-11.2f | %-11d | %-11.2f |%n",
-                    stat.team, stat.players.size(), age / agePlayers, players2, age2 / agePlayers2, players3, age3 / agePlayers3);
+            char valid1 = isAgeValid1 ? ' ' : '*';
+            char valid2 = isAgeValid2 ? ' ' : '*';
+            char valid3 = isAgeValid3 ? ' ' : '*';
+            out.printf(Locale.US, "| %-20s | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     |%n",
+                    stat.team, stat.players.size(), age / agePlayers, valid1, players2,
+                    age2 / agePlayers2, valid2, players3, age3 / agePlayers3, valid3);
         }
         out.println("============================================================================================================");
         out.println( "* - означает, что на данный момент нет данных по возрасту одного или более игроков");

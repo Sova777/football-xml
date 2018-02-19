@@ -125,13 +125,8 @@ public class SeasonManager {
             return;
         }
         StringBuilder seasonsLine = new StringBuilder("");
-        String previousId = null;
         for (Item item : items) {
             Season season = item.getSeason();
-            if (season.getId() == null || season.getId().equals(previousId)) {
-                continue;
-            }
-            previousId = season.getId();
             if (seasonsLine.length() != 0) {
                 seasonsLine.append("\n");
             }

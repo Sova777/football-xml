@@ -83,13 +83,15 @@ public class Config {
                     String linktitle = element.getAttribute("linktitle");
                     NodeList folderNodes = element.getElementsByTagName("folder");
                     int sizeFolders = folderNodes.getLength();
+                    String[] folders = new String[sizeFolders];
                     for (int j = 0; j < sizeFolders; j++) {
                         Node folderNode = folderNodes.item(j);
                         if (seasonNode.getNodeType() == Node.ELEMENT_NODE) {
                             String folder = root + folderNode.getTextContent();
-                            seasons.add(new Season(id, title, linktitle, folder));
+                            folders[j] = folder;
                         }
                     }
+                    seasons.add(new Season(id, title, linktitle, folders));
                 }
             }
         } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {
