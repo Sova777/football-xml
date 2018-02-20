@@ -183,15 +183,15 @@ public class CoachesAggregator implements Aggregator {
             TournamentStat stat1 = map.get(key1);
             TournamentStat stat2 = map.get(key2);
 
-            String value1 = stat1.coach;
-            String value2 = stat2.coach;
+            String value1 = stat1.coach.replaceAll(" ", "_");
+            String value2 = stat2.coach.replaceAll(" ", "_");
             compare = collator.compare(value1, value2);
             if (compare != 0) {
                 return compare;
             }
 
-            String team1 = stat1.team;
-            String team2 = stat2.team;
+            String team1 = stat1.team.replaceAll(" ", "_");
+            String team2 = stat2.team.replaceAll(" ", "_");
             compare = collator.compare(team1, team2);
             if (compare != 0) {
                 return compare;

@@ -173,15 +173,15 @@ public class PlayersAggregator implements Aggregator {
             TournamentStat stat1 = map.get(key1);
             TournamentStat stat2 = map.get(key2);
 
-            String team1 = stat1.team;
-            String team2 = stat2.team;
+            String team1 = stat1.team.replaceAll(" ", "_");
+            String team2 = stat2.team.replaceAll(" ", "_");
             compare = collator.compare(team1, team2);
             if (compare != 0) {
                 return compare;
             }
 
-            String value1 = stat1.name;
-            String value2 = stat2.name;
+            String value1 = stat1.name.replaceAll(" ", "_");
+            String value2 = stat2.name.replaceAll(" ", "_");
             compare = collator.compare(value1, value2);
             if (compare != 0) {
                 return compare;
