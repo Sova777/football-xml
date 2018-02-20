@@ -70,6 +70,7 @@ public class FootballXmlReport {
     private ArrayList<FootballXmlEvent> events = new ArrayList<>();
     private final String CODE_WIN = "+";
     private final String CODE_LOSE = "-";
+    public boolean ignoreId = true;
 
     public void setTournament(final String tournament) {
         this.tournament = tournament;
@@ -311,6 +312,9 @@ public class FootballXmlReport {
     }
 
     public String getRefereeKey() {
+        if (ignoreId)  {
+            return referee;
+        }
         String key = refereeId;
         if ("".equals(key) || key == null) {
             key = referee;

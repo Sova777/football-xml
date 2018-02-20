@@ -179,15 +179,25 @@ public class CoachesAggregator implements Aggregator {
 
         @Override
         public int compare(String key1, String key2) {
+            int compare;
             TournamentStat stat1 = map.get(key1);
             TournamentStat stat2 = map.get(key2);
+
             String value1 = stat1.coach;
             String value2 = stat2.coach;
+            compare = collator.compare(value1, value2);
+            if (compare != 0) {
+                return compare;
+            }
+
             String team1 = stat1.team;
             String team2 = stat2.team;
-            String comp1 = value1 + "|" + team1 + "|" + key1;
-            String comp2 = value2 + "|" + team2 + "|" + key2;
-            return collator.compare(comp1, comp2);
+            compare = collator.compare(team1, team2);
+            if (compare != 0) {
+                return compare;
+            }
+
+            return collator.compare(key1, key2);
         }
         
     }

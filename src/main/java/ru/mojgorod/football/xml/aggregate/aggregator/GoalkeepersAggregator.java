@@ -167,6 +167,9 @@ public class GoalkeepersAggregator implements Aggregator {
 
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+        for (TournamentStat pl : keepers.values()) {
+            pl.name = config.getPlayerInfo(pl.key).getName();
+        }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(keepers));
         sortedMap.putAll(keepers);
         out.println("<h2>Статистика вратарей</h2>");
@@ -179,7 +182,7 @@ public class GoalkeepersAggregator implements Aggregator {
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = keepers.get(s);
             out.printf("| %-25s | %-17s | %-10d | %-10d | %-10d | %-10d | %-10d | %-10d |%n",
-                    config.getPlayerInfo(stat.key).getName()/**stat.name*/, stat.team, stat.games, stat.goals, stat.dry, stat.penaltyMissed, stat.penaltySuccess, stat.redCards);
+                    stat.name, stat.team, stat.games, stat.goals, stat.dry, stat.penaltyMissed, stat.penaltySuccess, stat.redCards);
         }
         out.println("===============================================================================================================================");
         out.println( "</pre>");
@@ -234,17 +237,25 @@ public class GoalkeepersAggregator implements Aggregator {
 
         @Override
         public int compare(String key1, String key2) {
+            int compare;
             TournamentStat stat1 = map.get(key1);
             TournamentStat stat2 = map.get(key2);
+
             String team1 = stat1.team;
             String team2 = stat2.team;
-            int compare = collator.compare(team1, team2);
-            if (compare == 0) {
-                String value1 = stat1.name;
-                String value2 = stat2.name;
-                return collator.compare(value1, value2);
+            compare = collator.compare(team1, team2);
+            if (compare != 0) {
+                return compare;
             }
-            return compare;
+
+            String value1 = stat1.name;
+            String value2 = stat2.name;
+            compare = collator.compare(value1, value2);
+            if (compare != 0) {
+                return compare;
+            }
+
+            return collator.compare(key1, key2);
         }
         
     }
