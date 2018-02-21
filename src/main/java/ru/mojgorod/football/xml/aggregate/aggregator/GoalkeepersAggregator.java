@@ -167,8 +167,10 @@ public class GoalkeepersAggregator implements Aggregator {
 
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
-        for (TournamentStat pl : keepers.values()) {
-            pl.name = config.getPlayerInfo(pl.key).getName();
+        if (config.isPlayerInfo()) {
+            for (TournamentStat pl : keepers.values()) {
+                pl.name = config.getPlayerInfo(pl.key).getName();
+            }
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(keepers));
         sortedMap.putAll(keepers);

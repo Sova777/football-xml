@@ -75,8 +75,10 @@ public class TopScoresAggregator implements Aggregator {
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
         final int max = 10;
-        for (TournamentStat pl : players.values()) {
-            pl.name = config.getPlayerInfo(pl.id).getName();
+        if (config.isPlayerInfo()) {
+            for (TournamentStat pl : players.values()) {
+                pl.name = config.getPlayerInfo(pl.id).getName();
+            }
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);

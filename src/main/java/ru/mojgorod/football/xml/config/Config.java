@@ -59,7 +59,8 @@ public class Config {
     public static List<Season> readConfig() {
         final String configPath = System.getProperty("config.xml", "config.xml");
         List<Season> seasons = new ArrayList<>();
-        String root = null;
+        Node node;
+        String root;
         try {
             File inputFile = new File(configPath);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -68,7 +69,8 @@ public class Config {
             document.getDocumentElement().normalize();
             root = document.getElementsByTagName("root").item(0).getTextContent();
             outputFolder = document.getElementsByTagName("output").item(0).getTextContent();
-            playersPath = document.getElementsByTagName("players").item(0).getTextContent();
+            node = document.getElementsByTagName("players").item(0);
+            playersPath = (node == null) ? null : node.getTextContent();
             header = document.getElementsByTagName("header").item(0).getTextContent();
             footer = document.getElementsByTagName("footer").item(0).getTextContent();
             currentSeason = document.getElementsByTagName("current").item(0).getTextContent();

@@ -66,10 +66,12 @@ public class PrintXML {
             );
         }
         String path = Config.getPlayersPath();
-        if (!new File(path).exists()) {
-            throw new RuntimeException("'" + path + "' файл не найден");
+        if (path != null) {
+            if (!new File(path).exists()) {
+                throw new RuntimeException("'" + path + "' файл не найден");
+            }
+            seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         }
-        seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         seasonsManager.addHeader(Config.getHeader());
         seasonsManager.addFooter(Config.getFooter());
         seasonsManager.addLinks(Config.getCurrentSeason(), Config.getOtherSeason());

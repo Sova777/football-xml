@@ -107,8 +107,10 @@ public class PlayersAggregator implements Aggregator {
 
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
-        for (TournamentStat pl : players.values()) {
-            pl.name = config.getPlayerInfo(pl.id).getName();
+        if (config.isPlayerInfo()) {
+            for (TournamentStat pl : players.values()) {
+                pl.name = config.getPlayerInfo(pl.id).getName();
+            }
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);

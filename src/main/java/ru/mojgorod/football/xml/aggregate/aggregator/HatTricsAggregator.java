@@ -77,6 +77,11 @@ public class HatTricsAggregator implements Aggregator {
 
     @Override
     public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+        if (config.isPlayerInfo()) {
+            for (TournamentStat pl : matches) {
+                pl.name = config.getPlayerInfo(pl.key).getName();
+            }
+        }
         Collections.sort(matches, new StatArrayComparator());
         out.println("<h2>3 и более мяча за матч (хет-трик, покер)</h2>");
         out.println("<pre>");
@@ -85,7 +90,7 @@ public class HatTricsAggregator implements Aggregator {
         out.println("=================================================================================================================");
         for (TournamentStat stat : matches) {
             out.printf("| %-25s | %-20s | %-50s | %-5s |%n",
-                    config.getPlayerInfo(stat.key).getName()/*stat.name*/, stat.team, stat.match, stat.goals);
+                    stat.name, stat.team, stat.match, stat.goals);
         }
         out.println("=================================================================================================================");
         out.println( "</pre>");

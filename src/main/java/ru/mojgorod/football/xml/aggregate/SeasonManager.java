@@ -217,6 +217,10 @@ public class SeasonManager {
         public String currentSeason;
         public String otherSeason;;
 
+        public boolean isPlayerInfo() {
+            return playersManager != null;
+        }
+
         public FootballXmlPlayersInfo getPlayerInfo(String key) {
             return playersManager.getPlayerInfo(key);
         }
