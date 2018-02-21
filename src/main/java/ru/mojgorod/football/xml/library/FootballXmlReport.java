@@ -65,12 +65,11 @@ public class FootballXmlReport {
     private String coach2;
     private String coachId2;
     private String text;
-    private ArrayList<FootballXmlPlayer> players1 = new ArrayList<>();
-    private ArrayList<FootballXmlPlayer> players2 = new ArrayList<>();
-    private ArrayList<FootballXmlEvent> events = new ArrayList<>();
+    private final ArrayList<FootballXmlPlayer> players1 = new ArrayList<>();
+    private final ArrayList<FootballXmlPlayer> players2 = new ArrayList<>();
+    private final ArrayList<FootballXmlEvent> events = new ArrayList<>();
     private final String CODE_WIN = "+";
     private final String CODE_LOSE = "-";
-    public boolean ignoreId = true;
 
     public void setTournament(final String tournament) {
         this.tournament = tournament;
@@ -312,9 +311,6 @@ public class FootballXmlReport {
     }
 
     public String getRefereeKey() {
-        if (ignoreId)  {
-            return referee;
-        }
         String key = refereeId;
         if ("".equals(key) || key == null) {
             key = referee;
