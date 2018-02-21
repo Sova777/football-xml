@@ -46,7 +46,7 @@ public class PrintXML {
         SeasonManager seasonsManager = new SeasonManager();
         for (Season season : seasons) {
             seasonsManager.add(season,
-                    "stat_v" + season.getId() + ".html",
+                    Config.getOutputFolder() + "stat_v" + season.getId() + ".html",
 //                    null,
                     new MatchesAggregator(),
                     new TeamAttendanceAggregator(),

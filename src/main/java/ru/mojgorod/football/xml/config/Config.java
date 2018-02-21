@@ -50,6 +50,7 @@ import ru.mojgorod.football.xml.aggregate.Season;
 public class Config {
 
     private static String playersPath = null;
+    private static String outputFolder = null;
     private static String header = null;
     private static String footer = null;
     private static String currentSeason = null;
@@ -66,6 +67,7 @@ public class Config {
             Document document = builder.parse(inputFile);
             document.getDocumentElement().normalize();
             root = document.getElementsByTagName("root").item(0).getTextContent();
+            outputFolder = document.getElementsByTagName("output").item(0).getTextContent();
             playersPath = document.getElementsByTagName("players").item(0).getTextContent();
             header = document.getElementsByTagName("header").item(0).getTextContent();
             footer = document.getElementsByTagName("footer").item(0).getTextContent();
@@ -102,6 +104,10 @@ public class Config {
 
     public static String getPlayersPath() {
         return playersPath;
+    }
+
+    public static String getOutputFolder() {
+        return outputFolder;
     }
 
     public static String getHeader() {
