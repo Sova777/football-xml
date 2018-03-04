@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
-import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -44,7 +44,7 @@ public class MatchesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title) {
         out.println("<p><b>Матчей</b>: " + games + "</p>");
     }
 

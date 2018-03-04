@@ -30,7 +30,7 @@ import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
-import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -73,7 +73,7 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
         out.println("<h2>Средняя посещаемость по стадиону</h2>");

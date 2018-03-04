@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
-import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -94,7 +94,7 @@ public class StrongWinAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2>Волевые победы</h2>");

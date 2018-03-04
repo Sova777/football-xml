@@ -31,7 +31,7 @@ import java.util.List;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonManager;
 import ru.mojgorod.football.xml.aggregate.aggregator.*;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.config.ConfigManager;
 import ru.mojgorod.football.xml.library.FootballXmlPlayersParser;
 
 /**
@@ -42,11 +42,11 @@ public class PrintXML {
 
     public static void main(String[] args) {
 
-        List<Season> seasons = Config.readConfig();
+        List<Season> seasons = ConfigManager.readConfig();
         SeasonManager seasonsManager = new SeasonManager();
         for (Season season : seasons) {
             seasonsManager.add(season,
-                    Config.getOutputFolder() + "stat_v" + season.getId() + ".html",
+                    ConfigManager.getOutputFolder() + "stat_v" + season.getId() + ".html",
 //                    null,
                     new MatchesAggregator(),
                     new TeamAttendanceAggregator(),
@@ -65,16 +65,16 @@ public class PrintXML {
                     new TopScoresAggregator()
             );
         }
-        String path = Config.getPlayersPath();
+        String path = ConfigManager.getPlayersPath();
         if (path != null) {
             if (!new File(path).exists()) {
                 throw new RuntimeException("'" + path + "' файл не найден");
             }
-            seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
+            seasonsManager.getConfig().addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         }
-        seasonsManager.addHeader(Config.getHeader());
-        seasonsManager.addFooter(Config.getFooter());
-        seasonsManager.addLinks(Config.getCurrentSeason(), Config.getOtherSeason());
+        seasonsManager.addHeader(ConfigManager.getHeader());
+        seasonsManager.addFooter(ConfigManager.getFooter());
+        seasonsManager.addLinks(ConfigManager.getCurrentSeason(), ConfigManager.getOtherSeason());
         seasonsManager.aggregate();
         seasonsManager.print();
     }

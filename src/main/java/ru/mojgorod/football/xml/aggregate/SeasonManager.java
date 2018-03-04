@@ -38,8 +38,8 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
+import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlParser;
-import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -49,7 +49,6 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public class SeasonManager {
 
     private final ArrayList<Item> items;
-    private PlayersManager playersManager;
     private final Config config = new Config();
 
     public SeasonManager() {
@@ -81,10 +80,6 @@ public class SeasonManager {
                 }
             }
         }
-    }
-
-    public void addPlayersInfo(PlayersManager playersManager) {
-        this.playersManager = playersManager;
     }
 
     public void print() {
@@ -156,6 +151,10 @@ public class SeasonManager {
         printSection(out, config.footer, currentItem);
     }
 
+    public Config getConfig() {
+        return config;
+    }
+
     private static class Item {
 
         private final Season season;
@@ -207,24 +206,6 @@ public class SeasonManager {
             out.close();
             out = null;
         }
-    }
-
-    public class Config {
-
-        public boolean isFixNames = true;
-        public String header = null;
-        public String footer = null;
-        public String currentSeason;
-        public String otherSeason;;
-
-        public boolean isPlayerInfo() {
-            return playersManager != null;
-        }
-
-        public FootballXmlPlayersInfo getPlayerInfo(String key) {
-            return playersManager.getPlayerInfo(key);
-        }
-
     }
 
 }

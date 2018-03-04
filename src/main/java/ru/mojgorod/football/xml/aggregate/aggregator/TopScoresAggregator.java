@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import ru.mojgorod.football.xml.aggregate.SeasonManager;
+import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -73,7 +73,7 @@ public class TopScoresAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonManager.Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title) {
         final int max = 10;
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
