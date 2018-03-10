@@ -40,6 +40,7 @@ public class PlayersManager {
     
     private final ArrayList<FootballXmlPlayersInfo> players = new ArrayList<>();
     private final HashMap<String, FootballXmlPlayersInfo> playersHash = new HashMap<>();
+    private static FootballXmlPlayersInfo emptyPlayer  = new FootballXmlPlayersInfo();
 
     public void addPlayer(FootballXmlPlayersInfo player) {
         players.add(player);
@@ -49,10 +50,12 @@ public class PlayersManager {
     public FootballXmlPlayersInfo getPlayerInfo(final String key) {
         if (key == null) {
             Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Key is null");
+            return emptyPlayer;
         }
         FootballXmlPlayersInfo playerInfo = playersHash.get(key);
         if (playerInfo == null) {
             Logger.getLogger(PlayersManager.class.getName()).log(Level.SEVERE, "Unknown key: {0}", key);
+            return emptyPlayer;
         }
         return playerInfo;
     }

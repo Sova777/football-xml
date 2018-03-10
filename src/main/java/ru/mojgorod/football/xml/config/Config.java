@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.config;
 
+import ru.mojgorod.football.xml.aggregate.AggregatorManager;
 import ru.mojgorod.football.xml.aggregate.PlayersManager;
 import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 
@@ -41,6 +42,7 @@ public class Config {
     public String currentSeason;
     public String otherSeason;
     private PlayersManager playersManager;
+//    private AggregatorManager aggregatorManager;
 
     public boolean isPlayerInfo() {
         return playersManager != null;

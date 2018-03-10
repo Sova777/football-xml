@@ -109,7 +109,10 @@ public class PlayersAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
-                pl.name = config.getPlayerInfo(pl.id).getName();
+                String name = config.getPlayerInfo(pl.id).getName();
+                if (name != null) {
+                    pl.name = name;
+                }
             }
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
