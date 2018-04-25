@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.aggregate.PlayersManager;
 
 /**
  *
@@ -84,12 +83,9 @@ public class FootballXmlPlayersInfo {
         int day2 = currentDate - year2 * 10000 - month2 * 100;
         LocalDate date2 = LocalDate.of(year2, month2, day2);
 
-        LocalDate date3 = null;
-        if ((month1 * 100 + day1) > (month2 * 100 + day2)) {
-            date3 = LocalDate.of(year2 - 1, month1, day1);
-        } else {
-            date3 = LocalDate.of(year2, month1, day1);
-        }
+        LocalDate date3 = ((month1 * 100 + day1) > (month2 * 100 + day2))
+                ? LocalDate.of(year2 - 1, month1, day1)
+                : LocalDate.of(year2, month1, day1);
 
         long years = ChronoUnit.YEARS.between(date1, date2);
         long days = ChronoUnit.DAYS.between(date3, date2);
