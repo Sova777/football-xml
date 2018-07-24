@@ -88,9 +88,10 @@ public class StadiumsAggregator implements Aggregator {
             out.printf("| %-40s | %-20s | %-10d | %-10d | %-10d | %-10d |%n",
                     fixStadiumName(stat.name), stat.city, stat.games, stat.attendance / stat.games, stat.minAttendance, stat.maxAttendance);
         }
+        int average = (games > 0) ? attendance / games : 0;
         out.println("-----------------------------------------------------------------------------------------------------------------------");
         out.format("| Итого                                    |                      | %-10d | %-10d | %-10d | %-10d |%n",
-                games, attendance / games, minAttendance, maxAttendance);
+                games, average, minAttendance, maxAttendance);
         out.println("=======================================================================================================================");
         out.println("</pre>");
     }
