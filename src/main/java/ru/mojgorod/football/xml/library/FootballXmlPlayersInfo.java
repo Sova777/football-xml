@@ -59,7 +59,7 @@ public class FootballXmlPlayersInfo {
             return null;
         }
         if (date.length() != 8) {
-            Logger.getLogger(FootballXmlPlayersInfo.class.getName()).log(Level.SEVERE, "Wrong date format: {0}", date);
+            Logger.getLogger(FootballXmlPlayersInfo.class.getName()).log(Level.SEVERE, "Wrong date format: {0}, Player ID: {1}", new Object[]{date, id});
             return null;
         }
         return Integer.valueOf(date.substring(6, 8)) + 100 * Integer.valueOf(date.substring(4, 6)) + 10000 * Integer.valueOf(date.substring(0, 4));

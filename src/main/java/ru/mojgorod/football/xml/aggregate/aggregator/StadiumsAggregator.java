@@ -27,8 +27,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -89,6 +91,9 @@ public class StadiumsAggregator implements Aggregator {
                     fixStadiumName(stat.name), stat.city, stat.games, stat.attendance / stat.games, stat.minAttendance, stat.maxAttendance);
         }
         int average = (games > 0) ? attendance / games : 0;
+        if (minAttendance == Integer.MAX_VALUE) {
+            minAttendance = 0;
+        }
         out.println("-----------------------------------------------------------------------------------------------------------------------");
         out.format("| Итого                                    |                      | %-10d | %-10d | %-10d | %-10d |%n",
                 games, average, minAttendance, maxAttendance);
@@ -128,6 +133,7 @@ public class StadiumsAggregator implements Aggregator {
 
     static private class StatComparator implements Comparator<String> {
 
+        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
@@ -145,7 +151,7 @@ public class StadiumsAggregator implements Aggregator {
             } else if (value1 > value2) {
                 return -1;
             }
-            return 0;
+            return collator.compare(stat1.name, stat2.name);
         }
         
     }

@@ -156,7 +156,8 @@ public class FootballXmlReport {
         try {
             goals1 = Integer.parseInt(getGoals1());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date, ex);
             return null;
         }
         return goals1;
@@ -296,7 +297,8 @@ public class FootballXmlReport {
         try {
             matchAttendance = Integer.parseInt(getStadiumAttendance());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date + ", Stadium: " + stadium, ex);
             return null;
         }
         return matchAttendance;
