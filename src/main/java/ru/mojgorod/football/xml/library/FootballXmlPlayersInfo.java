@@ -7,6 +7,7 @@ package ru.mojgorod.football.xml.library;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,6 +83,13 @@ public class FootballXmlPlayersInfo {
         int month2 = (currentDate - year2 * 10000) / 100;
         int day2 = currentDate - year2 * 10000 - month2 * 100;
         LocalDate date2 = LocalDate.of(year2, month2, day2);
+
+        GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+        if (!cal.isLeapYear(year2)) {
+            if (month1 == 2 && day1 == 29) {
+                day1 = 28;
+            }
+        }
 
         LocalDate date3 = ((month1 * 100 + day1) > (month2 * 100 + day2))
                 ? LocalDate.of(year2 - 1, month1, day1)
