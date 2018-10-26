@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -160,6 +161,37 @@ public class GoalsForAggregetor implements Aggregator {
             return collator.compare(value1, value2);
         }
         
+    }
+
+    @Override
+    public void drawCharts(String title) {
+        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
+        sortedMap.putAll(teams);
+
+        BarChart chart = new BarChart(500, 300);
+        chart.setCopyright("(c) football.mojgorod.ru");
+        chart.setFontSize(14);
+        chart.setFontSizeTitle(20);
+        chart.setTitle("Мячей за первый тайм");
+        chart.setOutputFile("goalsfor1.png");
+        for (String s : sortedMap.keySet()) {
+            TournamentStat stat = teams.get(s);
+            chart.addPoint(stat.team, stat.half1);
+        }
+        chart.draw();
+
+        BarChart chart2 = new BarChart(500, 300);
+        chart2.setCopyright("(c) football.mojgorod.ru");
+        chart2.setFontSize(14);
+        chart2.setFontSizeTitle(20);
+        chart2.setTitle("Мячей за второй тайм");
+        chart2.setOutputFile("goalsfor2.png");
+        for (String s : sortedMap.keySet()) {
+            TournamentStat stat = teams.get(s);
+            chart2.addPoint(stat.team, stat.half2);
+        }
+        chart2.draw();
+
     }
 
 }

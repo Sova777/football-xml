@@ -93,6 +93,7 @@ public class SeasonManager {
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
                         aggregator.print(config, out, title);
+                        aggregator.drawCharts(title);
                     }
                     printFooter(out, item);
                 } finally {

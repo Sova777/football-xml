@@ -265,4 +265,8 @@ public class GoalkeepersAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

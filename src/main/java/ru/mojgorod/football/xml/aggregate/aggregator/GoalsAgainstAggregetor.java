@@ -162,4 +162,8 @@ public class GoalsAgainstAggregetor implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

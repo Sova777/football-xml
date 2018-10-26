@@ -167,4 +167,8 @@ public class TopScoresAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

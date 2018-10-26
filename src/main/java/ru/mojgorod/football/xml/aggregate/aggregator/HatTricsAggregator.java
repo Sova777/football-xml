@@ -141,4 +141,8 @@ public class HatTricsAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

@@ -24,32 +24,36 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ru.mojgorod.football.xml.aggregate.aggregator;
+package ru.mojgorod.football.chart;
 
-import java.io.PrintStream;
-import ru.mojgorod.football.xml.config.Config;
-import ru.mojgorod.football.xml.library.FootballXmlReport;
+import java.awt.Color;
 
 /**
  *
  * @author sova
  */
-public class MatchesAggregator implements Aggregator {
+public class BarChartPoint {
 
-    private int games = 0;
+    private final String title;
+    private final Integer value;
+    private final Color color;
 
-    @Override
-    public void add(FootballXmlReport xmlReport) {
-        games++;
+    public BarChartPoint(String title, Integer value, Color color) {
+        this.title = title;
+        this.value = value;
+        this.color = color;
     }
 
-    @Override
-    public void print(final Config config, final PrintStream out, final String title) {
-        out.println("<p><b>Матчей</b>: " + games + "</p>");
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public void drawCharts(String title) {
+    public Integer getValue() {
+        return value;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
 }

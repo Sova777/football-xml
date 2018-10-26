@@ -125,4 +125,8 @@ public class TeamAttendanceAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.TreeMap;
+import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
@@ -155,6 +156,23 @@ public class StadiumsAggregator implements Aggregator {
             return collator.compare(stat1.name, stat2.name);
         }
         
+    }
+
+    @Override
+    public void drawCharts(String title) {
+        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
+        sortedMap.putAll(stadiums);
+        BarChart chart = new BarChart(500, 300);
+        chart.setCopyright("(c) football.mojgorod.ru");
+        chart.setFontSize(14);
+        chart.setFontSizeTitle(20);
+        chart.setTitle("Средняя посещаемость по стадиону");
+        chart.setOutputFile("test.png");
+        for (String s : sortedMap.keySet()) {
+            TournamentStat stat = stadiums.get(s);
+            chart.addPoint(fixStadiumName(stat.name), (stat.attendance / stat.games ) / 1000);
+        }
+        chart.draw();
     }
 
 }

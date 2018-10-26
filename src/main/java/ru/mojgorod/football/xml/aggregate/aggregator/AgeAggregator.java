@@ -193,4 +193,8 @@ public class AgeAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

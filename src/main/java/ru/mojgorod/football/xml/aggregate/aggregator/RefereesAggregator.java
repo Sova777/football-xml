@@ -137,4 +137,8 @@ public class RefereesAggregator implements Aggregator {
         
     }
 
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }

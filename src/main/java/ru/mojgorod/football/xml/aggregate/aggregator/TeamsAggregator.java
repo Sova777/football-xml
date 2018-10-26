@@ -190,4 +190,8 @@ public class TeamsAggregator implements Aggregator {
 
     }
     
+    @Override
+    public void drawCharts(String title) {
+    }
+
 }
