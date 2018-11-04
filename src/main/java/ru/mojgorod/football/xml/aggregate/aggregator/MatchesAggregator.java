@@ -49,7 +49,7 @@ public class MatchesAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(String title) {
+    public void drawCharts(String title, String id) {
     }
 
 }

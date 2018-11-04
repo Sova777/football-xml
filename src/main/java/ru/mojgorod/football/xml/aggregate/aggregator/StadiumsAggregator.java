@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.config.ConfigManager;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -159,7 +160,7 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(String title) {
+    public void drawCharts(String title, String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
         BarChart chart = new BarChart(500, 300);
@@ -167,7 +168,8 @@ public class StadiumsAggregator implements Aggregator {
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость по стадиону");
-        chart.setOutputFile("test.png");
+        String outputFolder = ConfigManager.getOutputFolder();
+        chart.setOutputFile(outputFolder + "/img_attendance_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);
             chart.addPoint(fixStadiumName(stat.name), (stat.attendance / stat.games ) / 1000);

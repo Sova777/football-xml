@@ -88,12 +88,13 @@ public class SeasonManager {
             if (out != null) {
                 try {
                     String title = item.getSeason().getTitle();
+                    String id = item.getSeason().getId();
 //                    out.println("============= " + title + " =============");
                     printHeader(out, item);
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
                         aggregator.print(config, out, title);
-                        aggregator.drawCharts(title);
+                        aggregator.drawCharts(title, id);
                     }
                     printFooter(out, item);
                 } finally {
