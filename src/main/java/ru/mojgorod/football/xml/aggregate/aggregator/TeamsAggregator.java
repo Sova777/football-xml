@@ -124,7 +124,7 @@ public class TeamsAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        out.println("<h2>Командная статистика</h2>");
+        out.println("<h2 id='TeamsAggregator'>Командная статистика</h2>");
         out.println("<pre>");
         out.println("===================================================================================================================");
         out.println("| Команда              | Игроков    | Удалений   | Два преду- | Предупре-  |   Пенальти (забито)     | Забито в   |");

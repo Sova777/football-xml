@@ -117,7 +117,7 @@ public class PlayersAggregator implements Aggregator {
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
-        out.println("<h2>Статистика игроков</h2>");
+        out.println("<h2 id='PlayersAggregator'>Статистика игроков</h2>");
         out.println("<p class=\"text\">Статистика по игрокам не всегда верна, но она очень важна. Мне будет удобней видеть и править ошибки если она будет видна на этой странице.</p>");
         out.println("<pre>");
         String previous = null;

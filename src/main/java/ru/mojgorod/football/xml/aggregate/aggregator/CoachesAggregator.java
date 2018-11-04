@@ -127,7 +127,7 @@ public class CoachesAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(coaches));
         sortedMap.putAll(coaches);
-        out.println("<h2>Тренерская статистика</h2>");
+        out.println("<h2 id='CoachesAggregator'>Тренерская статистика</h2>");
         out.println("<p class=\"text\">Статистика по тренерам не всегда верна, но она очень важна. Мне будет удобней видеть и править ошибки если она будет видна на этой странице.</p>");
         out.println("<pre>");
         out.println("====================================================================================================================================");

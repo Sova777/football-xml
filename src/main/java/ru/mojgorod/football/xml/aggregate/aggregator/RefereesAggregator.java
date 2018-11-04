@@ -81,7 +81,7 @@ public class RefereesAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(referees));
         sortedMap.putAll(referees);
-        out.println("<h2>Судейская статистика</h2>");
+        out.println("<h2 id='RefereesAggregator'>Судейская статистика</h2>");
         out.println("<pre>");
         out.println("================================================================================================================");
         out.println("| Судья                | Город                | Игр        | Удалений   | Два преду- | Предупре-  | Пенальти   |");

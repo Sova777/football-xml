@@ -83,7 +83,7 @@ public class HatTricsAggregator implements Aggregator {
             }
         }
         Collections.sort(matches, new StatArrayComparator());
-        out.println("<h2>3 и более мяча за матч (хет-трик, покер)</h2>");
+        out.println("<h2 id='HatTricsAggregator'>3 и более мяча за матч (хет-трик, покер)</h2>");
         out.println("<pre>");
         out.println("=================================================================================================================");
         out.println("| Игрок                     | Команда              | Матч                                               | Мячей |");

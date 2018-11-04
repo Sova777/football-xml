@@ -104,7 +104,7 @@ public class GoalsAgainstAggregetor implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        out.println("<h2>Время матча и пропущенные мячи</h2>");
+        out.println("<h2 id='GoalsAgainstAggregetor'>Время матча и пропущенные мячи</h2>");
         out.println("<pre>");
         out.println("==============================================================================================================");
         out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");

@@ -85,7 +85,7 @@ public class TopScoresAggregator implements Aggregator {
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
-        out.println("<h2>Список лучших бомбардиров</h2>");
+        out.println("<h2 id='TopScoresAggregator'>Список лучших бомбардиров</h2>");
         out.println("<pre>");
         out.println("====================================================================");
         out.println("| Игрок                     | Команда               | Голов        |");

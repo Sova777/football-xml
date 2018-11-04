@@ -84,7 +84,7 @@ public class AgeAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        out.println("<h2>Средний возраст игроков в команде</h2>");
+        out.println("<h2 id='AgeAggregator'>Средний возраст игроков в команде</h2>");
         out.println("<pre>");
         out.println("============================================================================================================");
         out.println("| Команда              | Играл хоть 1 раз          | Не меньше чем 30% матчей  | Не меньше чем 60% матчей  |");

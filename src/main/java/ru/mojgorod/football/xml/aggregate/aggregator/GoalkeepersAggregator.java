@@ -177,7 +177,7 @@ public class GoalkeepersAggregator implements Aggregator {
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(keepers));
         sortedMap.putAll(keepers);
-        out.println("<h2>Статистика вратарей</h2>");
+        out.println("<h2 id='GoalkeepersAggregator'>Статистика вратарей</h2>");
         out.println("<pre>");
         out.println("===============================================================================================================================");
         out.println("| Вратарь                   | Команда           | Игр        | Пропущено  | Сухих      |        Пенальти         | Удалений   |");

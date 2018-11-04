@@ -55,6 +55,7 @@ public class PrintXML {
                     new StrongLoseAggregator(),
                     new GoalsForAggregetor(),
                     new GoalsAgainstAggregetor(),
+                    new ComeBackAggregator(),
                     new TeamsAggregator(),
                     new RefereesAggregator(),
                     new HatTricsAggregator(),

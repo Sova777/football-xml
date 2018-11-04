@@ -79,7 +79,7 @@ public class StadiumsAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
-        out.println("<h2>Средняя посещаемость по стадиону</h2>");
+        out.println("<h2 id='StadiumsAggregator'>Средняя посещаемость по стадиону</h2>");
         out.println("<pre>");
         out.println("===========================================================================================================================");
         out.println("| Стадион                                      | Город                | Матчей     |               Зрителей               |");

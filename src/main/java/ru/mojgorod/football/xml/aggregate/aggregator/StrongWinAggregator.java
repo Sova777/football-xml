@@ -97,7 +97,7 @@ public class StrongWinAggregator implements Aggregator {
     public void print(final Config config, final PrintStream out, final String title) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        out.println("<h2>Волевые победы</h2>");
+        out.println("<h2 id='StrongWinAggregator'>Волевые победы</h2>");
         out.println("<pre>");
         out.println("=====================================");
         out.println("| Команда              | Побед      |");
