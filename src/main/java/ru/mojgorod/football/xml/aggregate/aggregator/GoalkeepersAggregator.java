@@ -166,7 +166,7 @@ public class GoalkeepersAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : keepers.values()) {
                 String name = config.getPlayerInfo(pl.key).getName();

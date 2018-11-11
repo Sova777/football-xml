@@ -192,7 +192,7 @@ public class ComeBackAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='ComeBackAggregator'>Изменили исход игры в конце матча</h2>");

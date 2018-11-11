@@ -44,7 +44,7 @@ public class MatchesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         out.println("<p><b>Матчей</b>: " + games + "</p>");
     }
 

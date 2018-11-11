@@ -76,7 +76,7 @@ public class HatTricsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : matches) {
                 pl.name = config.getPlayerInfo(pl.key).getName();

@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
+import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.config.Config;
 import ru.mojgorod.football.xml.config.ConfigManager;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -77,7 +78,7 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
         out.println("<h2 id='StadiumsAggregator'>Средняя посещаемость по стадиону</h2>");
@@ -101,6 +102,7 @@ public class StadiumsAggregator implements Aggregator {
                 games, average, minAttendance, maxAttendance);
         out.println("===========================================================================================================================");
         out.println("</pre>");
+        out.println("<img src='image/stat_attendance_v" + id + ".png'><br>");
     }
 
     private String fixStadiumName(String name) {
@@ -163,16 +165,21 @@ public class StadiumsAggregator implements Aggregator {
     public void drawCharts(String title, String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
-        BarChart chart = new BarChart(500, 300);
+        int items = stadiums.size();
+        int height = 400;
+        if (items > 16) {
+            height += 16 * (items - 16);
+        }
+        BarChart chart = new HorizontalBarChart(800, height);
         chart.setCopyright("(c) football.mojgorod.ru");
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
-        chart.setTitle("Средняя посещаемость по стадиону");
+        chart.setTitle("Средняя посещаемость по стадиону (" + title + ")");
         String outputFolder = ConfigManager.getOutputFolder();
-        chart.setOutputFile(outputFolder + "/img_attendance_v" + id + ".png");
+        chart.setOutputFile(outputFolder + "/image/stat_attendance_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);
-            chart.addPoint(fixStadiumName(stat.name), (stat.attendance / stat.games ) / 1000);
+            chart.addPoint(fixStadiumName(stat.name), stat.attendance / stat.games);
         }
         chart.draw();
     }

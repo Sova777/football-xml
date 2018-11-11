@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.chart;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -46,29 +47,34 @@ import javax.imageio.ImageIO;
  */
 public class BarChart {
 
-    private int width = -1;
-    private int height = -1;
-    private int scaleX = -1;
-    private int scaleY = -1;
+    protected int width = -1;
+    protected int height = -1;
+    protected float scaleX = -1;
+    protected float scaleY = -1;
     private int stepY = 1;
-    private int offsetX = -1;
-    private int offsetY = -1;
-    private int min = -1;
-    private int max = -1;
-    private int maxDraw = -1;
-    private int columns = 0;
-    private int fontSize = 10;
-    private int fontSizeTitle = 10;
-    private String copyright = null;
-    private String title = null;
-    private String outputFile = null;
-    private final List<BarChartPoint> data = new ArrayList<>();
+    protected int offsetX = -1;
+    protected int offsetY = -1;
+    protected int min = -1;
+    protected int max = -1;
+    protected int maxDraw = -1;
+    protected int maxTitleLength = 0;
+    protected int columns = 0;
+    protected int fontSize = 10;
+    protected int fontSizeTitle = 10;
+    protected String copyright = null;
+    protected String title = null;
+    protected String outputFile = null;
+    protected final List<BarChartPoint> data = new ArrayList<>();
 
     public static final Color COLOR_WHITE = new Color(255, 255, 255);
     public static final Color COLOR_RED = new Color(220, 57, 18);
     public static final Color COLOR_BLUE = new Color(51, 102, 204);
     public static final Color COLOR_BLACK = new Color(0, 0, 0);
     public static final Color COLOR_GRAY = new Color(160, 160, 160);
+
+    private static float dashArray[] = {1.0f};
+    protected static BasicStroke dashed =
+            new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dashArray, 0.0f);
 
     public BarChart(int width, int height) {
         this.width = width;
@@ -102,7 +108,7 @@ public class BarChart {
         final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
 
-        calculateConstants();
+        calculateConstants(g, DEFAULT_FONT);
         AffineTransform affineTransform = new AffineTransform();
         affineTransform.rotate(Math.toRadians(-90), 0, 0);
         Font verticalFont = DEFAULT_FONT.deriveFont(affineTransform);
@@ -119,7 +125,7 @@ public class BarChart {
             } else {
                 g.setColor(color);
             }
-            g.fillRect(getLocalX(i) + 1, getLocalY(value), scaleX - 1, scaleY * value);
+            g.fillRect(getLocalX(i) + 1, getLocalY(value), (int)(scaleX - 1), (int)(scaleY * value));
             i++;
         }
 
@@ -164,12 +170,12 @@ public class BarChart {
         }
     }
 
-    private int getLocalX(int x) {
-        return x * scaleX + offsetX;
+    protected int getLocalX(int x) {
+        return (int) (x * scaleX + offsetX + maxTitleLength);
     }
 
-    private int getLocalY(int y) {
-        return height - offsetY - scaleY * y;
+    protected int getLocalY(int y) {
+        return (int) (height - offsetY - scaleY * y);
     }
 
     public void addPoint(BarChartPoint point) {
@@ -192,16 +198,17 @@ public class BarChart {
         addPoint(null, value, color);
     }
 
-    private void reseteConstants() {
+    protected void reseteConstants() {
         min = Integer.MAX_VALUE;
         max = Integer.MIN_VALUE;
         maxDraw = Integer.MIN_VALUE;
         columns = 0;
         offsetX = 20;
-        offsetY = fontSizeTitle * 3 / 2;
+        offsetY = fontSizeTitle * 5 / 2;
+        maxTitleLength = 0;
     }
 
-    private void calculateConstants() {
+    protected void calculateConstants(Graphics2D g, Font font) {
         reseteConstants();
         for (BarChartPoint point : data) {
             Integer value = point.getValue();

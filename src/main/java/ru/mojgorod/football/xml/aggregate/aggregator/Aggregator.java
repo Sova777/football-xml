@@ -37,7 +37,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public interface Aggregator {
 
     public void add(FootballXmlReport xmlReport);
-    public void print(final Config config, final PrintStream out, final String title);
+    public void print(final Config config, final PrintStream out, final String title, final String id);
     public void drawCharts(final String title, final String id);
 
 }

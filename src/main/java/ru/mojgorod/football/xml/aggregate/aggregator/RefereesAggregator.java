@@ -78,7 +78,7 @@ public class RefereesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(referees));
         sortedMap.putAll(referees);
         out.println("<h2 id='RefereesAggregator'>Судейская статистика</h2>");

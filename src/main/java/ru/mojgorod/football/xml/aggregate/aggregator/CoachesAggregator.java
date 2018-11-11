@@ -124,7 +124,7 @@ public class CoachesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(coaches));
         sortedMap.putAll(coaches);
         out.println("<h2 id='CoachesAggregator'>Тренерская статистика</h2>");

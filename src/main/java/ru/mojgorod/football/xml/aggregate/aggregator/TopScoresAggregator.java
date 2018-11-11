@@ -73,7 +73,7 @@ public class TopScoresAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title) {
+    public void print(final Config config, final PrintStream out, final String title, final String id) {
         final int max = 10;
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
