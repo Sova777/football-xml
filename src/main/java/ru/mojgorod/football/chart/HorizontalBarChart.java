@@ -30,10 +30,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -57,10 +59,15 @@ public class HorizontalBarChart extends BarChart {
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
+        final Font ARIAL_BLACK_FONT = new Font("Arial Black"/*Font.SANS_SERIF*/, Font.PLAIN, fontSize);
+        final Font LABEL_FONT = ARIAL_BLACK_FONT.deriveFont(
+                Collections.singletonMap(TextAttribute.WEIGHT, TextAttribute.WEIGHT_EXTRA_LIGHT)
+        );
+                /*new Font("Arial Black", Font.PLAIN, fontSize)*/;
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
         Stroke defaultStroke = g.getStroke();
 
-        calculateConstants(g, DEFAULT_FONT);
+        calculateConstants(g, LABEL_FONT);
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
@@ -103,11 +110,11 @@ public class HorizontalBarChart extends BarChart {
             g.drawLine(getLocalX(j), getLocalY(0), getLocalX(j), getLocalY(columns));
         }
 
-        g.setFont(DEFAULT_FONT);
+        g.setColor(COLOR_LIGHT_BLACK);
+        g.setFont(LABEL_FONT);
         i = 0;
         for (BarChartPoint point : data) {
 //            Integer value = point.getValue();
-            g.setColor(COLOR_BLACK);
             g.drawString(point.getTitle(), offsetX + 4, getLocalY(columns - i - 1) - (scaleY - fontSize) / 2 - 2);
             i++;
         }

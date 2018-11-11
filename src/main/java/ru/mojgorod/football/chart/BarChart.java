@@ -71,6 +71,7 @@ public class BarChart {
     public static final Color COLOR_BLUE = new Color(51, 102, 204);
     public static final Color COLOR_BLACK = new Color(0, 0, 0);
     public static final Color COLOR_GRAY = new Color(160, 160, 160);
+    public static final Color COLOR_LIGHT_BLACK = new Color(49, 49, 100);
 
     private static float dashArray[] = {1.0f};
     protected static BasicStroke dashed =
