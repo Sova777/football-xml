@@ -29,6 +29,7 @@ package ru.mojgorod.football.chart;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
@@ -58,10 +59,11 @@ public class HorizontalBarChart extends BarChart {
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
-        final Font ARIAL_BLACK_FONT = new Font("Arial Black"/*Font.SANS_SERIF*/, Font.PLAIN, fontSize);
+        final Font ARIAL_BLACK_FONT = new Font("Arial"/*Font.SANS_SERIF*/, Font.PLAIN, fontSize);
         final Font LABEL_FONT = ARIAL_BLACK_FONT.deriveFont(
-                Collections.singletonMap(TextAttribute.WEIGHT, TextAttribute.WEIGHT_EXTRA_LIGHT)
+                Collections.singletonMap(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD)
         );
                 /*new Font("Arial Black", Font.PLAIN, fontSize)*/;
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
