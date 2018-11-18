@@ -34,7 +34,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
@@ -78,7 +78,8 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
+    public void print(final SeasonParameters parameters) {
+        PrintStream out = parameters.getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
         out.println("<h2 id='StadiumsAggregator'>Средняя посещаемость по стадиону</h2>");
@@ -102,7 +103,7 @@ public class StadiumsAggregator implements Aggregator {
                 games, average, minAttendance, maxAttendance);
         out.println("===========================================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_attendance_v" + id + ".png'><br>");
+        out.println("<img src='image/stat_attendance_v" + parameters.getSeason().getId() + ".png'><br>");
     }
 
     private String fixStadiumName(String name) {
@@ -162,7 +163,7 @@ public class StadiumsAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(final ConfigFile configFile, String title, String id) {
+    public void drawCharts(final SeasonParameters parameters) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(stadiums));
         sortedMap.putAll(stadiums);
         int items = stadiums.size();
@@ -170,12 +171,16 @@ public class StadiumsAggregator implements Aggregator {
         if (items > 16) {
             height += 16 * (items - 16);
         }
+
+        String title = parameters.getSeason().getTitle();
+        String id = parameters.getSeason().getId();
+
         BarChart chart = new HorizontalBarChart(800, height);
         chart.setCopyright("(c) football.mojgorod.ru");
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость по стадиону (" + title + ")");
-        String outputFolder = configFile.getOutputFolder();
+        String outputFolder = parameters.getConfigFile().getOutputFolder();
         chart.setOutputFile(outputFolder + "/image/stat_attendance_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);

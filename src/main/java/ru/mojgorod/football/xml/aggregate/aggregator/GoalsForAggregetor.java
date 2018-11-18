@@ -37,7 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -104,7 +104,8 @@ public class GoalsForAggregetor implements Aggregator {
     }
 
     @Override
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
+    public void print(final SeasonParameters parameters) {
+        PrintStream out = parameters.getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='GoalsForAggregetor'>Время матча и забитые мячи</h2>");
@@ -120,8 +121,8 @@ public class GoalsForAggregetor implements Aggregator {
         }
         out.println("==============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_goalsfor1_v" + id + ".png'>");
-        out.println("<img src='image/stat_goalsfor2_v" + id + ".png'><br>");
+        out.println("<img src='image/stat_goalsfor1_v" + parameters.getSeason().getId() + ".png'>");
+        out.println("<img src='image/stat_goalsfor2_v" + parameters.getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -168,16 +169,19 @@ public class GoalsForAggregetor implements Aggregator {
     }
 
     @Override
-    public void drawCharts(final ConfigFile configFile, String title, String id) {
+    public void drawCharts(final SeasonParameters parameters) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
+
+        String title = parameters.getSeason().getTitle();
+        String id = parameters.getSeason().getId();
 
         BarChart chart = new HorizontalBarChart(500, 400);
         chart.setCopyright("(c) football.mojgorod.ru");
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Мячей за первый тайм (" + title + ")");
-        chart.setOutputFile(configFile.getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
+        chart.setOutputFile(parameters.getConfigFile().getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart.addPoint(stat.team, stat.half1);
@@ -189,7 +193,7 @@ public class GoalsForAggregetor implements Aggregator {
         chart2.setFontSize(14);
         chart2.setFontSizeTitle(20);
         chart2.setTitle("Мячей за второй тайм (" + title + ")");
-        chart2.setOutputFile(configFile.getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
+        chart2.setOutputFile(parameters.getConfigFile().getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart2.addPoint(stat.team, stat.half2);

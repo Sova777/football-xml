@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -107,10 +107,11 @@ public class PlayersAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
-        if (config.isPlayerInfo()) {
+    public void print(final SeasonParameters parameters) {
+        PrintStream out = parameters.getOutput();
+        if (parameters.isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
-                String name = config.getPlayerInfo(pl.id).getName();
+                String name = parameters.getPlayerInfo(pl.id).getName();
                 if (name != null) {
                     pl.name = name;
                 }
@@ -199,7 +200,7 @@ public class PlayersAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(final ConfigFile configFile, String title, String id) {
+    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

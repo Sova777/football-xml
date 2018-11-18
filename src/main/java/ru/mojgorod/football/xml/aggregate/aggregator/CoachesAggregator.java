@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -46,7 +46,6 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  * @author sova
  */
 public class CoachesAggregator implements Aggregator {
-
 
     private final HashMap<String, TournamentStat> coaches = new HashMap<>();
 
@@ -125,7 +124,8 @@ public class CoachesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
+    public void print(final SeasonParameters parameters) {
+        PrintStream out = parameters.getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(coaches));
         sortedMap.putAll(coaches);
         out.println("<h2 id='CoachesAggregator'>Тренерская статистика</h2>");
@@ -204,7 +204,7 @@ public class CoachesAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(final ConfigFile configFile, String title, String id) {
+    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

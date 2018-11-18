@@ -44,6 +44,7 @@ import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonsManager;
 import ru.mojgorod.football.xml.aggregate.aggregator.AgeAggregator;
+import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.CoachesAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.ComeBackAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.GoalkeepersAggregator;
@@ -129,40 +130,71 @@ public class ConfigFile {
         }
 
         SeasonsManager seasonsManager = new SeasonsManager(newInstance);
-        for (Season season : newInstance.seasons) {
-            seasonsManager.add(season,
-                    newInstance.outputFolder + "stat_v" + season.getId() + ".html",
-//                    null,
-                    new MatchesAggregator(),
-                    new TeamAttendanceAggregator(),
-                    new StadiumsAggregator(),
-                    new StrongWinAggregator(),
-                    new StrongLoseAggregator(),
-                    new GoalsForAggregetor(),
-                    new GoalsAgainstAggregetor(),
-                    new ComeBackAggregator(),
-                    new TeamsAggregator(),
-                    new RefereesAggregator(),
-                    new HatTricsAggregator(),
-                    new PlayersAggregator(),
-                    new AgeAggregator(),
-                    new CoachesAggregator(),
-                    new GoalkeepersAggregator(),
-                    new TopScoresAggregator()
-            );
-        }
         String path = newInstance.playersPath;
         if (path != null) {
             if (!new File(path).exists()) {
                 throw new RuntimeException("'" + path + "' файл не найден");
             }
-            seasonsManager.getConfig().addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
+            seasonsManager.addPlayersInfo(FootballXmlPlayersParser.parseFile(path));
         }
-        seasonsManager.addHeader(newInstance.header);
-        seasonsManager.addFooter(newInstance.footer);
-        seasonsManager.addLinks(newInstance.currentSeason, newInstance.otherSeason);
+
+        for (Season season : newInstance.seasons) {
+            seasonsManager.add(season,
+                    newInstance.outputFolder + "stat_v" + season.getId() + ".html",
+                    initAggregators(newInstance.aggregators.toArray(new String[0]))
+            );
+        }
         return seasonsManager;
 
+    }
+
+    private static Aggregator[] initAggregators(String... aggregatorNames) {
+        if (aggregatorNames == null) {
+            return null;
+        }
+        List<Aggregator> aggregatorsList = new ArrayList<>();
+        for (String aggregatorName : aggregatorNames) {
+            aggregatorsList.add(initAggregator(aggregatorName));
+        }
+        return aggregatorsList.toArray(new Aggregator[0]);
+    }
+
+    private static Aggregator initAggregator(String aggregatorName) {
+        switch (aggregatorName) {
+            case "Matches":
+                return new MatchesAggregator();
+            case "TeamAttendance":
+                return new TeamAttendanceAggregator();
+            case "Stadiums":
+                return new StadiumsAggregator();
+            case "StrongWin":
+                return new StrongWinAggregator();
+            case "StrongLose":
+                return new StrongLoseAggregator();
+            case "GoalsFor":
+                return new GoalsForAggregetor();
+            case "GoalsAgainst":
+                return new GoalsAgainstAggregetor();
+            case "ComeBack":
+                return new ComeBackAggregator();
+            case "Teams":
+                return new TeamsAggregator();
+            case "Referees":
+                return new RefereesAggregator();
+            case "HatTrics":
+                return new HatTricsAggregator();
+            case "Players":
+                return new PlayersAggregator();
+            case "Age":
+                return new AgeAggregator();
+            case "Coaches":
+                return new CoachesAggregator();
+            case "Goalkeepers":
+                return new GoalkeepersAggregator();
+            case "TopScores":
+                return new TopScoresAggregator();
+        }
+        throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
     }
 
     public String getPlayersPath() {

@@ -26,9 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
-import java.io.PrintStream;
-import ru.mojgorod.football.xml.config.Config;
-import ru.mojgorod.football.xml.config.ConfigFile;
+import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -38,7 +36,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public interface Aggregator {
 
     public void add(FootballXmlReport xmlReport);
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id);
-    public void drawCharts(final ConfigFile configFile, final String title, final String id);
+    public void print(SeasonParameters parameters);
+    public void drawCharts(SeasonParameters parameters);
 
 }
