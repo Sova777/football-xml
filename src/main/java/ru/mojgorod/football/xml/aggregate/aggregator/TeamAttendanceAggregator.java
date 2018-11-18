@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
-import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**

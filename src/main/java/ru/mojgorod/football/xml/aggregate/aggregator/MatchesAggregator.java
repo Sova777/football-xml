@@ -28,7 +28,6 @@ package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
-import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**

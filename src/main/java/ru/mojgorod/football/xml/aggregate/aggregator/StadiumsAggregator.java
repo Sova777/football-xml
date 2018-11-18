@@ -35,7 +35,6 @@ import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
-import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**

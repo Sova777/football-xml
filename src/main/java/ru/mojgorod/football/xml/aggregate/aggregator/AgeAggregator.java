@@ -15,7 +15,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
-import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
@@ -93,56 +92,58 @@ public class AgeAggregator implements Aggregator {
         out.println("|                      |-------------|-------------|-------------|-------------|-------------|-------------|");
         out.println("|                      | Игроков     | Возраст     | Игроков     | Возраст     | Игроков     | Возраст     |");
         out.println("============================================================================================================");
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            double age = 0;
-            double age2 = 0;
-            double age3 = 0;
-            int agePlayers = 0;
-            int agePlayers2 = 0;
-            int agePlayers3 = 0;
-            boolean isAgeValid1 = true;
-            boolean isAgeValid2 = true;
-            boolean isAgeValid3 = true;
+        if (parameters.isPlayerInfo()) {
+            for (String s : sortedMap.keySet()) {
+                TournamentStat stat = teams.get(s);
+                double age = 0;
+                double age2 = 0;
+                double age3 = 0;
+                int agePlayers = 0;
+                int agePlayers2 = 0;
+                int agePlayers3 = 0;
+                boolean isAgeValid1 = true;
+                boolean isAgeValid2 = true;
+                boolean isAgeValid3 = true;
 
-            double column2 = 0.3 * stat.games;
-            double column3 = 0.6 * stat.games;
-            int players2 = 0;
-            int players3 = 0;
-            for (String key : stat.players.keySet()) {
-                Double playerAge = parameters.getPlayerInfo(key).getAge(maxDate);
-                if (playerAge == null) {
-                    isAgeValid1 = false;
-                } else {
-                    age += playerAge;
-                    agePlayers++;
-                }
-                int playerGames = stat.players.get(key);
-                if (playerGames >= column2) {
-                    players2++;
+                double column2 = 0.3 * stat.games;
+                double column3 = 0.6 * stat.games;
+                int players2 = 0;
+                int players3 = 0;
+                for (String key : stat.players.keySet()) {
+                    Double playerAge = parameters.getPlayerInfo(key).getAge(maxDate);
                     if (playerAge == null) {
-                        isAgeValid2 = false;
+                        isAgeValid1 = false;
                     } else {
-                        age2 += playerAge;
-                        agePlayers2++;
+                        age += playerAge;
+                        agePlayers++;
+                    }
+                    int playerGames = stat.players.get(key);
+                    if (playerGames >= column2) {
+                        players2++;
+                        if (playerAge == null) {
+                            isAgeValid2 = false;
+                        } else {
+                            age2 += playerAge;
+                            agePlayers2++;
+                        }
+                    }
+                    if (playerGames >= column3) {
+                        players3++;
+                        if (playerAge == null) {
+                            isAgeValid3 = false;
+                        } else {
+                            age3 += playerAge;
+                            agePlayers3++;
+                        }
                     }
                 }
-                if (playerGames >= column3) {
-                    players3++;
-                    if (playerAge == null) {
-                        isAgeValid3 = false;
-                    } else {
-                        age3 += playerAge;
-                        agePlayers3++;
-                    }
-                }
+                char valid1 = isAgeValid1 ? ' ' : '*';
+                char valid2 = isAgeValid2 ? ' ' : '*';
+                char valid3 = isAgeValid3 ? ' ' : '*';
+                out.printf(Locale.US, "| %-20s | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     |%n",
+                        stat.team, stat.players.size(), age / agePlayers, valid1, players2,
+                        age2 / agePlayers2, valid2, players3, age3 / agePlayers3, valid3);
             }
-            char valid1 = isAgeValid1 ? ' ' : '*';
-            char valid2 = isAgeValid2 ? ' ' : '*';
-            char valid3 = isAgeValid3 ? ' ' : '*';
-            out.printf(Locale.US, "| %-20s | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     |%n",
-                    stat.team, stat.players.size(), age / agePlayers, valid1, players2,
-                    age2 / agePlayers2, valid2, players3, age3 / agePlayers3, valid3);
         }
         out.println("============================================================================================================");
         out.println( "* - означает, что на данный момент нет данных по возрасту одного или более игроков");

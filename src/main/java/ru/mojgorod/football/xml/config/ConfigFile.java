@@ -91,10 +91,14 @@ public class ConfigFile {
             newInstance.outputFolder = document.getElementsByTagName("output").item(0).getTextContent();
             node = document.getElementsByTagName("players").item(0);
             newInstance.playersPath = (node == null) ? null : node.getTextContent();
-            newInstance.header = document.getElementsByTagName("header").item(0).getTextContent();
-            newInstance.footer = document.getElementsByTagName("footer").item(0).getTextContent();
-            newInstance.currentSeason = document.getElementsByTagName("current").item(0).getTextContent();
-            newInstance.otherSeason = document.getElementsByTagName("other").item(0).getTextContent();
+            node = document.getElementsByTagName("header").item(0);
+            newInstance.header = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("footer").item(0);
+            newInstance.footer = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("current").item(0);
+            newInstance.currentSeason = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("other").item(0);
+            newInstance.otherSeason = (node == null) ? null : node.getTextContent();
 
             NodeList aggregatorNodes = document.getElementsByTagName("aggregator");
             int sizeAggregatorNodes = aggregatorNodes.getLength();
