@@ -24,21 +24,22 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ru.mojgorod.football.xml.aggregate.aggregator;
+package ru.mojgorod.football.xml;
 
-import java.io.PrintStream;
-import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.aggregate.SeasonsManager;
 import ru.mojgorod.football.xml.config.ConfigFile;
-import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
  *
  * @author sova
  */
-public interface Aggregator {
+public class PrintReports {
 
-    public void add(FootballXmlReport xmlReport);
-    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id);
-    public void drawCharts(final ConfigFile configFile, final String title, final String id);
+    public static void main(String[] args) {
+        final String configPath = System.getProperty("config.xml", "config.xml");
+        SeasonsManager seasonsManager = ConfigFile.readConfig(configPath);
+        seasonsManager.aggregate();
+        seasonsManager.print();
+    }
 
 }

@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.config.Config;
-import ru.mojgorod.football.xml.config.ConfigManager;
+import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
@@ -104,7 +104,7 @@ public class GoalsForAggregetor implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title, final String id) {
+    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='GoalsForAggregetor'>Время матча и забитые мячи</h2>");
@@ -168,7 +168,7 @@ public class GoalsForAggregetor implements Aggregator {
     }
 
     @Override
-    public void drawCharts(String title, String id) {
+    public void drawCharts(final ConfigFile configFile, String title, String id) {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
 
@@ -177,7 +177,7 @@ public class GoalsForAggregetor implements Aggregator {
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Мячей за первый тайм (" + title + ")");
-        chart.setOutputFile(ConfigManager.getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
+        chart.setOutputFile(configFile.getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart.addPoint(stat.team, stat.half1);
@@ -189,7 +189,7 @@ public class GoalsForAggregetor implements Aggregator {
         chart2.setFontSize(14);
         chart2.setFontSizeTitle(20);
         chart2.setTitle("Мячей за второй тайм (" + title + ")");
-        chart2.setOutputFile(ConfigManager.getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
+        chart2.setOutputFile(configFile.getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart2.addPoint(stat.team, stat.half2);

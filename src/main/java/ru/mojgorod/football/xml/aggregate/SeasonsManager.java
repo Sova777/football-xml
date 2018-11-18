@@ -39,6 +39,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlParser;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
@@ -46,13 +47,15 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class SeasonManager {
+public class SeasonsManager {
 
     private final ArrayList<Item> items;
     private final Config config = new Config();
+    private final ConfigFile configFile;
 
-    public SeasonManager() {
-        items = new ArrayList<>();
+    public SeasonsManager(ConfigFile configFile) {
+        this.items = new ArrayList<>();
+        this.configFile = configFile;
     }
 
     public void add(final Season season, final String filePath, final Aggregator... aggregator) {
@@ -71,12 +74,12 @@ public class SeasonManager {
                                     aggregator.add(xmlReport);
                                 }
                             } catch (ParserConfigurationException | SAXException | IOException ex) {
-                                Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     });
                 } catch (IOException ex) {
-                    Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -93,8 +96,8 @@ public class SeasonManager {
                     printHeader(out, item);
                     for (Aggregator aggregator : item.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
-                        aggregator.print(config, out, title, id);
-                        aggregator.drawCharts(title, id);
+                        aggregator.print(configFile, config, out, title, id);
+                        aggregator.drawCharts(configFile, title, id);
                     }
                     printFooter(out, item);
                 } finally {
@@ -141,7 +144,7 @@ public class SeasonManager {
                 out.println(line.replaceAll("##title##", title).replaceAll("##seasons##", seasonsLine.toString()));
             }
         } catch (IOException ex) {
-            Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -155,6 +158,10 @@ public class SeasonManager {
 
     public Config getConfig() {
         return config;
+    }
+
+    public ConfigFile getConfigFile() {
+        return configFile;
     }
 
     private static class Item {
@@ -194,7 +201,7 @@ public class SeasonManager {
                             out.close();
                         }
                         out = null;
-                        Logger.getLogger(SeasonManager.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

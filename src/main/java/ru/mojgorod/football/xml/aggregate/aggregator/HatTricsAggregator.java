@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import ru.mojgorod.football.xml.config.Config;
+import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -76,7 +77,7 @@ public class HatTricsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final Config config, final PrintStream out, final String title, final String id) {
+    public void print(final ConfigFile configFile, final Config config, final PrintStream out, final String title, final String id) {
         if (config.isPlayerInfo()) {
             for (TournamentStat pl : matches) {
                 pl.name = config.getPlayerInfo(pl.key).getName();
@@ -142,7 +143,7 @@ public class HatTricsAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(String title, String id) {
+    public void drawCharts(final ConfigFile configFile, String title, String id) {
     }
 
 }

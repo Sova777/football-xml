@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.PrintXML;
+import ru.mojgorod.football.xml.PrintReports;
 
 /**
  *
@@ -156,7 +156,7 @@ public class FootballXmlReport {
         try {
             goals1 = Integer.parseInt(getGoals1());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE,
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
                     "Match ID: " + matchId + ", Date: " + date, ex);
             return null;
         }
@@ -176,7 +176,7 @@ public class FootballXmlReport {
         try {
             goals2 = Integer.parseInt(getGoals2());
         } catch (NumberFormatException ex) {
-            Logger.getLogger(PrintXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return goals2;

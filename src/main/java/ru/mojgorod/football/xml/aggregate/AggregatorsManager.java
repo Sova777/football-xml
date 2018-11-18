@@ -35,11 +35,11 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class AggregatorManager {
+public class AggregatorsManager {
 
     private final ArrayList<Aggregator> aggregators = new ArrayList<>();
 
-    public AggregatorManager(Aggregator... aggregators) {
+    public AggregatorsManager(Aggregator... aggregators) {
         this.aggregators.addAll(Arrays.asList(aggregators));
     }
 
