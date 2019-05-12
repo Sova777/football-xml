@@ -197,7 +197,7 @@ public class ComeBackAggregator implements Aggregator {
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='ComeBackAggregator'>Изменили исход игры в конце матча</h2>");
-        out.println("<p class=\"text\">Проигрывая к 60 (65, 70, 75, 80, 85, 90) минуте, сделали ничью. Или выиграли, проигрывая к 60 (65, 70, 75, 80, 85, 90) минуте.</p>");
+        out.println("<p class=\"text\">Проигрывая к 60 (65, 70, 75, 80, 85, 90) минуте, выиграли или сделали ничью. Или сделали ничью, проигрывая к 60 (65, 70, 75, 80, 85, 90) минуте.</p>");
         out.println("<pre>");
         out.println("=========================================================================");
         out.println("| Команда              |                     Матчей                     |");

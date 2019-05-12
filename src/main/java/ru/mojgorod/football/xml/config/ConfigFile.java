@@ -43,23 +43,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonsManager;
-import ru.mojgorod.football.xml.aggregate.aggregator.AgeAggregator;
 import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.CoachesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.ComeBackAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.GoalkeepersAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.GoalsAgainstAggregetor;
-import ru.mojgorod.football.xml.aggregate.aggregator.GoalsForAggregetor;
-import ru.mojgorod.football.xml.aggregate.aggregator.HatTricsAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.MatchesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.PlayersAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.RefereesAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StadiumsAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StrongLoseAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.StrongWinAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.TeamAttendanceAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.TeamsAggregator;
-import ru.mojgorod.football.xml.aggregate.aggregator.TopScoresAggregator;
 import ru.mojgorod.football.xml.library.FootballXmlPlayersParser;
 
 /**
@@ -164,41 +148,14 @@ public class ConfigFile {
     }
 
     private static Aggregator initAggregator(String aggregatorName) {
-        switch (aggregatorName) {
-            case "Matches":
-                return new MatchesAggregator();
-            case "TeamAttendance":
-                return new TeamAttendanceAggregator();
-            case "Stadiums":
-                return new StadiumsAggregator();
-            case "StrongWin":
-                return new StrongWinAggregator();
-            case "StrongLose":
-                return new StrongLoseAggregator();
-            case "GoalsFor":
-                return new GoalsForAggregetor();
-            case "GoalsAgainst":
-                return new GoalsAgainstAggregetor();
-            case "ComeBack":
-                return new ComeBackAggregator();
-            case "Teams":
-                return new TeamsAggregator();
-            case "Referees":
-                return new RefereesAggregator();
-            case "HatTrics":
-                return new HatTricsAggregator();
-            case "Players":
-                return new PlayersAggregator();
-            case "Age":
-                return new AgeAggregator();
-            case "Coaches":
-                return new CoachesAggregator();
-            case "Goalkeepers":
-                return new GoalkeepersAggregator();
-            case "TopScores":
-                return new TopScoresAggregator();
+        try {
+            Class clazz = Class.forName(Aggregator.class.getPackageName() + "." + aggregatorName + "Aggregator");
+            return (Aggregator) clazz.newInstance();
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            throw new RuntimeException("Невалидное имя агрегатора: " + aggregatorName);
         }
-        throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
     }
 
     public String getPlayersPath() {

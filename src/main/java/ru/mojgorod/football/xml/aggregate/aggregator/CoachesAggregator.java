@@ -99,7 +99,7 @@ public class CoachesAggregator implements Aggregator {
             } else if (team.equals(team2)) {
                 statCurrent = stat2;
             } else {
-                Logger.getLogger(GoalsForAggregetor.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
+                Logger.getLogger(GoalsForAggregator.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
                 continue;
             }
 

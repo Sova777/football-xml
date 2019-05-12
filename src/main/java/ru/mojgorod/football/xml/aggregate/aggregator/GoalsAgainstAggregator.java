@@ -35,8 +35,6 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.chart.BarChart;
-import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -45,7 +43,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class GoalsForAggregetor implements Aggregator {
+public class GoalsAgainstAggregator implements Aggregator {
 
     private final HashMap<String, TournamentStat> teams = new HashMap<>();
 
@@ -63,13 +61,13 @@ public class GoalsForAggregetor implements Aggregator {
                 String key = null;
                 String teamValue = null;
                 if (team.equals(team1)) {
-                    key = event.isAutoGoal() ? teamKey2 : teamKey1;
-                    teamValue = event.isAutoGoal() ? xmlReport.getTeam2() : xmlReport.getTeam1();
-                } else if (team.equals(team2)) {
                     key = event.isAutoGoal() ? teamKey1 : teamKey2;
                     teamValue = event.isAutoGoal() ? xmlReport.getTeam1() : xmlReport.getTeam2();
+                } else if (team.equals(team2)) {
+                    key = event.isAutoGoal() ? teamKey2 : teamKey1;
+                    teamValue = event.isAutoGoal() ? xmlReport.getTeam2() : xmlReport.getTeam1();
                 } else {
-                    Logger.getLogger(GoalsForAggregetor.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
+                    Logger.getLogger(GoalsAgainstAggregator.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
                 }
                 TournamentStat stat = TournamentStat.get(teams, key);
                 stat.team = teamValue;
@@ -107,7 +105,7 @@ public class GoalsForAggregetor implements Aggregator {
         PrintStream out = parameters.getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
-        out.println("<h2 id='GoalsForAggregetor'>Время матча и забитые мячи</h2>");
+        out.println("<h2 id='GoalsAgainstAggregetor'>Время матча и пропущенные мячи</h2>");
         out.println("<pre>");
         out.println("==============================================================================================================");
         out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");
@@ -120,8 +118,6 @@ public class GoalsForAggregetor implements Aggregator {
         }
         out.println("==============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_goalsfor1_v" + parameters.getSeason().getId() + ".png'>");
-        out.println("<img src='image/stat_goalsfor2_v" + parameters.getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -169,36 +165,6 @@ public class GoalsForAggregetor implements Aggregator {
 
     @Override
     public void drawCharts(final SeasonParameters parameters) {
-        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
-        sortedMap.putAll(teams);
-
-        String title = parameters.getSeason().getTitle();
-        String id = parameters.getSeason().getId();
-
-        BarChart chart = new HorizontalBarChart(500, 400);
-        chart.setCopyright("(c) football.mojgorod.ru");
-        chart.setFontSize(14);
-        chart.setFontSizeTitle(20);
-        chart.setTitle("Мячей за первый тайм (" + title + ")");
-        chart.setOutputFile(parameters.getConfigFile().getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            chart.addPoint(stat.team, stat.half1);
-        }
-        chart.draw();
-
-        BarChart chart2 = new HorizontalBarChart(500, 400);
-        chart2.setCopyright("(c) football.mojgorod.ru");
-        chart2.setFontSize(14);
-        chart2.setFontSizeTitle(20);
-        chart2.setTitle("Мячей за второй тайм (" + title + ")");
-        chart2.setOutputFile(parameters.getConfigFile().getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            chart2.addPoint(stat.team, stat.half2);
-        }
-        chart2.draw();
-
     }
 
 }

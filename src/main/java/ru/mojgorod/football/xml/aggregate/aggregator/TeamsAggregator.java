@@ -86,7 +86,7 @@ public class TeamsAggregator implements Aggregator {
                 statCurrent = stat2;
                 statOpponent = stat1;
             } else {
-                Logger.getLogger(GoalsForAggregetor.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
+                Logger.getLogger(GoalsForAggregator.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
                 continue;
             }
 
