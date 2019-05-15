@@ -9,11 +9,14 @@ import java.io.PrintStream;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.library.FootballEventType;
+import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 import ru.mojgorod.football.xml.library.Utils;
 
@@ -35,8 +38,24 @@ public class MonthsAggregator implements Aggregator {
         TournamentStat stat = TournamentStat.get(months, yearAndMonth);
         stat.attendance += attendanceValue;
         stat.games++;
-        stat.goals += xmlReport.getGoalsInt1() + xmlReport.getGoalsInt2();
         stat.month = yearAndMonth;
+
+        List<FootballXmlEvent> events = xmlReport.getEvents();
+        for (FootballXmlEvent event : events) {
+            FootballEventType eventType = event.getEventType();
+            if (eventType.isAnyGoal()) {
+                stat.goals++;
+            }
+            if (eventType.isRedCard()) {
+                stat.redCards++;
+            } else if (eventType.isRedAndYellowCard()) {
+                stat.redAndYellowCards++;
+            } else if (eventType.isYellowCard()) {
+                stat.yellowCards++;
+            } else if (eventType.isPenaltyGoal() || eventType.isPenaltyMissed()) {
+                stat.penalties++;
+            }
+        }
     }
 
     @Override
@@ -46,18 +65,26 @@ public class MonthsAggregator implements Aggregator {
         sortedMap.putAll(months);
         out.println("<h2 id='MonthsAggregator'>Статистика за месяц</h2>");
         out.println("<pre>");
-        out.println("====================================================");
-        out.println("| Месяц    | Матчей |    Мячей    |   Зрителей     |");
-        out.println("|          |        | (в среднем) |  (в среднем)   |");
-        out.println("====================================================");
+        out.println("============================================================================================================");
+        out.println("| Месяц    | Матчей |    Мячей    |  Удалений   |  Два преду- |  Предупре-  |  Пенальти   |   Зрителей     |");
+        out.println("|          |        | (в среднем) | (в среднем) |  преждения  |  ждений     | (в среднем) |  (в среднем)   |");
+        out.println("|          |        |             |             | (в среднем) | (в среднем) |             |                |");
+        out.println("============================================================================================================");
         for (Integer s : sortedMap.keySet()) {
             TournamentStat stat = months.get(s);
             float goalsAverage = (stat.games == 0) ? 0.0f : (float)stat.goals / stat.games;
             int attendanceAverage = (stat.games == 0) ? 0 : stat.attendance / stat.games;
-            out.printf("| %-8s | %-6d | %4d(%-5.2f) | %6d(%-6d) |%n",
-                    Utils.getMonthName(stat.month % 100), stat.games, stat.goals, goalsAverage, stat.attendance, attendanceAverage);
+            float redCardsAverage = (stat.games == 0) ? 0 : (float)stat.redCards / stat.games;
+            float redAndYellowCardsAverage = (stat.games == 0) ? 0 : (float)stat.redAndYellowCards / stat.games;
+            float yellowCardsAverage = (stat.games == 0) ? 0 : (float)stat.yellowCards / stat.games;
+            float penaltiesAverage = (stat.games == 0) ? 0 : (float)stat.penalties / stat.games;
+            out.printf("| %-8s | %-6d | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %6d(%-6d) |%n",
+                    Utils.getMonthName(stat.month % 100), stat.games, stat.goals, goalsAverage,
+                    stat.redCards, redCardsAverage, stat.redAndYellowCards, redAndYellowCardsAverage,
+                    stat.yellowCards, yellowCardsAverage, stat.penalties, penaltiesAverage,
+                    stat.attendance, attendanceAverage);
         }
-        out.println("====================================================");
+        out.println("============================================================================================================");
         out.println("</pre>");
         out.println("<img src='image/stat_months_v" + parameters.getSeason().getId() + ".png'><br>");
     }
@@ -68,6 +95,10 @@ public class MonthsAggregator implements Aggregator {
         private int attendance = 0;
         private int games = 0;
         private int goals = 0;
+        private int redCards = 0;
+        private int redAndYellowCards = 0;
+        private int yellowCards = 0;
+        private int penalties = 0;        
 
         public static TournamentStat get(final HashMap<Integer, TournamentStat> hashStat, final Integer keyStat) {
             if (!hashStat.containsKey(keyStat)) {

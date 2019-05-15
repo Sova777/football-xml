@@ -32,6 +32,9 @@ package ru.mojgorod.football.xml.library;
  */
 public class Utils {
 
+    private final static String[] MESSAGES_YEARS = new String[] { "год", "года", "лет" };
+    private final static String[] MESSAGES_DAYS = new String[] { "день", "дня", "дней" };
+
     public static String getMonthName(int month) {
         switch(month) {
             case 1:
@@ -60,6 +63,38 @@ public class Utils {
                 return "Декабрь";
         }
         throw new RuntimeException("Wrong month. Expected: number from 1 to 12, Real: " + month);
+    }
+
+    private static String getLocalizedMessage(long number, String[] messages) {
+        int index = 2;
+        if (number > 4 && number < 20) {
+            index = 2;
+        } else {
+            long lastNumber = number % 10;
+            if (lastNumber == 0) {
+                index = 2;
+            } else if (lastNumber == 1) {
+                index = 0;
+            } else if (lastNumber > 1 && lastNumber < 5) {
+                index = 1;
+            }
+        }
+        return String.format("%d %s", number, messages[index]);
+    }
+
+    public static String getLocalizedYearsMessage(long years) {
+        return getLocalizedMessage(years, MESSAGES_YEARS);
+    }
+
+    public static String getLocalizedDaysMessage(long days) {
+        return getLocalizedMessage(days, MESSAGES_DAYS);
+    }
+
+    public static String getLocalizedMessage(double yearsValue) {
+        long years = (long)yearsValue;
+        long days = (long)((yearsValue - years) * 366.0);
+        return String.format("%s %s", getLocalizedMessage(years, MESSAGES_YEARS),
+                getLocalizedMessage(days, MESSAGES_DAYS));
     }
 
 }

@@ -30,11 +30,14 @@ import java.io.PrintStream;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.library.FootballEventType;
+import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
@@ -52,8 +55,24 @@ public class ToursAggregator implements Aggregator {
         TournamentStat stat = TournamentStat.get(tours, round);
         stat.attendance += attendanceValue;
         stat.games++;
-        stat.goals += xmlReport.getGoalsInt1() + xmlReport.getGoalsInt2();
         stat.tour = round;
+
+        List<FootballXmlEvent> events = xmlReport.getEvents();
+        for (FootballXmlEvent event : events) {
+            FootballEventType eventType = event.getEventType();
+            if (eventType.isAnyGoal()) {
+                stat.goals++;
+            }
+            if (eventType.isRedCard()) {
+                stat.redCards++;
+            } else if (eventType.isRedAndYellowCard()) {
+                stat.redAndYellowCards++;
+            } else if (eventType.isYellowCard()) {
+                stat.yellowCards++;
+            } else if (eventType.isPenaltyGoal() || eventType.isPenaltyMissed()) {
+                stat.penalties++;
+            }
+        }
     }
 
     @Override
@@ -63,18 +82,25 @@ public class ToursAggregator implements Aggregator {
         sortedMap.putAll(tours);
         out.println("<h2 id='ToursAggregator'>Статистика за тур</h2>");
         out.println("<pre>");
-        out.println("===============================================");
-        out.println("| Тур | Матчей |    Мячей    |   Зрителей     |");
-        out.println("|     |        | (в среднем) |  (в среднем)   |");
-        out.println("===============================================");
+        out.println("=======================================================================================================");
+        out.println("| Тур | Матчей |    Мячей    |  Удалений   |  Два преду- |  Предупре-  |  Пенальти   |   Зрителей     |");
+        out.println("|     |        | (в среднем) | (в среднем) |  преждения  |  ждений     | (в среднем) |  (в среднем)   |");
+        out.println("|     |        |             |             | (в среднем) | (в среднем) |             |                |");
+        out.println("=======================================================================================================");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = tours.get(s);
             float goalsAverage = (stat.games == 0) ? 0.0f : (float)stat.goals / stat.games;
             int attendanceAverage = (stat.games == 0) ? 0 : stat.attendance / stat.games;
-            out.printf("| %-3s | %-6d | %4d(%-5.2f) | %6d(%-6d) |%n",
-                    stat.tour, stat.games, stat.goals, goalsAverage, stat.attendance, attendanceAverage);
+            float redCardsAverage = (stat.games == 0) ? 0 : (float)stat.redCards / stat.games;
+            float redAndYellowCardsAverage = (stat.games == 0) ? 0 : (float)stat.redAndYellowCards / stat.games;
+            float yellowCardsAverage = (stat.games == 0) ? 0 : (float)stat.yellowCards / stat.games;
+            float penaltiesAverage = (stat.games == 0) ? 0 : (float)stat.penalties / stat.games;
+            out.printf("| %-3s | %-6d | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %4d(%-5.2f) | %6d(%-6d) |%n",
+                    stat.tour, stat.games, stat.goals, goalsAverage, stat.redCards, redCardsAverage,
+                    stat.redAndYellowCards, redAndYellowCardsAverage, stat.yellowCards, yellowCardsAverage,
+                    stat.penalties, penaltiesAverage, stat.attendance, attendanceAverage);
         }
-        out.println("===============================================");
+        out.println("=======================================================================================================");
         out.println("</pre>");
         out.println("<img src='image/stat_tours_v" + parameters.getSeason().getId() + ".png'><br>");
     }
@@ -85,6 +111,10 @@ public class ToursAggregator implements Aggregator {
         private int attendance = 0;
         private int games = 0;
         private int goals = 0;
+        private int redCards = 0;
+        private int redAndYellowCards = 0;
+        private int yellowCards = 0;
+        private int penalties = 0;        
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {

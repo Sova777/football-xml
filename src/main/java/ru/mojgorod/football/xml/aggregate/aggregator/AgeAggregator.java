@@ -36,10 +36,12 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
+import ru.mojgorod.football.xml.library.Utils;
 
 /**
  *
@@ -108,11 +110,11 @@ public class AgeAggregator implements Aggregator {
         sortedMap.putAll(teams);
         out.println("<h2 id='AgeAggregator'>Средний возраст игроков в команде</h2>");
         out.println("<pre>");
-        out.println("============================================================================================================");
-        out.println("| Команда              | Играл хоть 1 раз          | Не меньше чем 30% матчей  | Не меньше чем 60% матчей  |");
-        out.println("|                      |-------------|-------------|-------------|-------------|-------------|-------------|");
-        out.println("|                      | Игроков     | Возраст     | Игроков     | Возраст     | Игроков     | Возраст     |");
-        out.println("============================================================================================================");
+        out.println("=================================================================================================================================");
+        out.println("| Команда              | Играл хоть 1 раз                 | Не меньше чем 30% матчей         | Не меньше чем 60% матчей         |");
+        out.println("|                      |-------------|--------------------|-------------|--------------------|-------------|--------------------|");
+        out.println("|                      | Игроков     | Возраст            | Игроков     | Возраст            | Игроков     | Возраст            |");
+        out.println("=================================================================================================================================");
         if (parameters.isPlayerInfo()) {
             for (String s : sortedMap.keySet()) {
                 TournamentStat stat = teams.get(s);
@@ -131,7 +133,8 @@ public class AgeAggregator implements Aggregator {
                 int players2 = 0;
                 int players3 = 0;
                 for (String key : stat.players.keySet()) {
-                    Double playerAge = parameters.getPlayerInfo(key).getAge(maxDate);
+                    Age ageValue = parameters.getPlayerInfo(key).getAge(maxDate);
+                    Double playerAge = (ageValue == null) ? null : ageValue.getDoubleValue();
                     if (playerAge == null) {
                         isAgeValid1 = false;
                     } else {
@@ -161,12 +164,13 @@ public class AgeAggregator implements Aggregator {
                 char valid1 = isAgeValid1 ? ' ' : '*';
                 char valid2 = isAgeValid2 ? ' ' : '*';
                 char valid3 = isAgeValid3 ? ' ' : '*';
-                out.printf(Locale.US, "| %-20s | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     | %-11d | %-5.2f %c     |%n",
-                        stat.team, stat.players.size(), age / agePlayers, valid1, players2,
-                        age2 / agePlayers2, valid2, players3, age3 / agePlayers3, valid3);
+                out.printf(Locale.US, "| %-20s | %-11d | %-16s %c | %-11d | %-16s %c | %-11d | %-16s %c |%n",
+                        stat.team, stat.players.size(), Utils.getLocalizedMessage(age / agePlayers), valid1,
+                        players2, Utils.getLocalizedMessage(age2 / agePlayers2), valid2,
+                        players3, Utils.getLocalizedMessage(age3 / agePlayers3), valid3);
             }
         }
-        out.println("============================================================================================================");
+        out.println("=================================================================================================================================");
         out.println( "* - означает, что на данный момент нет данных по возрасту одного или более игроков");
         out.println( "</pre>");
     }

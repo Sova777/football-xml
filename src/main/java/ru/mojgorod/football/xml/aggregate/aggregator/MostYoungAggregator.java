@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
@@ -99,7 +100,7 @@ public class MostYoungAggregator implements Aggregator {
     public void print(final SeasonParameters parameters) {
         PrintStream out = parameters.getOutput();
         for (Map.Entry<String, TournamentStat> entry : players.entrySet()) {
-            Double playerAge = parameters.getPlayerInfo(entry.getKey()).getAge(entry.getValue().gameDateInt);
+            Age playerAge = parameters.getPlayerInfo(entry.getKey()).getAge(entry.getValue().gameDateInt);
             players.get(entry.getKey()).age = playerAge;
             players.get(entry.getKey()).name = parameters.getPlayerInfo(entry.getKey()).getName();
         }
@@ -107,20 +108,20 @@ public class MostYoungAggregator implements Aggregator {
         sortedMap.putAll(players);
         out.println("<h2 id='MostYoungAggregator'>Наиболее молодые игроки (возраст в момент первой игры)</h2>");
         out.println("<pre>");
-        out.println("===============================================================================================================");
-        out.println("| Игрок                | Команда               | Возраст | Матч                                               |");
-        out.println("===============================================================================================================");
+        out.println("========================================================================================================================");
+        out.println("| Игрок                | Команда               | Возраст          | Матч                                               |");
+        out.println("========================================================================================================================");
         int counter = 0;
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = players.get(s);
-            out.printf(Locale.US, "| %-20s | %-21s | %-7.2f | %-50s |%n",
-                    stat.name, stat.team, stat.age, stat.match);
+            out.printf(Locale.US, "| %-20s | %-21s | %-16s | %-50s |%n",
+                    stat.name, stat.team, stat.age.getStringValue(), stat.match);
             counter++;
             if (counter >= 10) {
                 break;
             }
         }
-        out.println("===============================================================================================================");
+        out.println("========================================================================================================================");
         out.println( "</pre>");
     }
 
@@ -130,7 +131,7 @@ public class MostYoungAggregator implements Aggregator {
         private String team = "";
         private String match = "";
         private Integer gameDateInt = Integer.MAX_VALUE;
-        private Double age = Double.MAX_VALUE;
+        private Age age = null;
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {
@@ -154,14 +155,10 @@ public class MostYoungAggregator implements Aggregator {
         public int compare(String key1, String key2) {
             TournamentStat stat1 = map.get(key1);
             TournamentStat stat2 = map.get(key2);
-            Double value1 = stat1.age;
-            if (value1 == null) {
-                value1 = Double.MAX_VALUE;
-            }
-            Double value2 = stat2.age;
-            if (value2 == null) {
-                value2 = Double.MAX_VALUE;
-            }
+            Age age1 = stat1.age;
+            Double value1 = age1 != null ? age1.getDoubleValue() : Double.MAX_VALUE;
+            Age age2 = stat2.age;
+            Double value2 = age2 != null ? age2.getDoubleValue() : Double.MAX_VALUE;
             if (value1 > value2) {
                 return 1;
             } else if (value1 < value2) {
