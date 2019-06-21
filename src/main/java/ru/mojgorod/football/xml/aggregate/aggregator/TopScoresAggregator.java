@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -44,7 +44,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class TopScoresAggregator implements Aggregator {
+public class TopScoresAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> players = new HashMap<>();
 
@@ -73,14 +73,14 @@ public class TopScoresAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         final int max = 10;
-        if (parameters.isPlayerInfo()) {
+        if (isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
-                String fixedName = parameters.getPlayerInfo(pl.id).getName();
+                String fixedName = getPlayerInfo(pl.id).getName();
                 if (fixedName != null) {
-                    pl.name = parameters.getPlayerInfo(pl.id).getName();
+                    pl.name = getPlayerInfo(pl.id).getName();
                 }
             }
         }
@@ -144,7 +144,7 @@ public class TopScoresAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -166,10 +166,6 @@ public class TopScoresAggregator implements Aggregator {
             return collator.compare(name1, name2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

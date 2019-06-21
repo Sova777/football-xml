@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -47,7 +47,7 @@ import ru.mojgorod.football.xml.library.Utils;
  *
  * @author sova
  */
-public class AgeAggregator implements Aggregator {
+public class AgeAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> teams = new HashMap<>();
     private int maxDate = 0;
@@ -104,8 +104,8 @@ public class AgeAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='AgeAggregator'>Средний возраст игроков в команде</h2>");
@@ -115,7 +115,7 @@ public class AgeAggregator implements Aggregator {
         out.println("|                      |-------------|--------------------|-------------|--------------------|-------------|--------------------|");
         out.println("|                      | Игроков     | Возраст            | Игроков     | Возраст            | Игроков     | Возраст            |");
         out.println("=================================================================================================================================");
-        if (parameters.isPlayerInfo()) {
+        if (isPlayerInfo()) {
             for (String s : sortedMap.keySet()) {
                 TournamentStat stat = teams.get(s);
                 double age = 0;
@@ -133,7 +133,7 @@ public class AgeAggregator implements Aggregator {
                 int players2 = 0;
                 int players3 = 0;
                 for (String key : stat.players.keySet()) {
-                    Age ageValue = parameters.getPlayerInfo(key).getAge(maxDate);
+                    Age ageValue = getPlayerInfo(key).getAge(maxDate);
                     Double playerAge = (ageValue == null) ? null : ageValue.getDoubleValue();
                     if (playerAge == null) {
                         isAgeValid1 = false;
@@ -204,7 +204,7 @@ public class AgeAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -219,10 +219,6 @@ public class AgeAggregator implements Aggregator {
             return collator.compare(value1, value2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

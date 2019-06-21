@@ -73,9 +73,9 @@ public class BarChart {
     public static final Color COLOR_GRAY = new Color(160, 160, 160);
     public static final Color COLOR_LIGHT_BLACK = new Color(49, 49, 100);
 
-    private static float dashArray[] = {1.0f};
+    private static final float DASH_ARRAY[] = {1.0f};
     protected static BasicStroke dashed =
-            new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dashArray, 0.0f);
+            new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, DASH_ARRAY, 0.0f);
 
     public BarChart(int width, int height) {
         this.width = width;

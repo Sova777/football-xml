@@ -65,7 +65,6 @@ public class HorizontalBarChart extends BarChart {
         final Font LABEL_FONT = ARIAL_BLACK_FONT.deriveFont(
                 Collections.singletonMap(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD)
         );
-                /*new Font("Arial Black", Font.PLAIN, fontSize)*/;
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
         Stroke defaultStroke = g.getStroke();
 

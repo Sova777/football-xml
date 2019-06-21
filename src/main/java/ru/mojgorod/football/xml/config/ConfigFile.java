@@ -41,9 +41,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.aggregate.Season;
 import ru.mojgorod.football.xml.aggregate.SeasonsManager;
-import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.library.FootballXmlPlayersParser;
 
 /**
@@ -149,7 +149,7 @@ public class ConfigFile {
 
     private static Aggregator initAggregator(String aggregatorName) {
         try {
-            Class clazz = Class.forName(Aggregator.class.getPackageName() + "." + aggregatorName + "Aggregator");
+            Class clazz = Class.forName(Aggregator.class.getPackageName() + ".aggregator." + aggregatorName + "Aggregator");
             return (Aggregator) clazz.newInstance();
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);

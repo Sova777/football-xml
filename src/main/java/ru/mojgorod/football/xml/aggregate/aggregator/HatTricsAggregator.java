@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -43,9 +43,10 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class HatTricsAggregator implements Aggregator {
+public class HatTricsAggregator extends Aggregator {
 
     private final ArrayList<TournamentStat> matches = new ArrayList<>();
+
     @Override
     public void add(FootballXmlReport xmlReport) {
         HashMap<String, MatchStat> matchStat = new HashMap<>();
@@ -76,11 +77,11 @@ public class HatTricsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
-        if (parameters.isPlayerInfo()) {
+    public void print() {
+        PrintStream out = getOutput();
+        if (isPlayerInfo()) {
             for (TournamentStat pl : matches) {
-                pl.name = parameters.getPlayerInfo(pl.key).getName();
+                pl.name = getPlayerInfo(pl.key).getName();
             }
         }
         Collections.sort(matches, new StatArrayComparator());
@@ -140,10 +141,6 @@ public class HatTricsAggregator implements Aggregator {
             return collator.compare(value1, value2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

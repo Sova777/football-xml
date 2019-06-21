@@ -26,7 +26,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,12 +37,10 @@ import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
  */
 public class PlayersManager {
     
-    private final ArrayList<FootballXmlPlayersInfo> players = new ArrayList<>();
     private final HashMap<String, FootballXmlPlayersInfo> playersHash = new HashMap<>();
     private static final FootballXmlPlayersInfo EMPTY_PLAYER  = new FootballXmlPlayersInfo();
 
     public void addPlayer(FootballXmlPlayersInfo player) {
-        players.add(player);
         playersHash.put(player.getId(), player);
     }
 

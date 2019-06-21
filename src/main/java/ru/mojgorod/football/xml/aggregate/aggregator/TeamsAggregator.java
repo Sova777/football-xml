@@ -37,7 +37,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
@@ -47,7 +47,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class TeamsAggregator implements Aggregator {
+public class TeamsAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> teams = new HashMap<>();
 
@@ -121,8 +121,8 @@ public class TeamsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
         sortedMap.putAll(teams);
         out.println("<h2 id='TeamsAggregator'>Командная статистика</h2>");
@@ -174,7 +174,7 @@ public class TeamsAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -191,8 +191,4 @@ public class TeamsAggregator implements Aggregator {
 
     }
     
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
-    }
-
 }

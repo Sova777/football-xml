@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
@@ -45,7 +45,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class PlayersAggregator implements Aggregator {
+public class PlayersAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> players = new HashMap<>();
 
@@ -77,7 +77,7 @@ public class PlayersAggregator implements Aggregator {
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
             String team = event.getTeam();
-            String teamId = null;
+            String teamId;
             if (team.equals(team1)) {
                 teamId = teamId1;
             } else if (team.equals(team2)) {
@@ -127,11 +127,11 @@ public class PlayersAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
-        if (parameters.isPlayerInfo()) {
+    public void print() {
+        PrintStream out = getOutput();
+        if (isPlayerInfo()) {
             for (TournamentStat pl : players.values()) {
-                String name = parameters.getPlayerInfo(pl.id).getName();
+                String name = getPlayerInfo(pl.id).getName();
                 if (name != null) {
                     pl.name = name;
                 }
@@ -188,7 +188,7 @@ public class PlayersAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -217,10 +217,6 @@ public class PlayersAggregator implements Aggregator {
             return collator.compare(key1, key2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

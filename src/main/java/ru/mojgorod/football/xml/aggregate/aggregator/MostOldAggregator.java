@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -45,7 +45,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class MostOldAggregator implements Aggregator {
+public class MostOldAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> players = new HashMap<>();
 
@@ -97,12 +97,12 @@ public class MostOldAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         for (Map.Entry<String, TournamentStat> entry : players.entrySet()) {
-            Age playerAge = parameters.getPlayerInfo(entry.getKey()).getAge(entry.getValue().gameDateInt);
+            Age playerAge = getPlayerInfo(entry.getKey()).getAge(entry.getValue().gameDateInt);
             players.get(entry.getKey()).age = playerAge;
-            players.get(entry.getKey()).name = parameters.getPlayerInfo(entry.getKey()).getName();
+            players.get(entry.getKey()).name = getPlayerInfo(entry.getKey()).getName();
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
@@ -145,7 +145,7 @@ public class MostOldAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -169,10 +169,6 @@ public class MostOldAggregator implements Aggregator {
             return collator.compare(name1, name2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

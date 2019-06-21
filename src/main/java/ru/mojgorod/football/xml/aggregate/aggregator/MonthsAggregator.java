@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -24,7 +24,7 @@ import ru.mojgorod.football.xml.library.Utils;
  *
  * @author sova
  */
-public class MonthsAggregator implements Aggregator {
+public class MonthsAggregator extends Aggregator {
 
     private final HashMap<Integer, TournamentStat> months = new HashMap<>();
 
@@ -59,8 +59,8 @@ public class MonthsAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
         sortedMap.putAll(months);
         out.println("<h2 id='MonthsAggregator'>Статистика за месяц</h2>");
@@ -86,7 +86,7 @@ public class MonthsAggregator implements Aggregator {
         }
         out.println("============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_months_v" + parameters.getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_months_v" + getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -112,7 +112,7 @@ public class MonthsAggregator implements Aggregator {
     static private class StatComparator implements Comparator<Integer> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<Integer, TournamentStat> map;
+        private final HashMap<Integer, TournamentStat> map;
 
         public StatComparator(final HashMap<Integer, TournamentStat> map) {
             this.map = map;
@@ -128,7 +128,7 @@ public class MonthsAggregator implements Aggregator {
     }
 
     @Override
-    public void drawCharts(final SeasonParameters parameters) {
+    public void drawCharts() {
         TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
         sortedMap.putAll(months);
         int items = months.size();
@@ -137,15 +137,15 @@ public class MonthsAggregator implements Aggregator {
             height += 16 * (items - 16);
         }
 
-        String title = parameters.getSeason().getTitle();
-        String id = parameters.getSeason().getId();
+        String title = getSeason().getTitle();
+        String id = getSeason().getId();
 
         BarChart chart = new HorizontalBarChart(800, height);
         chart.setCopyright("(c) football.mojgorod.ru");
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость за месяц (" + title + ")");
-        String outputFolder = parameters.getConfigFile().getOutputFolder();
+        String outputFolder = getConfigFile().getOutputFolder();
         chart.setOutputFile(outputFolder + "/image/stat_months_v" + id + ".png");
         for (Integer s : sortedMap.keySet()) {
             TournamentStat stat = months.get(s);

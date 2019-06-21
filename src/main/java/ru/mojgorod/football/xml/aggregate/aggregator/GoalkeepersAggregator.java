@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -44,7 +44,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class GoalkeepersAggregator implements Aggregator {
+public class GoalkeepersAggregator extends Aggregator {
 
 
     private final HashMap<String, TournamentStat> keepers = new HashMap<>();
@@ -166,11 +166,11 @@ public class GoalkeepersAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
-        if (parameters.isPlayerInfo()) {
+    public void print() {
+        PrintStream out = getOutput();
+        if (isPlayerInfo()) {
             for (TournamentStat pl : keepers.values()) {
-                String name = parameters.getPlayerInfo(pl.key).getName();
+                String name = getPlayerInfo(pl.key).getName();
                 if (name != null) {
                     pl.name = name;
                 }
@@ -235,7 +235,7 @@ public class GoalkeepersAggregator implements Aggregator {
     static private class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private HashMap<String, TournamentStat> map;
+        private final HashMap<String, TournamentStat> map;
 
         public StatComparator(final HashMap<String, TournamentStat> map) {
             this.map = map;
@@ -264,10 +264,6 @@ public class GoalkeepersAggregator implements Aggregator {
             return collator.compare(key1, key2);
         }
         
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }

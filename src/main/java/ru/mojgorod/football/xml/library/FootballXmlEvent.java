@@ -56,7 +56,7 @@ public class FootballXmlEvent {
     }
 
     public Integer getTimeInt() {
-        String timeString = getTime();;
+        String timeString = getTime();
         int pos = timeString.indexOf('+');
         if (pos != -1) {
             timeString = timeString.substring(0, pos);

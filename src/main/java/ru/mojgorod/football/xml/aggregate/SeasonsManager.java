@@ -36,7 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
 import ru.mojgorod.football.xml.config.ConfigFile;
 import ru.mojgorod.football.xml.library.FootballXmlParser;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
@@ -61,14 +60,19 @@ public class SeasonsManager {
     }
 
     public void aggregate() {
-        for (SeasonParameters item : seasons) {
-            for (String folder : item.getSeason().getFolders()) {
+        for (SeasonParameters currentSeason : seasons) {
+            Aggregator.setSeasonParameters(currentSeason);
+            for (Aggregator aggregator : currentSeason.getAggregators()) {
+                aggregator.beforeSeason();
+            }
+
+            for (String folder : currentSeason.getSeason().getFolders()) {
                 try {
                     Files.newDirectoryStream(Paths.get(folder)).forEach(path -> {
                         if (Files.isRegularFile(path)) {
                             try {
                                 FootballXmlReport xmlReport = FootballXmlParser.parseFile(path.toFile().getAbsolutePath());
-                                for (Aggregator aggregator : item.getAggregators()) {
+                                for (Aggregator aggregator : currentSeason.getAggregators()) {
                                     aggregator.add(xmlReport);
                                 }
                             } catch (ParserConfigurationException | SAXException | IOException ex) {
@@ -80,28 +84,35 @@ public class SeasonsManager {
                     Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
+            for (Aggregator aggregator : currentSeason.getAggregators()) {
+                aggregator.afterSeason();
+            }
+            Aggregator.setSeasonParameters(null);
         }
     }
 
     public void print() {
-        for (SeasonParameters parameters : seasons) {
-            PrintStream out = parameters.getOutput();
+        for (SeasonParameters currentSeason : seasons) {
+            Aggregator.setSeasonParameters(currentSeason);
+            PrintStream out = currentSeason.getOutput();
             if (out != null) {
                 try {
 //                    String title = parameters.getSeason().getTitle();
 //                    String id = parameters.getSeason().getId();
 //                    out.println("============= " + title + " =============");
-                    printHeader(out, parameters);
-                    for (Aggregator aggregator : parameters.getAggregators()) {
+                    printHeader(out, currentSeason);
+                    for (Aggregator aggregator : currentSeason.getAggregators()) {
 //                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
-                        aggregator.print(parameters);
-                        aggregator.drawCharts(parameters);
+                        aggregator.print();
+                        aggregator.drawCharts();
                     }
-                    printFooter(out, parameters);
+                    printFooter(out, currentSeason);
                 } finally {
-                    parameters.closeOutput();
+                    currentSeason.closeOutput();
                 }
             }
+            Aggregator.setSeasonParameters(null);
         }
     }
 
@@ -110,12 +121,12 @@ public class SeasonsManager {
             return;
         }
         StringBuilder seasonsLine = new StringBuilder("");
-        for (SeasonParameters item : seasons) {
-            Season season = item.getSeason();
+        for (SeasonParameters seasonParameters : seasons) {
+            Season season = seasonParameters.getSeason();
             if (seasonsLine.length() != 0) {
                 seasonsLine.append("\n");
             }
-            String value = item.equals(currentSeason) ? configFile.getCurrentSeason() : configFile.getOtherSeason();
+            String value = seasonParameters.equals(currentSeason) ? configFile.getCurrentSeason() : configFile.getOtherSeason();
             seasonsLine.append(value
                     .replaceAll("##title##", season.getTitle())
                     .replaceAll("##linktitle##", season.getLinkTitle())
@@ -133,12 +144,12 @@ public class SeasonsManager {
         }
     }
 
-    private void printHeader(PrintStream out, final SeasonParameters currentItem) {
-        printSection(out, configFile.getHeader(), currentItem);
+    private void printHeader(PrintStream out, final SeasonParameters currentSeason) {
+        printSection(out, configFile.getHeader(), currentSeason);
     }
 
-    private void printFooter(PrintStream out, final SeasonParameters currentItem) {
-        printSection(out, configFile.getFooter(), currentItem);
+    private void printFooter(PrintStream out, final SeasonParameters currentSeason) {
+        printSection(out, configFile.getFooter(), currentSeason);
     }
 
     public ConfigFile getConfig() {

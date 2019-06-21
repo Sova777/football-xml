@@ -1,3 +1,5 @@
+package ru.mojgorod.football.xml.aggregate;
+
 /*
 Copyright (c) 2018, Valeriy Soldatov
 All rights reserved.
@@ -24,33 +26,60 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ru.mojgorod.football.xml.aggregate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import ru.mojgorod.football.xml.aggregate.aggregator.Aggregator;
+
+import java.io.PrintStream;
+import ru.mojgorod.football.xml.config.ConfigFile;
+import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
  *
  * @author sova
  */
-public class AggregatorsManager {
+public abstract class Aggregator {
 
-    private final ArrayList<Aggregator> aggregators = new ArrayList<>();
+    private static SeasonParameters seeasonParameters;
 
-    public AggregatorsManager(Aggregator... aggregators) {
-        this.aggregators.addAll(Arrays.asList(aggregators));
+    public Aggregator() {
     }
 
-    public void add(Aggregator aggregator) {
-        aggregators.add(aggregator);
+    static void setSeasonParameters(SeasonParameters seeasonParameters) {
+        Aggregator.seeasonParameters = seeasonParameters;
     }
 
-    public void add(FootballXmlReport xmlReport) {
-        for (Aggregator aggregator : aggregators) {
-            aggregator.add(xmlReport);
-        }
+    public abstract void add(FootballXmlReport xmlReport);
+
+    public void beforeSeason() {
+    }
+
+    public void afterSeason() {
+    }
+
+    public void print() {
+    }
+
+    public void drawCharts() {
+    }
+
+    protected PrintStream getOutput() {
+        return seeasonParameters.getOutput();
+    }
+
+    protected boolean isPlayerInfo() {
+        return seeasonParameters.isPlayerInfo();
+    }
+
+    protected FootballXmlPlayersInfo getPlayerInfo(String key) {
+        return seeasonParameters.getPlayerInfo(key);
+    }
+
+    protected ConfigFile getConfigFile() {
+        return seeasonParameters.getConfigFile();
+    }
+
+    protected Season getSeason() {
+        return seeasonParameters.getSeason();
     }
 
 }

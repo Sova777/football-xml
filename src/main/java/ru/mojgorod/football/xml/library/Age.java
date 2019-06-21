@@ -40,7 +40,7 @@ public class Age {
         this.days = days;
     }
 
-    public Double getDoubleValue() {
+    public double getDoubleValue() {
         return years + days / 366.0;
     }
 

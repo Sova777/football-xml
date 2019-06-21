@@ -27,14 +27,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
-import ru.mojgorod.football.xml.aggregate.SeasonParameters;
+import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 
 /**
  *
  * @author sova
  */
-public class MatchesAggregator implements Aggregator {
+public class MatchesAggregator extends Aggregator {
 
     private int games = 0;
 
@@ -44,13 +44,9 @@ public class MatchesAggregator implements Aggregator {
     }
 
     @Override
-    public void print(final SeasonParameters parameters) {
-        PrintStream out = parameters.getOutput();
+    public void print() {
+        PrintStream out = getOutput();
         out.println("<p><b>Матчей</b>: " + games + "</p>");
-    }
-
-    @Override
-    public void drawCharts(final SeasonParameters parameters) {
     }
 
 }
