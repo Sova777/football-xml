@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
@@ -49,6 +50,7 @@ public class SeasonsManager {
     private final ArrayList<SeasonParameters> seasons;
     private final ConfigFile configFile;
     private PlayersManager playersManager;
+    private PrintStream outFinalReport;
 
     public SeasonsManager(ConfigFile configFile) {
         this.seasons = new ArrayList<>();
@@ -60,6 +62,7 @@ public class SeasonsManager {
     }
 
     public void aggregate() {
+        configFile.callBeforeAll();
         for (SeasonParameters currentSeason : seasons) {
             Aggregator.setSeasonParameters(currentSeason);
             for (Aggregator aggregator : currentSeason.getAggregators()) {
@@ -90,29 +93,64 @@ public class SeasonsManager {
             }
             Aggregator.setSeasonParameters(null);
         }
+        configFile.callAfterAll();
     }
 
     public void print() {
-        for (SeasonParameters currentSeason : seasons) {
-            Aggregator.setSeasonParameters(currentSeason);
-            PrintStream out = currentSeason.getOutput();
-            if (out != null) {
-                try {
-//                    String title = parameters.getSeason().getTitle();
-//                    String id = parameters.getSeason().getId();
-//                    out.println("============= " + title + " =============");
-                    printHeader(out, currentSeason);
-                    for (Aggregator aggregator : currentSeason.getAggregators()) {
-//                        out.println("--- " + aggregator.getClass().getSimpleName() + " ---");
-                        aggregator.print();
-                        aggregator.drawCharts();
+        if (configFile.isPrintSeasonReports()) {
+            for (SeasonParameters currentSeason : seasons) {
+                Aggregator.setSeasonParameters(currentSeason);
+                PrintStream out = currentSeason.getOutput();
+                if (out != null) {
+                    try {
+                        printHeader(out, currentSeason);
+                        for (Aggregator aggregator : currentSeason.getAggregators()) {
+                            aggregator.print();
+                            aggregator.drawCharts();
+                        }
+                        printFooter(out, currentSeason);
+                    } finally {
+                        currentSeason.closeOutput();
                     }
-                    printFooter(out, currentSeason);
-                } finally {
-                    currentSeason.closeOutput();
                 }
+                Aggregator.setSeasonParameters(null);
             }
-            Aggregator.setSeasonParameters(null);
+        }
+        if (configFile.isPrintFinalReport()) {
+            getOutputFinalReport();
+            Aggregator.setOutputFinalReport(outFinalReport);
+            printHeader(outFinalReport);
+            configFile.printFinalReport();
+            configFile.drawFinalCharts();
+            printFooter(outFinalReport);
+            closeOutputFinalReport();
+        }
+    }
+
+    private void printSection(PrintStream out, final String file) {
+        if (file == null) {
+            return;
+        }
+        StringBuilder seasonsLine = new StringBuilder("");
+        for (SeasonParameters seasonParameters : seasons) {
+            Season season = seasonParameters.getSeason();
+            if (seasonsLine.length() != 0) {
+                seasonsLine.append("\n");
+            }
+            String value = configFile.getOtherSeason();
+            seasonsLine.append(value
+                    .replaceAll("##title##", season.getTitle())
+                    .replaceAll("##linktitle##", season.getLinkTitle())
+                    .replaceAll("##id##", season.getId())
+            );
+        }
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.println(line.replaceAll("##seasons##", seasonsLine.toString()));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -152,12 +190,48 @@ public class SeasonsManager {
         printSection(out, configFile.getFooter(), currentSeason);
     }
 
+    private void printHeader(PrintStream out) {
+        printSection(out, configFile.getHeaderFinal());
+    }
+
+    private void printFooter(PrintStream out) {
+        printSection(out, configFile.getFooterFinal());
+    }
+
     public ConfigFile getConfig() {
         return configFile;
     }
 
     public void addPlayersInfo(PlayersManager playersManager) {
         this.playersManager = playersManager;
+    }
+
+    private PrintStream getOutputFinalReport() {
+        if (outFinalReport == null) {
+            String filePath = configFile.getOutputFolder() + "stat_total.html";
+            if (filePath == null) {
+                outFinalReport = System.out;
+            } else {
+                try {
+                    outFinalReport = new PrintStream(new FileOutputStream(filePath), true, "Windows-1251");
+                } catch (IOException ex) {
+                    if (outFinalReport != null) {
+                        outFinalReport.close();
+                    }
+                    outFinalReport = null;
+                    Logger.getLogger(SeasonsManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return outFinalReport;
+    }
+
+    private void closeOutputFinalReport() {
+        if (outFinalReport == null || System.out.equals(outFinalReport)) {
+            return;
+        }
+        outFinalReport.close();
+        outFinalReport = null;
     }
 
 }

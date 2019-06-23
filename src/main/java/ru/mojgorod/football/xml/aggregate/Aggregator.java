@@ -39,7 +39,9 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public abstract class Aggregator {
 
+    private static ConfigFile configFile;
     private static SeasonParameters seeasonParameters;
+    private static PrintStream outFinalReport;
 
     public Aggregator() {
     }
@@ -48,12 +50,32 @@ public abstract class Aggregator {
         Aggregator.seeasonParameters = seeasonParameters;
     }
 
+    public static void setConfigFile(ConfigFile configFile) {
+        Aggregator.configFile = configFile;
+    }
+
+    public static void setOutputFinalReport(PrintStream outFinalReport) {
+        Aggregator.outFinalReport = outFinalReport;
+    }
+
     public abstract void add(FootballXmlReport xmlReport);
 
     public void beforeSeason() {
     }
 
     public void afterSeason() {
+    }
+
+    public static void beforeAll() {
+    }
+
+    public static void afterAll() {
+    }
+
+    public static void printFinalReport() {
+    }
+
+    public static void drawFinalCharts() {
     }
 
     public void print() {
@@ -66,6 +88,10 @@ public abstract class Aggregator {
         return seeasonParameters.getOutput();
     }
 
+    protected static PrintStream getOutputFinalReport() {
+        return outFinalReport;
+    }
+
     protected boolean isPlayerInfo() {
         return seeasonParameters.isPlayerInfo();
     }
@@ -74,8 +100,8 @@ public abstract class Aggregator {
         return seeasonParameters.getPlayerInfo(key);
     }
 
-    protected ConfigFile getConfigFile() {
-        return seeasonParameters.getConfigFile();
+    protected static ConfigFile getConfigFile() {
+        return configFile;
     }
 
     protected Season getSeason() {

@@ -32,8 +32,10 @@ package ru.mojgorod.football.xml.library;
  */
 public class Age {
 
-    private long years = 0;
-    private long days = 0;
+    final public static Age AGE_ZERO = new Age(0, 0);
+    final public static Age AGE_MAX = new Age(Integer.MAX_VALUE, 0);
+    long years = 0;
+    long days = 0;
 
     public Age(long years, long days) {
         this.years = years;
@@ -46,6 +48,50 @@ public class Age {
 
     public String getStringValue() {
         return String.format("%s %s", Utils.getLocalizedYearsMessage(years), Utils.getLocalizedDaysMessage(days));
+    }
+
+    public boolean lessThan(Age age) {
+        if (years < age.years) {
+            return true;
+        }
+        if (years > age.years) {
+            return false;
+        }
+        return days < age.days;
+    }
+
+    public boolean lessOrEqualsThan(Age age) {
+        if (years < age.years) {
+            return true;
+        }
+        if (years > age.years) {
+            return false;
+        }
+        return days <= age.days;
+    }
+
+    public boolean moreThan(Age age) {
+        if (years > age.years) {
+            return true;
+        }
+        if (years < age.years) {
+            return false;
+        }
+        return days > age.days;
+    }
+
+    public boolean moreOrEqualsThan(Age age) {
+        if (years > age.years) {
+            return true;
+        }
+        if (years < age.years) {
+            return false;
+        }
+        return days > age.days;
+    }
+
+    public boolean equals(Age age) {
+        return (age.years == years) && (age.days == days);
     }
 
 }

@@ -28,6 +28,8 @@ package ru.mojgorod.football.xml.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,8 +58,12 @@ public class ConfigFile {
     private String outputFolder = null;
     private String header = null;
     private String footer = null;
+    private String headerFinal = null;
+    private String footerFinal = null;
     private String currentSeason = null;
     private String otherSeason = null;
+    private boolean seasonReports = true;
+    private boolean finalReport = true;
     private final List<String> aggregators = new ArrayList<>();
     private final List<Season> seasons = new ArrayList<>();
 
@@ -79,10 +85,19 @@ public class ConfigFile {
             newInstance.header = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("footer").item(0);
             newInstance.footer = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("headerFinal").item(0);
+            newInstance.headerFinal = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("footerFinal").item(0);
+            newInstance.footerFinal = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("current").item(0);
             newInstance.currentSeason = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("other").item(0);
             newInstance.otherSeason = (node == null) ? null : node.getTextContent();
+
+            node = document.getElementsByTagName("seasonReports").item(0);
+            newInstance.seasonReports = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
+            node = document.getElementsByTagName("finalReport").item(0);
+            newInstance.finalReport = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
 
             NodeList aggregatorNodes = document.getElementsByTagName("aggregator");
             int sizeAggregatorNodes = aggregatorNodes.getLength();
@@ -132,6 +147,7 @@ public class ConfigFile {
                     initAggregators(newInstance.aggregators.toArray(new String[0]))
             );
         }
+        Aggregator.setConfigFile(newInstance);
         return seasonsManager;
 
     }
@@ -158,6 +174,42 @@ public class ConfigFile {
         }
     }
 
+    public void callBeforeAll() {
+        callMethod("beforeAll");
+    }
+
+    public void callAfterAll() {
+        callMethod("afterAll");
+    }
+
+    public void printFinalReport() {
+        callMethod("printFinalReport");
+    }
+
+    public void drawFinalCharts() {
+        callMethod("drawFinalCharts");
+    }
+
+    public void callMethod(String methodName) {
+        if (aggregators == null) {
+            return;
+        }
+        for (String aggregatorName : aggregators) {
+            try {
+                Class clazz = Class.forName(Aggregator.class.getPackageName() + ".aggregator." + aggregatorName + "Aggregator");
+                Method method = clazz.getDeclaredMethod(methodName);
+                method.invoke(null);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
+            } catch (IllegalAccessException ex) {
+                throw new RuntimeException("Невалидное имя агрегатора: " + aggregatorName);
+            } catch (IllegalArgumentException | InvocationTargetException | SecurityException ex) {
+                throw new RuntimeException("Невалидный агрегатор: " + aggregatorName);
+            } catch (NoSuchMethodException ex) {
+            }
+        }
+    }
+
     public String getPlayersPath() {
         return playersPath;
     }
@@ -174,12 +226,28 @@ public class ConfigFile {
         return footer;
     }
 
+    public String getHeaderFinal() {
+        return headerFinal;
+    }
+
+    public String getFooterFinal() {
+        return footerFinal;
+    }
+
     public String getCurrentSeason() {
         return currentSeason;
     }
 
     public String getOtherSeason() {
         return otherSeason;
+    }
+
+    public boolean isPrintSeasonReports() {
+        return seasonReports;
+    }
+
+    public boolean isPrintFinalReport() {
+        return finalReport;
     }
 
     public List<Season> getSeasons() {
