@@ -26,6 +26,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.library;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  *
  * @author sova
@@ -95,6 +98,28 @@ public class Utils {
         long days = (long)((yearsValue - years) * 366.0);
         return String.format("%s %s", getLocalizedMessage(years, MESSAGES_YEARS),
                 getLocalizedMessage(days, MESSAGES_DAYS));
+    }
+
+    public static double medianInteger(ArrayList<Integer> array) {
+        Collections.sort(array);
+        double median;
+        if (array.size() % 2 == 0) {
+            median = ((double) array.get(array.size() / 2) + (double) array.get(array.size() / 2 - 1)) / 2;
+        } else {
+            median = (double) array.get(array.size() / 2);
+        }
+        return median;
+    }
+
+    public static double medianDouble(ArrayList<Double> array) {
+        Collections.sort(array);
+        double median;
+        if (array.size() % 2 == 0) {
+            median = (array.get(array.size() / 2) + array.get(array.size() / 2 - 1)) / 2;
+        } else {
+            median = array.get(array.size() / 2);
+        }
+        return median;
     }
 
 }

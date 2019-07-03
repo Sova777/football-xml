@@ -29,6 +29,8 @@ package ru.mojgorod.football.xml.aggregate.aggregator;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -45,6 +47,8 @@ public class EventsBySeasonAggregator extends Aggregator {
     private int redAndYellowCards = 0;
     private int yellowCards = 0;
     private int goals = 0;
+    private int goals1 = 0;
+    private int goals2 = 0;
     private int autoGoals = 0;
     private int penaltySuccess = 0;
     private int penaltyMissed = 0;
@@ -52,10 +56,23 @@ public class EventsBySeasonAggregator extends Aggregator {
     @Override
     public void add(FootballXmlReport xmlReport) {
 
+        String team1 = xmlReport.getTeam1();
+        String team2 = xmlReport.getTeam2();
+
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
 
+            boolean isTeam1 = false;
+            boolean isTeam2 = false;
             FootballEventType eventType = event.getEventType();
+            String team = event.getTeam();
+            if (team.equals(team1)) {
+                isTeam1 = true;
+            } else if (team.equals(team2)) {
+                isTeam2 = true;
+            } else {
+                Logger.getLogger(EventsBySeasonAggregator.class.getName()).log(Level.SEVERE, "Unknown team: {0}", team);
+            }
             switch (eventType) {
                 case RED_CARD:
                     redCards++;
@@ -68,9 +85,21 @@ public class EventsBySeasonAggregator extends Aggregator {
                     break;
                 case GOAL:
                     goals++;
+                    if (isTeam1) {
+                        goals1++;
+                    }
+                    if (isTeam2) {
+                        goals2++;
+                    }
                     break;
                 case PENALTY_GOAL:
                     goals++;
+                    if (isTeam1) {
+                        goals1++;
+                    }
+                    if (isTeam2) {
+                        goals2++;
+                    }
                     penaltySuccess++;
                     break;
                 case PENALTY_MISSED:
@@ -78,6 +107,12 @@ public class EventsBySeasonAggregator extends Aggregator {
                     break;
                 case AUTOGOAL:
                     goals++;
+                    if (isTeam1) {
+                        goals2++;
+                    }
+                    if (isTeam2) {
+                        goals1++;
+                    }
                     autoGoals++;
                     break;
             }
@@ -91,6 +126,8 @@ public class EventsBySeasonAggregator extends Aggregator {
         stat.redAndYellowCards = redAndYellowCards;
         stat.yellowCards = yellowCards;
         stat.goals = goals;
+        stat.goals1 = goals1;
+        stat.goals2 = goals2;
         stat.autoGoals = autoGoals;
         stat.penaltySuccess = penaltySuccess;
         stat.penaltyMissed = penaltyMissed;
@@ -99,6 +136,8 @@ public class EventsBySeasonAggregator extends Aggregator {
         redAndYellowCards = 0;
         yellowCards = 0;
         goals = 0;
+        goals1 = 0;
+        goals2 = 0;
         autoGoals = 0;
         penaltySuccess = 0;
         penaltyMissed = 0;
@@ -109,18 +148,18 @@ public class EventsBySeasonAggregator extends Aggregator {
         PrintStream out = getOutputFinalReport();
         out.println("<h2 id='EventsBySeasonAggregator'>Событий за сезон</h2>");
         out.println("<pre>");
-        out.println("=================================================================================================");
-        out.println("| Сезон           | Удалений   | Два преду- | Предупре-  | Забито     | Пенальти   | Забито в   |");
-        out.println("|                 |            | преждения  | ждений     | мячей      | (забито)   | свои       |");
-        out.println("|                 |            |            |            |            |            | ворота     |");
-        out.println("=================================================================================================");
+        out.println("===========================================================================================================================");
+        out.println("| Сезон           | Удалений   | Два преду- | Предупре-  |             Забито мячей             | Пенальти   | Забито в   |");
+        out.println("|                 |            | преждения  | ждений     |------------|------------|------------| (забито)   | свои       |");
+        out.println("|                 |            |            |            | Хозяева    | Гости      | Всего      |            | ворота     |");
+        out.println("===========================================================================================================================");
         for (SeasonStat stat : seasons) {
             String penaltiesFor = String.format("%d(%d)", stat.penaltySuccess + stat.penaltyMissed, stat.penaltySuccess);
-            out.printf("| %-15s | %-10d | %-10d | %-10d | %-10d | %-10s | %-10d |%n",
-                    stat.title, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.goals,
+            out.printf("| %-15s | %-10d | %-10d | %-10d | %-10d | %-10d | %-10d | %-10s | %-10d |%n",
+                    stat.title, stat.redCards, stat.redAndYellowCards, stat.yellowCards, stat.goals1, stat.goals2, stat.goals,
                     penaltiesFor, stat.autoGoals);
         }
-        out.println("=================================================================================================");
+        out.println("===========================================================================================================================");
         out.println( "</pre>");
     }
 
@@ -130,6 +169,8 @@ public class EventsBySeasonAggregator extends Aggregator {
         private int redAndYellowCards = 0;
         private int yellowCards = 0;
         private int goals = 0;
+        private int goals1 = 0;
+        private int goals2 = 0;
         private int autoGoals = 0;
         private int penaltySuccess = 0;
         private int penaltyMissed = 0;
