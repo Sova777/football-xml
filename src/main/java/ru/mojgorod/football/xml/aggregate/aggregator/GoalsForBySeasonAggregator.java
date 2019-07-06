@@ -83,6 +83,9 @@ public class GoalsForBySeasonAggregator extends Aggregator {
                 }
             }
         }
+        if (minGoals == Integer.MAX_VALUE) {
+            minGoals = 0;
+        }
 
         SeasonStat stat = new SeasonStat();
         stat.goalsMax = maxGoals;

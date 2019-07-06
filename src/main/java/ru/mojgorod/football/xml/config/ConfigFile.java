@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,12 +61,14 @@ public class ConfigFile {
     private String footer = null;
     private String headerFinal = null;
     private String footerFinal = null;
+    private String filePostfixFinal = null;
     private String currentSeason = null;
     private String otherSeason = null;
     private boolean seasonReports = true;
     private boolean finalReport = true;
     private final List<String> aggregators = new ArrayList<>();
     private final List<Season> seasons = new ArrayList<>();
+    private final HashMap<String, ArrayList<String>> parameters = new HashMap<>();
 
     public static SeasonsManager readConfig(String configPath) {
         ConfigFile newInstance = new ConfigFile();
@@ -89,6 +92,8 @@ public class ConfigFile {
             newInstance.headerFinal = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("footerFinal").item(0);
             newInstance.footerFinal = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("filePostfixFinal").item(0);
+            newInstance.filePostfixFinal = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("current").item(0);
             newInstance.currentSeason = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("other").item(0);
@@ -98,6 +103,23 @@ public class ConfigFile {
             newInstance.seasonReports = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
             node = document.getElementsByTagName("finalReport").item(0);
             newInstance.finalReport = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
+
+            NodeList parameterNodes = document.getElementsByTagName("parameter");
+            int sizeParameterNodes = parameterNodes.getLength();
+            for (int i = 0; i < sizeParameterNodes; i++) {
+                Node parameterNode = parameterNodes.item(i);
+                if (parameterNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) parameterNode;
+                    String parameterName = element.getAttribute("name");
+                    String parameterValue = parameterNode.getTextContent();
+                    ArrayList<String> parameterArray = newInstance.parameters.get(parameterName);
+                    if (parameterArray == null) {
+                        parameterArray = new ArrayList<>();
+                        newInstance.parameters.put(parameterName, parameterArray);
+                    }
+                    parameterArray.add(parameterValue);
+                }
+            }
 
             NodeList aggregatorNodes = document.getElementsByTagName("aggregator");
             int sizeAggregatorNodes = aggregatorNodes.getLength();
@@ -234,6 +256,10 @@ public class ConfigFile {
         return footerFinal;
     }
 
+    public String getFilePostfixFinal() {
+        return filePostfixFinal;
+    }
+
     public String getCurrentSeason() {
         return currentSeason;
     }
@@ -256,6 +282,19 @@ public class ConfigFile {
 
     public List<String> getAggregators() {
         return aggregators;
+    }
+
+    public boolean isParameterExist(String parameterName) {
+        return getParameterValues(parameterName) != null;
+    }
+
+    public ArrayList<String> getParameterValues(String parameterName) {
+        return parameters.get(parameterName);
+    }
+
+    public String getParameterValue(String parameterName) {
+        ArrayList<String> parameterValues = getParameterValues(parameterName);
+        return parameterValues == null ? null : parameterValues.get(0);
     }
 
 }

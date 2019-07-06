@@ -101,6 +101,9 @@ public class Utils {
     }
 
     public static double medianInteger(ArrayList<Integer> array) {
+        if (array.isEmpty()) {
+            return 0.0;
+        }
         Collections.sort(array);
         double median;
         if (array.size() % 2 == 0) {
@@ -112,6 +115,9 @@ public class Utils {
     }
 
     public static double medianDouble(ArrayList<Double> array) {
+        if (array.isEmpty()) {
+            return 0.0;
+        }
         Collections.sort(array);
         double median;
         if (array.size() % 2 == 0) {
@@ -120,6 +126,22 @@ public class Utils {
             median = array.get(array.size() / 2);
         }
         return median;
+    }
+
+    public static String centerText(String text, int length) {
+        if (text == null) {
+            text = "";
+        }
+        int textLength = text.length();
+        String spaces = String.join("", Collections.nCopies((length - textLength) / 2, " "));
+        return spaces + text + spaces + (((length - textLength) % 2 == 0) ? "" : " ");
+    }
+
+    public static String repeatText(String text, int times) {
+        if (text == null) {
+            return "";
+        }
+        return String.join("", Collections.nCopies(times, text));
     }
 
 }

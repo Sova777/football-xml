@@ -133,6 +133,10 @@ public class MostYoungBySeasonAggregator extends Aggregator {
                 }
             }
         }
+        if (ageMin.getDoubleValue() >= Integer.MAX_VALUE) {
+            ageMin = Age.AGE_ZERO;
+        }
+
         SeasonStat stat = new SeasonStat();
         stat.nameMin = nameMin;
         stat.nameMax = nameMax;

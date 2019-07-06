@@ -208,7 +208,11 @@ public class SeasonsManager {
 
     private PrintStream getOutputFinalReport() {
         if (outFinalReport == null) {
-            String filePath = configFile.getOutputFolder() + "stat_total.html";
+            String fileNamePostfix = configFile.getFilePostfixFinal();
+            if (fileNamePostfix == null) {
+                fileNamePostfix = "total";
+            }
+            String filePath = configFile.getOutputFolder() + "stat_" + fileNamePostfix + ".html";
             if (filePath == null) {
                 outFinalReport = System.out;
             } else {
