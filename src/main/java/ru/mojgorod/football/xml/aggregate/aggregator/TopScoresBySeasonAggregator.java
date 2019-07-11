@@ -120,7 +120,11 @@ public class TopScoresBySeasonAggregator extends Aggregator {
         out.println("| Сезон           | Мячей      | Лучшие бомбардиры                                                 |");
         out.println("====================================================================================================");
         for (SeasonStat stat : seasons) {
-            out.printf("| %-15s | %-10d | %-65s |%n", stat.title, stat.goals, stat.players);
+            String players = stat.players;
+            if (players.length() > 65) {
+                players = players.substring(0, 62) + "...";
+            }
+            out.printf("| %-15s | %-10d | %-65s |%n", stat.title, stat.goals, players);
         }
         out.println("====================================================================================================");
         out.println( "</pre>");

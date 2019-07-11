@@ -56,6 +56,9 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     public void draw() {
+        if (data.isEmpty()) {
+            data.add(new BarChartPoint("             ", 1, COLOR_WHITE));
+        }
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
