@@ -57,7 +57,7 @@ public class HorizontalBarChart extends BarChart {
     @Override
     public void draw() {
         if (data.isEmpty()) {
-            data.add(new BarChartPoint("             ", 1, COLOR_WHITE));
+            data.add(new BarChartPoint("             ", 1.0, COLOR_WHITE));
         }
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -78,7 +78,7 @@ public class HorizontalBarChart extends BarChart {
 
         int i = 0;
         for (BarChartPoint point : data) {
-            Integer value = point.getValue();
+            Double value = point.getValue();
             Color color = point.getColor();
             if (color == null) {
                 g.setColor(COLOR_BLUE);
@@ -119,7 +119,7 @@ public class HorizontalBarChart extends BarChart {
         i = 0;
         for (BarChartPoint point : data) {
 //            Integer value = point.getValue();
-            g.drawString(point.getTitle(), offsetX + 4, getLocalY(columns - i - 1) - (scaleY - fontSize) / 2 - 2);
+            g.drawString(point.getTitle(), offsetX + 4, (int)(getLocalY(columns - i - 1) - (scaleY - fontSize) / 2 - 2));
             i++;
         }
 
@@ -159,7 +159,7 @@ public class HorizontalBarChart extends BarChart {
                     maxTitleLength = (int) titlePointWidth;
                 }
             }
-            Integer value = point.getValue();
+            Double value = point.getValue();
             if (value != null) {
                 if (value < min) {
                     min = value;

@@ -35,10 +35,10 @@ import java.awt.Color;
 public class BarChartPoint {
 
     private final String title;
-    private final Integer value;
+    private final Double value;
     private final Color color;
 
-    public BarChartPoint(String title, Integer value, Color color) {
+    public BarChartPoint(String title, Double value, Color color) {
         this.title = title;
         this.value = value;
         this.color = color;
@@ -48,7 +48,7 @@ public class BarChartPoint {
         return title;
     }
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 

@@ -26,11 +26,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -172,6 +174,7 @@ public class AgeBySeasonAggregator extends Aggregator {
         out.println("============================================================================================================================");
         out.println( "* - означает, что на данный момент нет данных по возрасту одного или более игроков");
         out.println( "</pre>");
+        out.println("<img src='image/stat_age.png'>");
     }
 
     static private class SeasonStat {
@@ -203,6 +206,33 @@ public class AgeBySeasonAggregator extends Aggregator {
             return hashStat.get(keyStat);
         }
 
+    }
+
+    public static void drawFinalCharts() {
+//        TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
+//        sortedMap.putAll(months);
+//        int items = months.size();
+//        int height = 400;
+//        if (items > 16) {
+//            height += 16 * (items - 16);
+//        }
+
+        BarChart chart = new BarChart(800, 400/*height*/);
+        chart.setCopyright("(c) football.mojgorod.ru");
+        chart.setFontSize(14);
+        chart.setFontSizeTitle(20);
+        chart.setTitle("Средний возраст игроков в чемпионате России");
+        chart.setMinValue(23);
+        chart.setMaxNumbersAfterDot(1);
+        String outputFolder = getConfigFile().getOutputFolder();
+        chart.setOutputFile(outputFolder + "/image/stat_age.png");
+        int counter = 0;
+        for (SeasonStat stat : seasons) {
+            Color color = (counter % 2 == 0) ? BarChart.COLOR_BLUE : BarChart.COLOR_GREEN;
+            chart.addPoint(stat.title, stat.players == 0 ? 0.0 : (stat.age / stat.agePlayers), color);
+            counter++;
+        }
+        chart.draw();
     }
 
 }

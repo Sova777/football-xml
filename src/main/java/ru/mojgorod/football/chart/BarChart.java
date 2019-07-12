@@ -35,6 +35,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,21 +50,24 @@ public class BarChart {
 
     protected int width = -1;
     protected int height = -1;
-    protected float scaleX = -1;
-    protected float scaleY = -1;
+    protected double scaleX = -1;
+    protected double scaleY = -1;
     private int stepY = 1;
     protected int offsetX = -1;
     protected int offsetY = -1;
-    protected int min = -1;
-    protected int max = -1;
-    protected int maxDraw = -1;
+    protected double min = -1;
+    protected double max = -1;
+    protected double minDraw = 0;
+    protected double maxDraw = -1;
     protected int maxTitleLength = 0;
+    protected int maxYLength = 0;
     protected int columns = 0;
     protected int fontSize = 10;
     protected int fontSizeTitle = 10;
     protected String copyright = null;
     protected String title = null;
     protected String outputFile = null;
+    protected int maxNumbersAfterDot = 0;
     protected final List<BarChartPoint> data = new ArrayList<>();
 
     public static final Color COLOR_WHITE = new Color(255, 255, 255);
@@ -71,6 +75,7 @@ public class BarChart {
     public static final Color COLOR_BLUE = new Color(51, 102, 204);
     public static final Color COLOR_BLACK = new Color(0, 0, 0);
     public static final Color COLOR_GRAY = new Color(160, 160, 160);
+    public static final Color COLOR_GREEN = new Color(51, 204, 102);
     public static final Color COLOR_LIGHT_BLACK = new Color(49, 49, 100);
 
     private static final float DASH_ARRAY[] = {1.0f};
@@ -102,9 +107,17 @@ public class BarChart {
         this.outputFile = outputFile;
     }
 
+    public void setMinValue(double min) {
+        this.minDraw = min;
+    }
+
+    public void setMaxNumbersAfterDot(int maxNumbersAfterDot) {
+        this.maxNumbersAfterDot = maxNumbersAfterDot;
+    }
+
     public void draw() {
         if (data.isEmpty()) {
-            data.add(new BarChartPoint("             ", 1, COLOR_WHITE));
+            data.add(new BarChartPoint("             ", 1.0, COLOR_WHITE));
         }
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -122,41 +135,43 @@ public class BarChart {
 
         int i = 0;
         for (BarChartPoint point : data) {
-            Integer value = point.getValue();
+            Double value = point.getValue();
             Color color = point.getColor();
             if (color == null) {
                 g.setColor(COLOR_BLUE);
             } else {
                 g.setColor(color);
             }
-            g.fillRect(getLocalX(i) + 1, getLocalY(value), (int)(scaleX - 1), (int)(scaleY * value));
+            g.fillRect(getLocalX(i) + 1, getLocalY(value), (int)(scaleX - 1), (int)(scaleY * (value - minDraw)));
             i++;
         }
 
         g.setColor(COLOR_BLACK);
-        g.drawLine(getLocalX(0), getLocalY(0), getLocalX(columns), getLocalY(0));
-        g.drawLine(getLocalX(0), getLocalY(0), getLocalX(0), getLocalY(maxDraw));
-        g.drawLine(getLocalX(columns), getLocalY(0), getLocalX(columns), getLocalY(maxDraw));
+        g.drawLine(getLocalX(0), getLocalY(minDraw), getLocalX(columns), getLocalY(minDraw));
+        g.drawLine(getLocalX(0), getLocalY(minDraw), getLocalX(0), getLocalY(maxDraw));
+        g.drawLine(getLocalX(columns), getLocalY(minDraw), getLocalX(columns), getLocalY(maxDraw));
 
         g.setColor(COLOR_GRAY);
-        for (int j = stepY; j <= maxDraw; j += stepY) {
+        for (double j = minDraw + stepY; j <= maxDraw; j += stepY) {
             g.drawLine(getLocalX(0), getLocalY(j), getLocalX(columns), getLocalY(j));
         }
 
         g.setFont(verticalFont);
         i = 0;
         for (BarChartPoint point : data) {
-            Integer value = point.getValue();
+            Double value = point.getValue();
             g.setColor(COLOR_BLACK);
-            g.drawString(point.getTitle(), getLocalX(i + 1) - (scaleX - fontSize) / 2, getLocalY(value) - 1);
+            g.drawString(point.getTitle(), getLocalX(i + 1) - ((int)scaleX - fontSize) / 2, getLocalY(value) - 1);
             i++;
         }
 
         g.setColor(COLOR_BLACK);
         g.setFont(DEFAULT_FONT);
-        for (int j = 0; j <= maxDraw; j += stepY) {
-            g.drawString(String.valueOf(j), 1, getLocalY(j));
-            g.drawString(String.valueOf(j), getLocalX(columns) + 3, getLocalY(j));
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(maxNumbersAfterDot);
+        for (double j = minDraw; j <= maxDraw; j += stepY) {
+            g.drawString(nf.format(j), 1, getLocalY(j));
+            g.drawString(nf.format(j), getLocalX(columns) + 3, getLocalY(j));
         }
 
         Rectangle2D bounds = g.getFontMetrics().getStringBounds(copyright, g);
@@ -178,8 +193,12 @@ public class BarChart {
         return (int) (x * scaleX + offsetX + maxTitleLength);
     }
 
-    protected int getLocalY(int y) {
-        return (int) (height - offsetY - scaleY * y);
+    protected int getLocalX(double x) {
+        return (int) (x * scaleX + offsetX + maxTitleLength);
+    }
+
+    protected int getLocalY(double y) {
+        return (int) (height - offsetY - scaleY * (y - minDraw));
     }
 
     public void addPoint(BarChartPoint point) {
@@ -187,18 +206,34 @@ public class BarChart {
     }
 
     public void addPoint(String title, Integer value, Color color) {
+        addPoint(new BarChartPoint(title, value == null ? null : value.doubleValue(), color));
+    }
+
+    public void addPoint(String title, Double value, Color color) {
         addPoint(new BarChartPoint(title, value, color));
     }
 
     public void addPoint(String title, Integer value) {
+        addPoint(title, value == null ? null : value.doubleValue(), null);
+    }
+
+    public void addPoint(String title, Double value) {
         addPoint(title, value, null);
     }
 
     public void addPoint(Integer value) {
+        addPoint(null, value == null ? null : value.doubleValue(), null);
+    }
+
+    public void addPoint(Double value) {
         addPoint(null, value, null);
     }
 
     public void addPoint(Integer value, Color color) {
+        addPoint(null, value == null ? null : value.doubleValue(), color);
+    }
+
+    public void addPoint(Double value, Color color) {
         addPoint(null, value, color);
     }
 
@@ -214,9 +249,16 @@ public class BarChart {
 
     protected void calculateConstants(Graphics2D g, Font font) {
         reseteConstants();
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(maxNumbersAfterDot);
         for (BarChartPoint point : data) {
-            Integer value = point.getValue();
+            Double value = point.getValue();
             if (value != null) {
+                Rectangle2D bounds = g.getFontMetrics(font).getStringBounds(nf.format(point.getValue()), g);
+                double titleValueWidth = bounds.getWidth();
+                if (titleValueWidth > maxYLength) {
+                    maxYLength = (int) titleValueWidth;
+                }
                 if (value < min) {
                     min = value;
                 }
@@ -227,7 +269,12 @@ public class BarChart {
             columns++;
         }
         maxDraw = max + 2;
-        min = 0;
+        if (minDraw > 0 && minDraw > min) {
+            min = minDraw;
+        } else {
+            min = 0;
+        }
+        offsetX = maxYLength;
         scaleX = (width - 2 * offsetX) / columns;
         scaleY = (height - 2 * offsetY) / (maxDraw - min);
         if (scaleY < 10) {
