@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.mojgorod.football.chart.BarChart;
+import ru.mojgorod.football.chart.LineChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -166,7 +169,9 @@ public class AgeByTeamsAggregator extends Aggregator {
             out.println();
         }
         out.println(Utils.repeatText("=", 19 + 19 * teams));
+        out.println( "На графике синяя линия - Зенит, зелёная - Краснодар, серая - Локомотив, красная - Спартак, чёрная - ЦСКА.");
         out.println( "</pre>");
+        out.println("<img src='image/stat_teams_age.png'>");
     }
 
     static private class SeasonStat {
@@ -207,6 +212,37 @@ public class AgeByTeamsAggregator extends Aggregator {
                 players.put(keyPlayer, value + 1);
             }
         }
+    }
+
+    public static void drawFinalCharts() {
+//        TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
+//        sortedMap.putAll(months);
+//        int items = months.size();
+//        int height = 400;
+//        if (items > 16) {
+//            height += 16 * (items - 16);
+//        }
+
+        Color[] colors = new Color[] { BarChart.COLOR_BLUE, BarChart.COLOR_GREEN, BarChart.COLOR_GRAY, BarChart.COLOR_RED, BarChart.COLOR_BLACK};
+        BarChart chart = new LineChart(800, 500);
+        chart.setCopyright("(c) football.mojgorod.ru");
+        chart.setFontSize(14);
+        chart.setFontSizeTitle(20);
+        chart.setTitle("Средний возраст костяка команды в чемпионатах России");
+        chart.setMinValue(23);
+        chart.setMaxNumbersAfterDot(1);
+        chart.setDisplayValueOnTop(false);
+        String outputFolder = getConfigFile().getOutputFolder();
+        chart.setOutputFile(outputFolder + "/image/stat_teams_age.png");
+        for (SeasonStat stat : seasons) {
+            int counter = 0;
+            for (TeamsStat teamStat : stat.teamsStat) {
+                Color color = colors[counter % 5];
+                chart.addPoint(counter, stat.title, teamStat.agePlayers == 0 ? 0.0 : (teamStat.age / teamStat.agePlayers), color);
+                counter++;
+            }
+        }
+        chart.draw();
     }
 
 }

@@ -37,6 +37,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -56,8 +57,8 @@ public class HorizontalBarChart extends BarChart {
 
     @Override
     public void draw() {
-        if (data.isEmpty()) {
-            data.add(new BarChartPoint("             ", 1.0, COLOR_WHITE));
+        if (data.size() == 1 && data.get(0).isEmpty()) {
+            data.get(0).add(new BarChartPoint("             ", 1.0, COLOR_WHITE));
         }
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -71,13 +72,13 @@ public class HorizontalBarChart extends BarChart {
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
         Stroke defaultStroke = g.getStroke();
 
-        calculateConstants(g, LABEL_FONT);
+        calculateConstants(g, LABEL_FONT, null);
 
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
 
         int i = 0;
-        for (BarChartPoint point : data) {
+        for (BarChartPoint point : data.get(0)) {
             Double value = point.getValue();
             Color color = point.getColor();
             if (color == null) {
@@ -117,7 +118,7 @@ public class HorizontalBarChart extends BarChart {
         g.setColor(COLOR_LIGHT_BLACK);
         g.setFont(LABEL_FONT);
         i = 0;
-        for (BarChartPoint point : data) {
+        for (BarChartPoint point : data.get(0)) {
 //            Integer value = point.getValue();
             g.drawString(point.getTitle(), offsetX + 4, (int)(getLocalY(columns - i - 1) - (scaleY - fontSize) / 2 - 2));
             i++;
@@ -147,32 +148,35 @@ public class HorizontalBarChart extends BarChart {
     }
 
     @Override
-    protected void calculateConstants(Graphics2D g, Font font) {
+    protected void calculateConstants(Graphics2D g, Font font, Font verticalFont) {
         reseteConstants();
         g.setFont(font);
-        for (BarChartPoint point : data) {
-            String titlePoint = point.getTitle();
-            if (titlePoint != null) {
-                Rectangle2D bounds = g.getFontMetrics().getStringBounds(point.getTitle(), g);
-                double titlePointWidth = bounds.getWidth();
-                if (titlePointWidth > maxTitleLength) {
-                    maxTitleLength = (int) titlePointWidth;
+        for (List<BarChartPoint> setData : data) {
+            for (BarChartPoint point : setData) {
+                String titlePoint = point.getTitle();
+                if (titlePoint != null) {
+                    Rectangle2D bounds = g.getFontMetrics().getStringBounds(point.getTitle(), g);
+                    double titlePointWidth = bounds.getWidth();
+                    if (titlePointWidth > maxTitleLength) {
+                        maxTitleLength = (int) titlePointWidth;
+                    }
+                }
+                Double value = point.getValue();
+                if (value != null) {
+                    if (value < min) {
+                        min = value;
+                    }
+                    if (value > max) {
+                        max = value;
+                    }
                 }
             }
-            Double value = point.getValue();
-            if (value != null) {
-                if (value < min) {
-                    min = value;
-                }
-                if (value > max) {
-                    max = value;
-                }
-            }
-            columns++;
         }
+        columns = data.get(0).size();
         maxTitleLength += 8;
         maxDraw = max;
         min = 0;
+        offsetYBottom = offsetY;
         scaleY = (float)(height - 2 * offsetY) / columns;
         scaleX = (float)(width - 2 * offsetX - maxTitleLength) / (maxDraw - min);
         if (scaleX <= 0.01) {

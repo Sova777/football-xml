@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import ru.mojgorod.football.chart.BarChart;
+import ru.mojgorod.football.chart.LineChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
