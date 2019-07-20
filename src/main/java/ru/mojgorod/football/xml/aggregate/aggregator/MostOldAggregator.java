@@ -102,7 +102,8 @@ public class MostOldAggregator extends Aggregator {
         for (Map.Entry<String, TournamentStat> entry : players.entrySet()) {
             Age playerAge = getPlayerInfo(entry.getKey()).getAge(entry.getValue().gameDateInt);
             players.get(entry.getKey()).age = playerAge;
-            players.get(entry.getKey()).name = getPlayerInfo(entry.getKey()).getName();
+            String fixedName = getPlayerInfo(entry.getKey()).getName();
+            players.get(entry.getKey()).name = fixedName != null ? fixedName : entry.getValue().name;
         }
         TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(players));
         sortedMap.putAll(players);
@@ -166,6 +167,9 @@ public class MostOldAggregator extends Aggregator {
             }
             String name1 = stat1.name;
             String name2 = stat2.name;
+            if (name1 == null || name2 == null) {
+                System.out.println("");
+            }
             return collator.compare(name1, name2);
         }
         

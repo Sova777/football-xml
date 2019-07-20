@@ -64,6 +64,7 @@ public class HorizontalBarChart extends BarChart {
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
         final Font ARIAL_BLACK_FONT = new Font("Arial"/*Font.SANS_SERIF*/, Font.PLAIN, fontSize);
         final Font LABEL_FONT = ARIAL_BLACK_FONT.deriveFont(
@@ -98,7 +99,7 @@ public class HorizontalBarChart extends BarChart {
             i++;
         }
 
-        g.setColor(COLOR_BLACK);
+        g.setColor(COLOR_PURE_BLACK);
         g.drawLine(getLocalX(0), getLocalY(0), getLocalX(0), getLocalY(columns));
         g.drawLine(offsetX, getLocalY(0), offsetX, getLocalY(columns));
         g.drawLine(getLocalX(maxDraw), getLocalY(0), getLocalX(maxDraw), getLocalY(columns));
@@ -124,7 +125,7 @@ public class HorizontalBarChart extends BarChart {
             i++;
         }
 
-        g.setColor(COLOR_BLACK);
+        g.setColor(COLOR_PURE_BLACK);
         g.setFont(DEFAULT_FONT);
         for (int j = 0; j <= maxDraw; j += stepX) {
             Rectangle2D bounds = g.getFontMetrics().getStringBounds(String.valueOf(j), g);

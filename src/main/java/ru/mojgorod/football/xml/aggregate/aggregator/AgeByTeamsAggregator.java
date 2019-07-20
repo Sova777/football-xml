@@ -215,14 +215,6 @@ public class AgeByTeamsAggregator extends Aggregator {
     }
 
     public static void drawFinalCharts() {
-//        TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
-//        sortedMap.putAll(months);
-//        int items = months.size();
-//        int height = 400;
-//        if (items > 16) {
-//            height += 16 * (items - 16);
-//        }
-
         Color[] colors = new Color[] { BarChart.COLOR_BLUE, BarChart.COLOR_GREEN, BarChart.COLOR_GRAY, BarChart.COLOR_RED, BarChart.COLOR_BLACK};
         BarChart chart = new LineChart(800, 500);
         chart.setCopyright("(c) football.mojgorod.ru");

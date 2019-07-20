@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import ru.mojgorod.football.chart.BarChart;
-import ru.mojgorod.football.chart.LineChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -210,14 +209,6 @@ public class AgeBySeasonAggregator extends Aggregator {
     }
 
     public static void drawFinalCharts() {
-//        TreeMap<Integer, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(months));
-//        sortedMap.putAll(months);
-//        int items = months.size();
-//        int height = 400;
-//        if (items > 16) {
-//            height += 16 * (items - 16);
-//        }
-
         BarChart chart = new BarChart(800, 400/*height*/);
         chart.setCopyright("(c) football.mojgorod.ru");
         chart.setFontSize(14);

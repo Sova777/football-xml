@@ -26,12 +26,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
+import java.awt.Color;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.mojgorod.football.chart.BarChart;
+import ru.mojgorod.football.chart.LineChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -166,7 +169,10 @@ public class EventsByTeamsAggregator extends Aggregator {
             out.println();
         }
         out.println(Utils.repeatText("=", 19 + 36 * teams));
+        out.println( "На графике синяя линия - Зенит, зелёная - Краснодар, серая - Локомотив, красная - Спартак, чёрная - ЦСКА.");
         out.println( "</pre>");
+        out.println("<img src='image/stat_teams_penalty.png'>");
+        out.println("<img src='image/stat_teams_red.png'>");
     }
 
     static private class SeasonStat {
@@ -205,6 +211,47 @@ public class EventsByTeamsAggregator extends Aggregator {
             return hashStat.get(keyStat);
         }
 
+    }
+
+    public static void drawFinalCharts() {
+        Color[] colors = new Color[] { BarChart.COLOR_BLUE, BarChart.COLOR_GREEN, BarChart.COLOR_GRAY, BarChart.COLOR_RED, BarChart.COLOR_BLACK};
+        BarChart chart = new LineChart(800, 500);
+        chart.setCopyright("(c) football.mojgorod.ru");
+        chart.setFontSize(14);
+        chart.setFontSizeTitle(20);
+        chart.setTitle("Пробили пенальти в чемпионатах России");
+        chart.setMaxNumbersAfterDot(1);
+        chart.setDisplayValueOnTop(false);
+        String outputFolder = getConfigFile().getOutputFolder();
+        chart.setOutputFile(outputFolder + "/image/stat_teams_penalty.png");
+        for (SeasonStat stat : seasons) {
+            int counter = 0;
+            for (TeamsStat teamStat : stat.teamsStat) {
+                Color color = colors[counter % 5];
+                chart.addPoint(counter, stat.title, teamStat.penalty, color);
+                counter++;
+            }
+        }
+        chart.draw();
+
+        BarChart chart2 = new LineChart(800, 500);
+        chart2.setCopyright("(c) football.mojgorod.ru");
+        chart2.setFontSize(14);
+        chart2.setFontSizeTitle(20);
+        chart2.setTitle("Удалений у команды в чемпионатах России");
+        chart2.setMaxNumbersAfterDot(1);
+        chart2.setDisplayValueOnTop(false);
+        String outputFolder2 = getConfigFile().getOutputFolder();
+        chart2.setOutputFile(outputFolder2 + "/image/stat_teams_red.png");
+        for (SeasonStat stat : seasons) {
+            int counter = 0;
+            for (TeamsStat teamStat : stat.teamsStat) {
+                Color color = colors[counter % 5];
+                chart2.addPoint(counter, stat.title, teamStat.redCards, color);
+                counter++;
+            }
+        }
+        chart2.draw();
     }
 
 }

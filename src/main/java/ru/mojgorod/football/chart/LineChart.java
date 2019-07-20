@@ -45,7 +45,7 @@ public class LineChart extends BarChart {
         if ((y0 > -1) && (y > -1)) {
             Stroke stroke = g.getStroke();
             g.setStroke(new BasicStroke(2));
-            g.drawLine(1 + x0 + (width / 2), y0, 1 + x + (width / 2), y);
+            g.drawLine(x0 + (width / 2), y0, x + (width / 2), y);
             g.setStroke(stroke);
         }
         if (y > -1) {

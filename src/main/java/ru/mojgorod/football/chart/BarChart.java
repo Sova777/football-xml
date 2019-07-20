@@ -30,6 +30,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -76,7 +77,8 @@ public class BarChart {
     public static final Color COLOR_WHITE = new Color(255, 255, 255);
     public static final Color COLOR_RED = new Color(220, 57, 18);
     public static final Color COLOR_BLUE = new Color(51, 102, 204);
-    public static final Color COLOR_BLACK = new Color(0, 0, 0);
+    public static final Color COLOR_PURE_BLACK = new Color(0, 0, 0);
+    public static final Color COLOR_BLACK = new Color(51, 51, 51);
     public static final Color COLOR_GRAY = new Color(160, 160, 160);
     public static final Color COLOR_GREEN = new Color(51, 204, 102);
     public static final Color COLOR_LIGHT_BLACK = new Color(49, 49, 100);
@@ -130,6 +132,8 @@ public class BarChart {
         BufferedImage bi
                 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = (Graphics2D) bi.getGraphics();
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
         final Font TITLE_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, fontSizeTitle);
 
@@ -165,7 +169,7 @@ public class BarChart {
             }
         }
 
-        g.setColor(COLOR_BLACK);
+        g.setColor(COLOR_PURE_BLACK);
         g.drawLine(getLocalX(0), getLocalY(minDraw), getLocalX(columns), getLocalY(minDraw));
         g.drawLine(getLocalX(0), getLocalY(minDraw), getLocalX(0), getLocalY(maxDraw));
         g.drawLine(getLocalX(columns), getLocalY(minDraw), getLocalX(columns), getLocalY(maxDraw));
@@ -179,7 +183,7 @@ public class BarChart {
         int i = 0;
         for (BarChartPoint point : data.get(0)) {
             Double value = point.getValue();
-            g.setColor(COLOR_BLACK);
+            g.setColor(COLOR_PURE_BLACK);
             Rectangle2D bounds = g.getFontMetrics(verticalFont).getStringBounds(point.getTitle(), g);
             if (isDisplayValueOnTop) {
                 g.drawString(point.getTitle(), getLocalX(i + 1) - ((int)scaleX - fontSize) / 2, getLocalY(value) - 1);
@@ -189,7 +193,7 @@ public class BarChart {
             i++;
         }
 
-        g.setColor(COLOR_BLACK);
+        g.setColor(COLOR_PURE_BLACK);
         g.setFont(DEFAULT_FONT);
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(maxNumbersAfterDot);
@@ -257,6 +261,10 @@ public class BarChart {
 
     public void addPoint(int setIndex, String title, Double value, Color color) {
         addPoint(setIndex, new BarChartPoint(title, value, color));
+    }
+
+    public void addPoint(int setIndex, String title, Integer value, Color color) {
+        addPoint(setIndex, new BarChartPoint(title, value == null ? null : value.doubleValue(), color));
     }
 
     public void addPoint(String title, Integer value) {
@@ -343,12 +351,12 @@ public class BarChart {
         } else {
             maxDraw = max + 1;
         }
-        if (minDraw > 0 && minDraw > min) {
+        if (minDraw > 0 || min > minDraw) {
             min = minDraw;
         } else {
             min = 0;
         }
-        offsetX = maxYLength;
+        offsetX = maxYLength + 5;
         scaleX = (width - 2 * offsetX) / columns;
         if (isDisplayValueOnTop) {
             scaleY = (height - 2 * offsetY) / (maxDraw - min);
