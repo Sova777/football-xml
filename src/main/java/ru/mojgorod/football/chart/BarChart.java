@@ -77,6 +77,7 @@ public class BarChart {
     public static final Color COLOR_WHITE = new Color(255, 255, 255);
     public static final Color COLOR_RED = new Color(220, 57, 18);
     public static final Color COLOR_BLUE = new Color(51, 102, 204);
+    public static final Color COLOR_YELLOW = new Color(220, 220, 18);
     public static final Color COLOR_PURE_BLACK = new Color(0, 0, 0);
     public static final Color COLOR_BLACK = new Color(51, 51, 51);
     public static final Color COLOR_GRAY = new Color(160, 160, 160);

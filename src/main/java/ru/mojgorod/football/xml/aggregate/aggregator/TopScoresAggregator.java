@@ -99,6 +99,9 @@ public class TopScoresAggregator extends Aggregator {
             if (index >= max && stat.goals != previous) {
                 break;
             }
+            if (max > 1 && stat.goals < 2) {
+                break;
+            }
             previous = stat.goals;
             StringBuilder teams = new StringBuilder("");
             int counter = 0;
