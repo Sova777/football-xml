@@ -36,6 +36,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -86,7 +87,13 @@ public class BlockChart extends BarChart {
                 } else {
                     g.setColor(color);
                 }
-                g.fillRect(getLocalX(columnIndex) + 2, getLocalY(columns - i) + 2, (int)(scaleX * value) - 2, (int)(scaleY) - 3);
+                g.fillRect(getLocalX(columnIndex) + 2, getLocalY(columns - i) + 2, (int)(scaleX) - 2, (int)(scaleY) - 3);
+                g.setColor(COLOR_WHITE);
+                NumberFormat nf = NumberFormat.getInstance();
+                nf.setMaximumFractionDigits(maxNumbersAfterDot);
+                String labelValue = nf.format(value);
+                Rectangle2D bounds = g.getFontMetrics().getStringBounds(labelValue, g);
+                g.drawString(labelValue, (int)((getLocalX(columnIndex) + getLocalX(columnIndex + 1) - bounds.getWidth()) / 2), (int) (getLocalY(columns - i - 1) - (scaleY - fontSize) / 2) - 1);
                 i++;
             }
             columnIndex++;

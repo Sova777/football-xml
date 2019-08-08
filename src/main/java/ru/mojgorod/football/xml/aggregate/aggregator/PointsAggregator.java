@@ -228,7 +228,9 @@ public class PointsAggregator extends Aggregator {
             for (String team : sortedMap.keySet()) {
                 Color color = BarChart.COLOR_WHITE;
                 TeamStat teamStat = stat.teamStat.get(team);
+                int points = 0;
                 if (teamStat != null) {
+                    points = 3 * teamStat.wins + teamStat.draws;
                     if (teamStat.wins > 0 && teamStat.draws == 0 && teamStat.loses == 0) {
                         color = BarChart.COLOR_GREEN;
                     } else if (teamStat.wins > teamStat.loses) {
@@ -241,7 +243,7 @@ public class PointsAggregator extends Aggregator {
                         color = BarChart.COLOR_YELLOW;
                     }
                 }
-                chart.addPoint(teamIndex, stat.team, 1, color);
+                chart.addPoint(teamIndex, stat.team, points, color);
                 teamIndex++;
             }
             counter++;
