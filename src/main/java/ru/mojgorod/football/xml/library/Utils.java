@@ -93,6 +93,11 @@ public class Utils {
         return getLocalizedMessage(days, MESSAGES_DAYS);
     }
 
+    public static String getLocalizedMessage(Age age) {
+        return String.format("%s %s", getLocalizedMessage(age.years, MESSAGES_YEARS),
+                getLocalizedMessage(age.days, MESSAGES_DAYS));
+    }
+
     public static String getLocalizedMessage(double yearsValue) {
         long years = (long)yearsValue;
         long days = (long)((yearsValue - years) * 366.0);
@@ -142,6 +147,16 @@ public class Utils {
             return "";
         }
         return String.join("", Collections.nCopies(times, text));
+    }
+
+    public static String convertDateToString(Integer date) {
+        if (date == null) {
+            return "";
+        }
+        int year = date / 10000;
+        int month = date / 100 - (100 * year);
+        int day = date - (10000 * year) - (100 * month);
+        return String.format("%02d.%02d.%04d", day, month, year);
     }
 
 }

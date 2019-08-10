@@ -28,6 +28,8 @@ package ru.mojgorod.football.xml.library;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,8 +42,12 @@ public class FootballXmlPlayersInfo {
 
     private String id;
     private String name;
+    private String fullname;
     private String birthday;
     private String country;
+    private String position;
+    private String height;
+    private String weight;
 
     void setId(String id) {
         this.id = id;
@@ -57,6 +63,14 @@ public class FootballXmlPlayersInfo {
 
     public String getName() {
         return name;
+    }
+
+    void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getFullname() {
+        return fullname;
     }
 
     void setBirthday(String birthday) {
@@ -75,6 +89,30 @@ public class FootballXmlPlayersInfo {
         return country;
     }
 
+    void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
     public Integer getBirthdayInt() {
         String date = getBirthday();
         if (date == null) {
@@ -85,6 +123,11 @@ public class FootballXmlPlayersInfo {
             return null;
         }
         return Integer.valueOf(date.substring(6, 8)) + 100 * Integer.valueOf(date.substring(4, 6)) + 10000 * Integer.valueOf(date.substring(0, 4));
+    }
+
+    public Age getAge() {
+        Calendar date = Calendar.getInstance();
+        return getAge(10000 * date.get(Calendar.YEAR) + 100 * (date.get(Calendar.MONTH) + 1) + date.get(Calendar.DAY_OF_MONTH));
     }
 
     public Age getAge(Integer currentDate) {

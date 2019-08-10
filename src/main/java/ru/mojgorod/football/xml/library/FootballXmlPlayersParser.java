@@ -95,11 +95,23 @@ public class FootballXmlPlayersParser {
                         case "name":
                             player.setName(attributeValue);
                             break;
+                        case "fullname":
+                            player.setFullname(attributeValue);
+                            break;
                         case "birthday":
                             player.setBirthday(attributeValue);
                             break;
                         case "country":
                             player.setCountry(attributeValue);
+                            break;
+                        case "position":
+                            player.setPosition(attributeValue);
+                            break;
+                        case "height":
+                            player.setHeight(attributeValue);
+                            break;
+                        case "weight":
+                            player.setWeight(attributeValue);
                             break;
                         default:
                             logUnknownAttributeNode(attributeNode);

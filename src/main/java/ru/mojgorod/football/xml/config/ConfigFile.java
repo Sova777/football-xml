@@ -72,6 +72,7 @@ public class ConfigFile {
 
     public static SeasonsManager readConfig(String configPath) {
         ConfigFile newInstance = new ConfigFile();
+        Aggregator.setConfigFile(newInstance);
         Node node;
         String root;
         try {
@@ -169,7 +170,6 @@ public class ConfigFile {
                     initAggregators(newInstance.aggregators.toArray(new String[0]))
             );
         }
-        Aggregator.setConfigFile(newInstance);
         return seasonsManager;
 
     }
