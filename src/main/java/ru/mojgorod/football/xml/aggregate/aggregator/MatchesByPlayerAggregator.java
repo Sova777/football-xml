@@ -117,6 +117,7 @@ public class MatchesByPlayerAggregator extends Aggregator {
                 case RED_CARD:
                     if (playerId.equals(event.getPlayerKey1())) {
                         redCards++;
+                        till = event.getTime();
                     }
                     break;
             }
@@ -146,10 +147,10 @@ public class MatchesByPlayerAggregator extends Aggregator {
 //        sortedMap.putAll(matches);
         out.println("<h2 id='MatchesByPlayerAggregator'>Все матчи</h2>");
         out.println("<pre>");
-        out.println("===================================================================================================================================");
-        out.println("| Матч                                     | Замены             | Мячей      | Незабитые  | Забито в    | Удалений   | Предупре-  |");
-        out.println("|                                          |                    |(с пенальти)| пенальти   | свои ворота |            | ждений     |");
-        out.println("===================================================================================================================================");
+        out.println("=============================================================================================================================================");
+        out.println("| Матч                                               | Время игры         | Мячей      | Незабитые  | Забито в    | Удалений   | Предупре-  |");
+        out.println("|                                                    |                    |(с пенальти)| пенальти   | свои ворота |            | ждений     |");
+        out.println("=============================================================================================================================================");
         for (TournamentStat stat : matches) {
             String goals = (stat.penalty > 0)
                     ? String.valueOf(stat.goals) + "(" + stat.penalty + ")"
@@ -171,10 +172,10 @@ public class MatchesByPlayerAggregator extends Aggregator {
             String autogoal = stat.autogoal == 0 ? "" : String.valueOf(stat.autogoal);
             String redCards = stat.redCards == 0 ? "" : String.valueOf(stat.redCards);
             String yellowCards = stat.yellowCards == 0 ? "" : String.valueOf(stat.yellowCards);
-            out.printf("| %-40s | %-18s | %-10s | %-10s | %-11s | %-10s | %-10s |%n",
+            out.printf("| %-50s | %-18s | %-10s | %-10s | %-11s | %-10s | %-10s |%n",
                     stat.match, time, goals, penaltyMissed, autogoal, redCards, yellowCards);
         }
-        out.println("===================================================================================================================================");
+        out.println("=============================================================================================================================================");
         out.println( "</pre>");
     }
 
