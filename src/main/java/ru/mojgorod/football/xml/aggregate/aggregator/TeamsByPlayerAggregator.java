@@ -47,7 +47,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class TeamsByPlayerAggregator extends Aggregator {
 
-    private static String playerId = getConfigFile().getParameterValue("playerId");
+    private static String playerId = getParameterValue("playerId");
     private static final HashMap<String, TournamentStat> teamMap = new HashMap<>();
 
     @Override

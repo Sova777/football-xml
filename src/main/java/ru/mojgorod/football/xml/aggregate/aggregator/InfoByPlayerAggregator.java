@@ -42,7 +42,7 @@ import ru.mojgorod.football.xml.library.Utils;
  */
 public class InfoByPlayerAggregator extends Aggregator {
 
-    private static String playerId = getConfigFile().getParameterValue("playerId");
+    private static String playerId = getParameterValue("playerId");
     private static String fullname = "";
     private static String age = "";
     private static String ageFirst = "";

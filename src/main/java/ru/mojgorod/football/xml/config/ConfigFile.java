@@ -105,6 +105,13 @@ public class ConfigFile {
             node = document.getElementsByTagName("finalReport").item(0);
             newInstance.finalReport = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
 
+            if (System.getProperty("output") != null) {
+                newInstance.outputFolder = System.getProperty("output");
+            }
+            if (System.getProperty("filePostfixFinal") != null) {
+                newInstance.filePostfixFinal = System.getProperty("filePostfixFinal");
+            }
+
             NodeList parameterNodes = document.getElementsByTagName("parameter");
             int sizeParameterNodes = parameterNodes.getLength();
             for (int i = 0; i < sizeParameterNodes; i++) {

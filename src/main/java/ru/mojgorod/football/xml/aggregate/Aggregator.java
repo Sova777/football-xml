@@ -108,4 +108,12 @@ public abstract class Aggregator {
         return seeasonParameters.getSeason();
     }
 
+    protected static String getParameterValue(String parameterName) {
+        String property = System.getProperty(parameterName);
+        if (property != null) {
+            return property;
+        }
+        return configFile.getParameterValue(parameterName);
+    }
+
 }

@@ -43,7 +43,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class MatchesByPlayerAggregator extends Aggregator {
 
-    private static String playerId = getConfigFile().getParameterValue("playerId");
+    private static String playerId = getParameterValue("playerId");
     private static final ArrayList<TournamentStat> matches = new ArrayList<>();
 
     @Override

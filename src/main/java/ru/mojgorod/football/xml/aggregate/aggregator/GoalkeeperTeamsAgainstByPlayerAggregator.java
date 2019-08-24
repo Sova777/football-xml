@@ -46,7 +46,7 @@ import ru.mojgorod.football.xml.library.UtilsGoalkeepers;
 public class GoalkeeperTeamsAgainstByPlayerAggregator extends Aggregator {
 
 
-    private static String playerId = getConfigFile().getParameterValue("playerId");
+    private static String playerId = getParameterValue("playerId");
     private static final HashMap<String, TournamentStat> teams = new HashMap<>();
 
     @Override

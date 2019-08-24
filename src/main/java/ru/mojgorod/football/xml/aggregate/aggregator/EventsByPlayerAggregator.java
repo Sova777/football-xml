@@ -49,7 +49,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class EventsByPlayerAggregator extends Aggregator {
 
-    private static String playerId = getConfigFile().getParameterValue("playerId");
+    private static String playerId = getParameterValue("playerId");
     private final HashMap<String, TournamentStat> playersMap = new HashMap<>();
     private final static ArrayList<SeasonStat> seasons = new ArrayList<>();
 
