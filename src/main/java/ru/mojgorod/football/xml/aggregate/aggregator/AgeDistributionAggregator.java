@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.HorizontalBarChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
@@ -39,6 +40,7 @@ import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
 import ru.mojgorod.football.xml.library.FootballXmlPlayer;
+import ru.mojgorod.football.xml.library.FootballXmlPlayersInfo;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
 import ru.mojgorod.football.xml.library.Utils;
 
@@ -49,7 +51,7 @@ import ru.mojgorod.football.xml.library.Utils;
 public class AgeDistributionAggregator extends Aggregator {
 
     private HashSet<String> players = new HashSet<>();
-    TreeMap<Integer, Integer> ages = new TreeMap<>();
+    TreeMap<Integer, TreeSet<String>> ages = new TreeMap<>();
     private int maxDate = 0;
 
     @Override
@@ -85,16 +87,17 @@ public class AgeDistributionAggregator extends Aggregator {
         PrintStream out = getOutput();
         if (isPlayerInfo()) {
             for (String key : players) {
-                Age ageValue = getPlayerInfo(key).getAge(maxDate);
+                FootballXmlPlayersInfo info = getPlayerInfo(key);
+                Age ageValue = info.getAge(maxDate);
                 Double playerAge = (ageValue == null) ? null : ageValue.getDoubleValue();
                 if (playerAge != null) {
                     int age = playerAge.intValue();
-                    Integer value = ages.get(age);
+                    TreeSet<String> value = ages.get(age);
                     if (value == null) {
-                        ages.put(age, 1);
-                    } else {
-                        ages.put(age, value + 1);
+                        value = new TreeSet<>();
+                        ages.put(age, value);
                     }
+                    value.add(info.getName());
                 }
             }
         }
@@ -105,12 +108,22 @@ public class AgeDistributionAggregator extends Aggregator {
         out.println("===========================");
         out.println("| Возраст    | Игроков    |");
         out.println("===========================");
-        for (Map.Entry<Integer, Integer> entry : ages.entrySet()) {
+        for (Map.Entry<Integer, TreeSet<String>> entry : ages.entrySet()) {
             out.printf(Locale.US, "| %-10d | %-10d |%n",
-                    entry.getKey(), entry.getValue());
-        }
+                    entry.getKey(), entry.getValue().size());
+            }
         out.println("===========================");
         out.println( "</pre>");
+//        out.println("<p class=\"text\">");
+//        for (Map.Entry<Integer, TreeSet<String>> entry : ages.entrySet()) {
+//            out.printf("%s (%d): ", Utils.getLocalizedYearsMessage(entry.getKey()), entry.getValue().size());
+//            StringBuilder playersNames = new StringBuilder("");
+//            for (String name : entry.getValue()) {
+//                playersNames.append(name + "; ");
+//            }
+//            out.printf("%s<br>%n", playersNames);
+//        }
+//        out.println( "</p>");
         out.println("<img src='image/stat_age_v" + getSeason().getId() + ".png'><br>");
     }
 
@@ -137,8 +150,8 @@ public class AgeDistributionAggregator extends Aggregator {
         chart.setFontSizeTitle(20);
         chart.setTitle("Возраст игроков (" + title + ")");
         chart.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_age_v" + id + ".png");
-        for (Map.Entry<Integer, Integer> entry : ages.entrySet()) {
-            chart.addPoint(Utils.getLocalizedYearsMessage(entry.getKey()), Double.valueOf(entry.getValue()));
+        for (Map.Entry<Integer, TreeSet<String>> entry : ages.entrySet()) {
+            chart.addPoint(Utils.getLocalizedYearsMessage(entry.getKey()), Double.valueOf(entry.getValue().size()));
         }
         chart.draw();
     }
