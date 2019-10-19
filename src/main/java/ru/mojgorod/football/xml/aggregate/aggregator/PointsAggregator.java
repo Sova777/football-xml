@@ -31,13 +31,15 @@ import java.io.PrintStream;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-import java.util.TreeMap;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.BlockChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballXmlReport;
+import ru.mojgorod.football.xml.library.table.FootballXmlTable;
 import ru.mojgorod.football.xml.library.Utils;
+import ru.mojgorod.football.xml.library.table.FootballXmlTableRow;
 
 /**
  *
@@ -46,6 +48,7 @@ import ru.mojgorod.football.xml.library.Utils;
 public class PointsAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> teams = new HashMap<>();
+    private final FootballXmlTable table = new FootballXmlTable();
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -62,13 +65,13 @@ public class PointsAggregator extends Aggregator {
         TournamentStat stat2 = TournamentStat.get(teams, teamKey2);
         stat2.team = team2;
         stat2.addStat(teamKey1, goals2, goals1);
+        table.add(teamKey1, teamKey2, goals1, goals2);
     }
 
     @Override
     public void print() {
         PrintStream out = getOutput();
-        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
-        sortedMap.putAll(teams);
+        List<FootballXmlTableRow> sortedList = table.sort();
         out.println("<h2 id='PointsAggregator'>Распределение заработанных очков</h2>");
         out.println("<p class=\"text\">Данная таблица не совсем соответствует турнирной. Здесь сначала учитываются очки, затем победы, разница мячей и название команды по алфавиту.</p>");
         out.println("<pre>");
@@ -81,12 +84,12 @@ public class PointsAggregator extends Aggregator {
         out.println();
         out.println(Utils.repeatText("=", 29 + 6 * teams.size()));
         int counter = 0;
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            out.printf("| %2d | %-20s |", counter + 1, stat.team);
-            for (String team : sortedMap.keySet()) {
+        for (FootballXmlTableRow team1 : sortedList) {
+            String teamName = teams.get(team1.getTeamKey()).team;
+            out.printf("| %2d | %-20s |", counter + 1, teamName);
+            for (FootballXmlTableRow team2 : sortedList) {
                 String points = "";
-                TeamStat teamStat = stat.teamStat.get(team);
+                TeamStat teamStat = teams.get(team1.getTeamKey()).teamStat.get(team2.getTeamKey());
                 if (teamStat != null) {
                     points = String.valueOf(3 * teamStat.wins + teamStat.draws);
                 }
@@ -202,8 +205,7 @@ public class PointsAggregator extends Aggregator {
 
     @Override
     public void drawCharts() {
-        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
-        sortedMap.putAll(teams);
+        List<FootballXmlTableRow> sortedList = table.sort();
         int items = teams.size();
         int height = 400;
         if (items > 16) {
@@ -222,12 +224,12 @@ public class PointsAggregator extends Aggregator {
         chart.setOutputFile(outputFolder + "/image/stat_points_v" + id + ".png");
 
         int counter = 0;
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
+        for (FootballXmlTableRow team1 : sortedList) {
+            String teamName = teams.get(team1.getTeamKey()).team;
             int teamIndex = 0;
-            for (String team : sortedMap.keySet()) {
+            for (FootballXmlTableRow team2 : sortedList) {
                 Color color = BarChart.COLOR_WHITE;
-                TeamStat teamStat = stat.teamStat.get(team);
+                TeamStat teamStat = teams.get(team1.getTeamKey()).teamStat.get(team2.getTeamKey());
                 int points = 0;
                 if (teamStat != null) {
                     points = 3 * teamStat.wins + teamStat.draws;
@@ -243,7 +245,7 @@ public class PointsAggregator extends Aggregator {
                         color = BarChart.COLOR_YELLOW;
                     }
                 }
-                chart.addPoint(teamIndex, stat.team, points, color);
+                chart.addPoint(teamIndex, teamName, points, color);
                 teamIndex++;
             }
             counter++;
