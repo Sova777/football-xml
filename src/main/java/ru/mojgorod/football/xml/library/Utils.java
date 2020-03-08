@@ -70,7 +70,8 @@ public class Utils {
 
     private static String getLocalizedMessage(long number, String[] messages) {
         int index = 2;
-        if (number > 4 && number < 20) {
+        long last2Numbers = number % 100;
+        if (last2Numbers > 4 && last2Numbers < 20) {
             index = 2;
         } else {
             long lastNumber = number % 10;
@@ -157,6 +158,16 @@ public class Utils {
         int month = date / 100 - (100 * year);
         int day = date - (10000 * year) - (100 * month);
         return String.format("%02d.%02d.%04d", day, month, year);
+    }
+
+    public static String convertDateToIso8601(Integer date) {
+        if (date == null) {
+            return "";
+        }
+        int year = date / 10000;
+        int month = date / 100 - (100 * year);
+        int day = date - (10000 * year) - (100 * month);
+        return String.format("%04d-%02d-%02d", year, month, day);
     }
 
 }

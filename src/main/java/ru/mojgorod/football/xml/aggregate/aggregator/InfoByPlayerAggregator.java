@@ -50,6 +50,7 @@ public class InfoByPlayerAggregator extends Aggregator {
     private static String ageFirstGoal = "";
     private static String ageLastGoal = "";
     private static String birthday = "";
+    private static String birthdayIso8601 = "";
     private static String country  = "";
     private static String position = "";
     private static String height = "";
@@ -136,6 +137,7 @@ public class InfoByPlayerAggregator extends Aggregator {
             FootballXmlPlayersInfo info = getPlayerInfo(playerId);
             fullname = info.getFullname();
             birthday = Utils.convertDateToString(info.getBirthdayInt());
+            birthdayIso8601 = Utils.convertDateToIso8601(info.getBirthdayInt());
             country = info.getCountry();
             position = info.getPosition();
             height = info.getHeight();
@@ -163,7 +165,8 @@ public class InfoByPlayerAggregator extends Aggregator {
         out.println("<h2 id='InfoByPlayerAggregator'>Информация об игроке</h2>");
         out.println("<h3>" + fullname + "</h3>");
         out.println("<pre>");
-        out.println(birthday + " (" + age + ")");
+        out.println(birthday + " (<span id=\"age\">?? лет</span>)");
+//        out.println(birthday + " (" + age + ")");
         out.println("Страна: " + country);
         out.println("Амплуа: " + position);
         out.println("Рост: " + height + " см.");
@@ -177,6 +180,7 @@ public class InfoByPlayerAggregator extends Aggregator {
             out.println("Последний гол: " + lastGoal + " (" + ageLastGoal + ")");
         }
         out.println("</pre>");
+        out.println("<script language=\"javascript\">age(\"" + birthdayIso8601 + "\");</script>");
     }
 
 }

@@ -221,7 +221,7 @@ public class AgeByTeamsAggregator extends Aggregator {
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Средний возраст костяка команды в чемпионатах России");
-        chart.setMinValue(23);
+        chart.setMinValue(22);
         chart.setMaxNumbersAfterDot(1);
         chart.setDisplayValueOnTop(false);
         String outputFolder = getConfigFile().getOutputFolder();

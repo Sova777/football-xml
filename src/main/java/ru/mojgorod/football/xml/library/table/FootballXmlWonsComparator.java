@@ -39,13 +39,19 @@ public class FootballXmlWonsComparator implements Comparator<String> {
 
     Collator collator = Collator.getInstance(new Locale("ru", "RU"));
     private final HashMap<String, FootballXmlTableRow> rows;
+    private final HashMap<String, FootballXmlTableRow> stat;
 
-    public FootballXmlWonsComparator(HashMap<String, FootballXmlTableRow> rows) {
+    public FootballXmlWonsComparator(HashMap<String, FootballXmlTableRow> rows, final HashMap<String, FootballXmlTableRow> stat) {
         this.rows = rows;
+        this.stat = stat;
     }
 
     @Override
     public int compare(String teamKey1, String teamKey2) {
+        if (teamKey1.equals(teamKey2)) {
+            return 0;
+        }
+
         FootballXmlTableRow row1 = rows.get(teamKey1);
         FootballXmlTableRow row2 = rows.get(teamKey2);
 
@@ -81,6 +87,50 @@ public class FootballXmlWonsComparator implements Comparator<String> {
             return -1;
         } else if (for1 < for2) {
             return 1;
+        }
+
+        int forVisitor1 = row1.getForVisitor();
+        int forVisitor2 = row2.getForVisitor();
+        if (forVisitor1 > forVisitor2) {
+            return -1;
+        } else if (forVisitor1 < forVisitor2) {
+            return 1;
+        }
+
+        if (stat != null) {
+            FootballXmlTableRow team1 = stat.get(teamKey1);
+            FootballXmlTableRow team2 = stat.get(teamKey2);
+            if (team1.getWon() > team2.getWon()) {
+                return -1;
+            } else if (team1.getWon() < team2.getWon()) {
+                return 1;
+            }
+
+            int forT1 = team1.getFor();
+            int forT2 = team2.getFor();
+            int againstT1 = team1.getAgainst();
+            int againstT2 = team2.getAgainst();
+            int diffT1 = forT1 - againstT1;
+            int diffT2 = forT2 - againstT2;
+            if (diffT1 > diffT2) {
+                return -1;
+            } else if (diffT1 < diffT2) {
+                return 1;
+            }
+
+            if (forT1 > forT2) {
+                return -1;
+            } else if (forT1 < forT2) {
+                return 1;
+            }
+
+            int forVisitorT1 = team1.getForVisitor();
+            int forVisitorT2 = team2.getForVisitor();
+            if (forVisitorT1 > forVisitorT2) {
+                return -1;
+            } else if (forVisitorT1 < forVisitorT2) {
+                return 1;
+            }
         }
 
         return collator.compare(teamKey1, teamKey2);

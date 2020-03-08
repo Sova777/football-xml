@@ -38,6 +38,10 @@ public class FootballXmlTableRow {
     private int lost = 0;
     private int for_ = 0;
     private int against = 0;
+    private int forHome = 0;
+    private int againstHome = 0;
+    private int forVisitor = 0;
+    private int againstVisitor = 0;
     private int points = 0;
 
     public String getTeamKey() {
@@ -94,6 +98,38 @@ public class FootballXmlTableRow {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getForHome() {
+        return forHome;
+    }
+
+    public void setForHome(int forHome) {
+        this.forHome = forHome;
+    }
+
+    public int getAgainstHome() {
+        return againstHome;
+    }
+
+    public void setAgainstHome(int againstHome) {
+        this.againstHome = againstHome;
+    }
+
+    public int getForVisitor() {
+        return forVisitor;
+    }
+
+    public void setForVisitor(int forVisitor) {
+        this.forVisitor = forVisitor;
+    }
+
+    public int getAgainstVisitor() {
+        return againstVisitor;
+    }
+
+    public void setAgainstVisitor(int againstVisitor) {
+        this.againstVisitor = againstVisitor;
     }
 
 }

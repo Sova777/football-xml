@@ -145,6 +145,7 @@ public class ConfigFile {
                     String id = element.getAttribute("id");
                     String title = element.getAttribute("title");
                     String linktitle = element.getAttribute("linktitle");
+                    String sort = element.getAttribute("sort");
                     NodeList folderNodes = element.getElementsByTagName("folder");
                     int sizeFolders = folderNodes.getLength();
                     String[] folders = new String[sizeFolders];
@@ -155,7 +156,7 @@ public class ConfigFile {
                             folders[j] = folder;
                         }
                     }
-                    newInstance.seasons.add(new Season(id, title, linktitle, folders));
+                    newInstance.seasons.add(new Season(id, title, linktitle, sort, folders));
                 }
             }
         } catch (IOException | ParserConfigurationException | DOMException | SAXException ex) {

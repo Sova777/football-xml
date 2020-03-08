@@ -28,11 +28,8 @@ package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.awt.Color;
 import java.io.PrintStream;
-import java.text.Collator;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import ru.mojgorod.football.chart.BarChart;
 import ru.mojgorod.football.chart.BlockChart;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
@@ -71,7 +68,7 @@ public class PointsAggregator extends Aggregator {
     @Override
     public void print() {
         PrintStream out = getOutput();
-        List<FootballXmlTableRow> sortedList = table.sort();
+        List<FootballXmlTableRow> sortedList = table.sort(getSeason().getSort());
         out.println("<h2 id='PointsAggregator'>Распределение заработанных очков</h2>");
         out.println("<p class=\"text\">Данная таблица не совсем соответствует турнирной. Здесь сначала учитываются очки, затем победы, разница мячей и название команды по алфавиту.</p>");
         out.println("<pre>");
@@ -161,51 +158,9 @@ public class PointsAggregator extends Aggregator {
 
     }
 
-    static private class StatComparator implements Comparator<String> {
-
-        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private final HashMap<String, TournamentStat> map;
-
-        public StatComparator(final HashMap<String, TournamentStat> map) {
-            this.map = map;
-        }
-
-        @Override
-        public int compare(String key1, String key2) {
-            TournamentStat stat1 = map.get(key1);
-            TournamentStat stat2 = map.get(key2);
-
-            int points1 = stat1.points;
-            int points2 = stat2.points;
-            if (points1 < points2) {
-                return 1;
-            } else if (points1 > points2) {
-                return -1;
-            }
-
-            int wins1 = stat1.wins;
-            int wins2 = stat2.wins;
-            if (wins1 < wins2) {
-                return 1;
-            } else if (wins1 > wins2) {
-                return -1;
-            }
-
-            int diff1 = stat1.goals1 - stat1.goals2;
-            int diff2 = stat2.goals1 - stat2.goals2;
-            if (diff1 < diff2) {
-                return 1;
-            } else if (diff1 > diff2) {
-                return -1;
-            }
-            return collator.compare(stat1.team, stat2.team);
-        }
-        
-    }
-
     @Override
     public void drawCharts() {
-        List<FootballXmlTableRow> sortedList = table.sort();
+        List<FootballXmlTableRow> sortedList = table.sort(getSeason().getSort());
         int items = teams.size();
         int height = 400;
         if (items > 16) {

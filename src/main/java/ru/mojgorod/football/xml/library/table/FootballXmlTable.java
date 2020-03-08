@@ -55,7 +55,7 @@ public class FootballXmlTable {
         scoresTeam.add(goals1, goals2);
     }
 
-    public List<FootballXmlTableRow> sort() {
+    public List<FootballXmlTableRow> sort(String sortRules) {
         HashMap<String, FootballXmlTableRow> rows = new HashMap<>();
         for (Map.Entry<String, HashMap<String, TableScores>> scoresHash : scores.entrySet()) {
             String teamKey1 = scoresHash.getKey();
@@ -89,41 +89,62 @@ public class FootballXmlTable {
                     row1.setTeamKey(teamKey1);
                     row1.setFor(row1.getFor() + g1);
                     row1.setAgainst(row1.getAgainst() + g2);
+                    row1.setForHome(row1.getForHome() + g1);
+                    row1.setAgainstHome(row1.getAgainstHome() + g2);
                     row1.setPoints(3 * row1.getWon() + row1.getDraws());
                     row2.setTeamKey(teamKey2);
                     row2.setFor(row2.getFor() + g2);
                     row2.setAgainst(row2.getAgainst() + g1);
+                    row2.setForVisitor(row2.getForVisitor() + g2);
+                    row2.setAgainstVisitor(row2.getAgainstVisitor() + g1);
                     row2.setPoints(3 * row2.getWon() + row2.getDraws());
                 }
             }
         }
-        TreeMap<String, FootballXmlTableRow> sortedMap = new TreeMap<>(new FootballXmlWonsComparator(rows));
+        TreeMap<String, FootballXmlTableRow> sortedMap = new TreeMap<>(new FootballXmlWonsComparator(rows, null));
         sortedMap.putAll(rows);
         int points = 0;
+        int wons = 0;
         boolean isFirst = true;
         HashSet<String> listResort = new HashSet<>();
         List<FootballXmlTableRow> listTable = new ArrayList<>();
-        for (FootballXmlTableRow row : sortedMap.values()) {
-            if (row.getPoints() != points && !isFirst) {
-                List<String> teams = opponentsComparator(listResort);
-                listResort.clear();
-                for (String team : teams) {
-                    listTable.add(sortedMap.get(team));
+        if ("opp".equals(sortRules)) {
+            for (FootballXmlTableRow row : sortedMap.values()) {
+                if (row.getPoints() != points && !isFirst) {
+                    List<String> teams = opponentsComparator(listResort, rows);
+                    listResort.clear();
+                    for (String team : teams) {
+                        listTable.add(sortedMap.get(team));
+                    }
                 }
+                points = row.getPoints();
+                listResort.add(row.getTeamKey());
+                isFirst = false;
             }
-            points = row.getPoints();
-            listResort.add(row.getTeamKey());
-            isFirst = false;
+        } else {
+            for (FootballXmlTableRow row : sortedMap.values()) {
+                if ((row.getPoints() != points || row.getWon() != wons) && !isFirst) {
+                    List<String> teams = opponentsComparator(listResort, rows);
+                    listResort.clear();
+                    for (String team : teams) {
+                        listTable.add(sortedMap.get(team));
+                    }
+                }
+                points = row.getPoints();
+                wons = row.getWon();
+                listResort.add(row.getTeamKey());
+                isFirst = false;
+            }
         }
-        opponentsComparator(listResort);
-        List<String> teams = opponentsComparator(listResort);
+        opponentsComparator(listResort, rows);
+        List<String> teams = opponentsComparator(listResort, rows);
         for (String team : teams) {
             listTable.add(sortedMap.get(team));
         }
         return listTable;
     }
 
-    private List<String> opponentsComparator(final HashSet<String> listResort) {
+    private List<String> opponentsComparator(final HashSet<String> listResort, final HashMap<String, FootballXmlTableRow> stat) {
         List<String> array = new ArrayList<>();
         if (listResort.isEmpty()) {
             return array;
@@ -169,15 +190,19 @@ public class FootballXmlTable {
                     row1.setTeamKey(teamKey1);
                     row1.setFor(row1.getFor() + g1);
                     row1.setAgainst(row1.getAgainst() + g2);
+                    row1.setForHome(row1.getForHome() + g1);
+                    row1.setAgainstHome(row1.getAgainstHome() + g2);
                     row1.setPoints(3 * row1.getWon() + row1.getDraws());
                     row2.setTeamKey(teamKey2);
                     row2.setFor(row2.getFor() + g2);
                     row2.setAgainst(row2.getAgainst() + g1);
+                    row2.setForVisitor(row2.getForVisitor() + g2);
+                    row2.setAgainstVisitor(row2.getAgainstVisitor() + g1);
                     row2.setPoints(3 * row2.getWon() + row2.getDraws());
                 }
             }
         }
-        TreeMap<String, FootballXmlTableRow> sortedMap = new TreeMap<>(new FootballXmlWonsComparator(rows));
+        TreeMap<String, FootballXmlTableRow> sortedMap = new TreeMap<>(new FootballXmlWonsComparator(rows, stat));
         sortedMap.putAll(rows);
         for (String teamKey : sortedMap.keySet()) {
             array.add(teamKey);

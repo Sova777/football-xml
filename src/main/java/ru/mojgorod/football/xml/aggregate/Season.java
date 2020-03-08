@@ -35,12 +35,14 @@ public class Season {
     private final String id;
     private final String title;
     private final String linktitle;
+    private final String sort;
     private final String[] folder;
 
-    public Season(final String id, final String title, final String linktitle, final String... folder) {
+    public Season(final String id, final String title, final String linktitle, final String sort, final String... folder) {
         this.id = id;
         this.title = title;
         this.linktitle = linktitle;
+        this.sort = sort;
         this.folder = folder;
     }
 
@@ -58,6 +60,10 @@ public class Season {
 
     public String getLinkTitle() {
         return linktitle;
+    }
+
+    public String getSort() {
+        return sort;
     }
 
 }
