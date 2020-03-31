@@ -76,6 +76,12 @@ public class PlayersAggregator extends Aggregator {
 
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
+            FootballEventType e = event.getEventType();
+            if (e.equals(FootballEventType.RED_CARD_STAFF)
+                    || e.equals(FootballEventType.RED_AND_YELLOW_CARD_STAFF)
+                    || e.equals(FootballEventType.YELLOW_CARD_STAFF)) {
+                continue;
+            }
             String team = event.getTeam();
             String teamId;
             if (team.equals(team1)) {

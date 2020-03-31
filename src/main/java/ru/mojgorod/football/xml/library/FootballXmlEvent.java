@@ -195,6 +195,12 @@ public class FootballXmlEvent {
                 return FootballEventType.RED_CARD;
             case "Удаление и предупреждение":
                 return FootballEventType.RED_AND_YELLOW_CARD;
+            case "Предупреждение(персонал)":
+                return FootballEventType.YELLOW_CARD_STAFF;
+            case "Удаление(персонал)":
+                return FootballEventType.RED_CARD_STAFF;
+            case "Удаление и предупреждение(персонал)":
+                return FootballEventType.RED_AND_YELLOW_CARD_STAFF;
             default:
                 Logger.getLogger(FootballXmlEvent.class.getName()).log(Level.SEVERE, "Unknown event type: {0}", type);
                 return FootballEventType.UNKNOWN;

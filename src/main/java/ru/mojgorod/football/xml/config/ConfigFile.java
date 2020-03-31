@@ -195,8 +195,12 @@ public class ConfigFile {
 
     private static Aggregator initAggregator(String aggregatorName) {
         try {
-            Class clazz = Class.forName(Aggregator.class.getPackageName() + ".aggregator." + aggregatorName + "Aggregator");
-            return (Aggregator) clazz.newInstance();
+            Class<?> clazz = Class.forName(Aggregator.class.getPackage().getName() + ".aggregator." + aggregatorName + "Aggregator");
+            return (Aggregator) clazz.getDeclaredConstructor().newInstance();
+        } catch (InvocationTargetException ex) {
+            throw new RuntimeException(ex.getMessage(), ex.getCause());
+        } catch (NoSuchMethodException ex) {
+            throw new RuntimeException(ex.getMessage(), ex.getCause());
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -226,7 +230,7 @@ public class ConfigFile {
         }
         for (String aggregatorName : aggregators) {
             try {
-                Class clazz = Class.forName(Aggregator.class.getPackageName() + ".aggregator." + aggregatorName + "Aggregator");
+                Class<?> clazz = Class.forName(Aggregator.class.getPackage().getName() + ".aggregator." + aggregatorName + "Aggregator");
                 Method method = clazz.getDeclaredMethod(methodName);
                 method.invoke(null);
             } catch (ClassNotFoundException ex) {
