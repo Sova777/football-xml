@@ -163,6 +163,9 @@ public class FootballXmlTable {
                 rows.put(teamKey1, row1);
             }
             HashMap<String, TableScores> scoresHash = scores.get(teamKey1);
+            if (scoresHash == null || scoresHash.entrySet() == null) {
+                continue;
+            }
             for (Map.Entry<String, TableScores> scoresItem : scoresHash.entrySet()) {
                 String teamKey2 = scoresItem.getKey();
                 if (!listResort.contains(teamKey2)) {
