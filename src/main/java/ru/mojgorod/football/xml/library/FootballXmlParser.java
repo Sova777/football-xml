@@ -48,6 +48,7 @@ public class FootballXmlParser {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.parse(file);
         FootballXmlReport xmlReport = new FootballXmlReport();
+        xmlReport.setCanceled(false);
         Node root = document.getDocumentElement();
         NodeList subNodes = root.getChildNodes();
         int size = subNodes.getLength();
@@ -95,6 +96,9 @@ public class FootballXmlParser {
                             break;
                         case "text":
                             tagText(xmlReport, node);
+                            break;
+                        case "canceled":
+                            tagCanceled(xmlReport, node);
                             break;
                         default:
                             logUnknownNode(node);
@@ -462,6 +466,10 @@ public class FootballXmlParser {
 
     private static void tagText(FootballXmlReport xmlReport, Node node) {
         xmlReport.setText(node.getTextContent());
+    }
+
+    private static void tagCanceled(FootballXmlReport xmlReport, Node node) {
+        xmlReport.setCanceled(true);
     }
 
     private static void logUnknownAttributeNode(Node attributeNode) {

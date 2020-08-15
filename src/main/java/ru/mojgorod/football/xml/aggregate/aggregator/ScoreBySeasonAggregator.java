@@ -46,6 +46,10 @@ public class ScoreBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         int goals1 = xmlReport.getGoalsInt1();
         int goals2 = xmlReport.getGoalsInt2();
         if (goals1 == goals2) {

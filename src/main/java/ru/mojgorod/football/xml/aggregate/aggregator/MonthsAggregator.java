@@ -30,6 +30,10 @@ public class MonthsAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer date = xmlReport.getDateInt();
         int day = date % 100;
         int yearAndMonth = (date - day) / 100;

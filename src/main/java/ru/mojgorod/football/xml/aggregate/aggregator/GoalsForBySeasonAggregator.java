@@ -43,6 +43,10 @@ public class GoalsForBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String team1 = xmlReport.getTeam1();
         String teamKey1 = xmlReport.getTeamKey1();
         int goals1 = xmlReport.getGoalsInt1();

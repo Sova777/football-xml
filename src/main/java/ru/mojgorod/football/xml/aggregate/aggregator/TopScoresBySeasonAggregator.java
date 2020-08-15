@@ -50,6 +50,10 @@ public class TopScoresBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
             FootballEventType eventType = event.getEventType();

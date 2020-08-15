@@ -55,6 +55,10 @@ public class MedianBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
         int attendance = (attendanceInteger == null) ? 0 : attendanceInteger;
         attendanceArray.add(attendance);

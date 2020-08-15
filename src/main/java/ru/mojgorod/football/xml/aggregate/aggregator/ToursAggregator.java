@@ -49,6 +49,10 @@ public class ToursAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String round = xmlReport.getRound();
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
         int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;

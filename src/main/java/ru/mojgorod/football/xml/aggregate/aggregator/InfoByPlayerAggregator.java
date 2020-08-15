@@ -66,6 +66,10 @@ public class InfoByPlayerAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer date = xmlReport.getDateInt();
         boolean isPlayed = false;
         boolean isGoal = false;

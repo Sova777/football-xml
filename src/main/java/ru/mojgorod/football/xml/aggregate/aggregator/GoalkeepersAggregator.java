@@ -51,6 +51,10 @@ public class GoalkeepersAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         final HashMap<String, TournamentStat> matchKeepers = new HashMap<>();
         String team1 = xmlReport.getTeam1();
         String teamId1 = xmlReport.getTeamId1();

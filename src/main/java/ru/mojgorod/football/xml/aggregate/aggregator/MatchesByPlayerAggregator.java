@@ -48,6 +48,10 @@ public class MatchesByPlayerAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         boolean isPlayed = false;
         int goals = 0;
         int penalty = 0;

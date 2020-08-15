@@ -64,6 +64,7 @@ public class FootballXmlReport {
     private String coachId1;
     private String coach2;
     private String coachId2;
+    private boolean canceled;
     private String text;
     private final ArrayList<FootballXmlPlayer> players1 = new ArrayList<>();
     private final ArrayList<FootballXmlPlayer> players2 = new ArrayList<>();
@@ -403,6 +404,14 @@ public class FootballXmlReport {
 
     public String getText() {
         return text;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
     }
 
     void addPlayer1(FootballXmlPlayer player1) {

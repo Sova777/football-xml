@@ -47,6 +47,10 @@ public class PointsBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String teamKey1 = xmlReport.getTeamKey1();
         String teamKey2 = xmlReport.getTeamKey2();
         int goals1 = xmlReport.getGoalsInt1();

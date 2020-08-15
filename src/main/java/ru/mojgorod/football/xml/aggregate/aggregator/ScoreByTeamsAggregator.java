@@ -45,6 +45,10 @@ public class ScoreByTeamsAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String team1 = xmlReport.getTeam1();
         String teamKey1 = xmlReport.getTeamKey1();
         String team2 = xmlReport.getTeam2();

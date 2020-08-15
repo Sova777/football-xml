@@ -48,6 +48,10 @@ public class StrongWinAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         if (!xmlReport.isValidScore()) {
             return;
         }

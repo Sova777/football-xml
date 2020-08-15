@@ -49,6 +49,10 @@ public class HatTricsBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         HashMap<String, MatchStat> matchStat = new HashMap<>();
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {

@@ -48,6 +48,10 @@ public class RefereesAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String referee = xmlReport.getReferee();
         String refereeKey = xmlReport.getRefereeKey();
 

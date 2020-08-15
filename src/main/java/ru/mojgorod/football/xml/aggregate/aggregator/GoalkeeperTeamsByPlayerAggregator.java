@@ -51,6 +51,10 @@ public class GoalkeeperTeamsByPlayerAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         final HashMap<String, FootballXmlGooalkeeperStat> matchKeepers = UtilsGoalkeepers.getMatchStat(xmlReport);
         for (Entry<String, FootballXmlGooalkeeperStat> entry : matchKeepers.entrySet()) {
             FootballXmlGooalkeeperStat mathStat = entry.getValue();

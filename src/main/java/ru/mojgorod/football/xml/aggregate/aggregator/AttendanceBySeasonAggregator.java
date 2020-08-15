@@ -43,6 +43,10 @@ public class AttendanceBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
         int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
         attendance += attendanceValue;

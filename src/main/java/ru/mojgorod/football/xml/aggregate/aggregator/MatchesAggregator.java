@@ -40,6 +40,10 @@ public class MatchesAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         games++;
     }
 

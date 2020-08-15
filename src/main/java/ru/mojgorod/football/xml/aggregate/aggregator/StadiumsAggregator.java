@@ -51,6 +51,10 @@ public class StadiumsAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String stadiumKey = xmlReport.getStadiumKey();
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
         int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;

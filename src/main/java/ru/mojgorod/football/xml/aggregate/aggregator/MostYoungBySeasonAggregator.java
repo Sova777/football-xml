@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.Age;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -51,6 +50,10 @@ public class MostYoungBySeasonAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer date = xmlReport.getDateInt();
         String team1 = xmlReport.getTeam1();
         String team2 = xmlReport.getTeam2();

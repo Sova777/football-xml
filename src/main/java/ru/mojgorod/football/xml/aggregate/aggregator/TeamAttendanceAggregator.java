@@ -45,6 +45,10 @@ public class TeamAttendanceAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         String teamKey1 = xmlReport.getTeamKey1();
         String teamKey2 = xmlReport.getTeamKey2();
         Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();

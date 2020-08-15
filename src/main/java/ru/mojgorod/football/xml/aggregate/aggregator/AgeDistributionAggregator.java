@@ -56,6 +56,10 @@ public class AgeDistributionAggregator extends Aggregator {
 
     @Override
     public void add(FootballXmlReport xmlReport) {
+        if (xmlReport.isCanceled()) {
+            return;
+        }
+
         Integer date = xmlReport.getDateInt();
         if (maxDate < date) {
             maxDate = date;
