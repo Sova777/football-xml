@@ -44,7 +44,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class RefereesAggregator extends Aggregator {
 
-    private final HashMap<String, TournamentStat> referees = new HashMap<>();
+    protected final HashMap<String, TournamentStat> referees = new HashMap<>();
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -58,6 +58,7 @@ public class RefereesAggregator extends Aggregator {
         TournamentStat stat = TournamentStat.get(referees, refereeKey);
         stat.name = referee;
         stat.city = xmlReport.getRefereeCity();
+        stat.country = xmlReport.getRefereeCountry();
         stat.games++;
 
         List<FootballXmlEvent> events = xmlReport.getEvents();
@@ -101,15 +102,16 @@ public class RefereesAggregator extends Aggregator {
         out.println( "</pre>");
     }
 
-    static private class TournamentStat {
+    static protected class TournamentStat {
 
-        private int games = 0;
-        private int redCards = 0;
-        private int redAndYellowCards = 0;
-        private int yellowCards = 0;
-        private int penalties = 0;
-        private String name = "";
-        private String city = "";
+        protected int games = 0;
+        protected int redCards = 0;
+        protected int redAndYellowCards = 0;
+        protected int yellowCards = 0;
+        protected int penalties = 0;
+        protected String name = "";
+        protected String country = "";
+        protected String city = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {
@@ -120,7 +122,7 @@ public class RefereesAggregator extends Aggregator {
 
     }
 
-    static private class StatComparator implements Comparator<String> {
+    static protected class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private final HashMap<String, TournamentStat> map;

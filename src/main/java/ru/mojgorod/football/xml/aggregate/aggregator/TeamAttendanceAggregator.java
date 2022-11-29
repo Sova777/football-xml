@@ -41,7 +41,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class TeamAttendanceAggregator extends Aggregator {
 
-    private final HashMap<String, TournamentStat> teams = new HashMap<>();
+    protected final HashMap<String, TournamentStat> teams = new HashMap<>();
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -88,13 +88,13 @@ public class TeamAttendanceAggregator extends Aggregator {
         out.println( "</pre>");
     }
 
-    static private class TournamentStat {
+    static protected class TournamentStat {
 
-        private int homeAttendance = 0;
-        private int awayAttendance = 0;
-        private int homeGames = 0;
-        private int awayGames = 0;
-        private String team = "";
+        protected int homeAttendance = 0;
+        protected int awayAttendance = 0;
+        protected int homeGames = 0;
+        protected int awayGames = 0;
+        protected String team = "";
 
         public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
             if (!hashStat.containsKey(keyStat)) {
@@ -105,7 +105,7 @@ public class TeamAttendanceAggregator extends Aggregator {
 
     }
 
-    static private class StatComparator implements Comparator<String> {
+    static protected class StatComparator implements Comparator<String> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
         private final HashMap<String, TournamentStat> map;

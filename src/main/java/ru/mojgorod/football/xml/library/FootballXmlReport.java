@@ -60,6 +60,7 @@ public class FootballXmlReport {
     private String referee;
     private String refereeId;
     private String refereeCity;
+    private String refereeCountry;
     private String coach1;
     private String coachId1;
     private String coach2;
@@ -337,6 +338,13 @@ public class FootballXmlReport {
         return refereeCity;
     }
 
+    public void setRefereeCountry(final String refereeCountry) {
+        this.refereeCountry = refereeCountry;
+    }
+
+    public String getRefereeCountry() {
+        return refereeCountry;
+    }
 
     public void setCoach1(final String coach1) {
         this.coach1 = coach1;

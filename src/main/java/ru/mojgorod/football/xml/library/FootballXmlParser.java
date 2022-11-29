@@ -452,6 +452,9 @@ public class FootballXmlParser {
                         case "city":
                             xmlReport.setRefereeCity(attributeValue);
                             break;
+                        case "country":
+                            xmlReport.setRefereeCountry(attributeValue);
+                            break;
                         default:
                             logUnknownAttributeNode(attributeNode);
                             break;

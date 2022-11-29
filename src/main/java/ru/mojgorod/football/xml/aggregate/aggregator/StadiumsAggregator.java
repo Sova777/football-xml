@@ -106,7 +106,7 @@ public class StadiumsAggregator extends Aggregator {
                 games, average, minAttendance, maxAttendance);
         out.println("===========================================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_attendance_v" + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_attendance_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
     }
 
     private String fixStadiumName(String name) {
@@ -184,7 +184,7 @@ public class StadiumsAggregator extends Aggregator {
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость по стадиону (" + title + ")");
         String outputFolder = getConfigFile().getOutputFolder();
-        chart.setOutputFile(outputFolder + "/image/stat_attendance_v" + id + ".png");
+        chart.setOutputFile(outputFolder + "/image/stat_attendance_" + getFileNamePrefix() + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = stadiums.get(s);
             chart.addPoint(fixStadiumName(stat.name), stat.attendance / stat.games);

@@ -106,7 +106,7 @@ public class ToursAggregator extends Aggregator {
         }
         out.println("=======================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_tours_v" + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_tours_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -166,7 +166,7 @@ public class ToursAggregator extends Aggregator {
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость за тур (" + title + ")");
         String outputFolder = getConfigFile().getOutputFolder();
-        chart.setOutputFile(outputFolder + "/image/stat_tours_v" + id + ".png");
+        chart.setOutputFile(outputFolder + "/image/stat_tours_" + getFileNamePrefix() + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = tours.get(s);
             chart.addPoint(stat.tour, stat.attendance / stat.games);

@@ -45,7 +45,8 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  */
 public class HatTricsAggregator extends Aggregator {
 
-    private final ArrayList<TournamentStat> matches = new ArrayList<>();
+    protected final ArrayList<TournamentStat> matches = new ArrayList<>();
+    protected int min = 3;
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -66,7 +67,7 @@ public class HatTricsAggregator extends Aggregator {
         }
         for (String key : matchStat.keySet()) {
             MatchStat itemStat = matchStat.get(key);
-            if (itemStat.goals >= 3) {
+            if (itemStat.goals >= min) {
                 TournamentStat tournamentStat = new TournamentStat();
                 tournamentStat.name = itemStat.name;
                 tournamentStat.team = itemStat.team;
@@ -123,18 +124,18 @@ public class HatTricsAggregator extends Aggregator {
 
     }
 
-    static private class TournamentStat {
+    static protected class TournamentStat {
 
-        private String name = "";
-        private String team = "";
-        private String match = "";
-        private int goals = 0;
-        private String key = "";
-        private String date = "";
+        protected String name = "";
+        protected String team = "";
+        protected String match = "";
+        protected int goals = 0;
+        protected String key = "";
+        protected String date = "";
 
     }
 
-    static private class StatArrayComparator implements Comparator<TournamentStat> {
+    static protected class StatArrayComparator implements Comparator<TournamentStat> {
 
         Collator collator = Collator.getInstance(new Locale("ru", "RU"));
 

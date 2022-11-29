@@ -124,8 +124,8 @@ public class GoalsForAggregator extends Aggregator {
         }
         out.println("==============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_goalsfor1_v" + getSeason().getId() + ".png'>");
-        out.println("<img src='image/stat_goalsfor2_v" + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_goalsfor1_" + getFileNamePrefix() + getSeason().getId() + ".png'>");
+        out.println("<img src='image/stat_goalsfor2_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -189,7 +189,7 @@ public class GoalsForAggregator extends Aggregator {
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Мячей за первый тайм (" + title + ")");
-        chart.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_goalsfor1_v" + id + ".png");
+        chart.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_goalsfor1_" + getFileNamePrefix() + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart.addPoint(stat.team, stat.half1);
@@ -201,7 +201,7 @@ public class GoalsForAggregator extends Aggregator {
         chart2.setFontSize(14);
         chart2.setFontSizeTitle(20);
         chart2.setTitle("Мячей за второй тайм (" + title + ")");
-        chart2.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_goalsfor2_v" + id + ".png");
+        chart2.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_goalsfor2_" + getFileNamePrefix() + id + ".png");
         for (String s : sortedMap.keySet()) {
             TournamentStat stat = teams.get(s);
             chart2.addPoint(stat.team, stat.half2);

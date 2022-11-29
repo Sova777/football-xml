@@ -90,7 +90,7 @@ public class MonthsAggregator extends Aggregator {
         }
         out.println("============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_months_v" + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_months_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
     }
 
     static private class TournamentStat {
@@ -150,7 +150,7 @@ public class MonthsAggregator extends Aggregator {
         chart.setFontSizeTitle(20);
         chart.setTitle("Средняя посещаемость за месяц (" + title + ")");
         String outputFolder = getConfigFile().getOutputFolder();
-        chart.setOutputFile(outputFolder + "/image/stat_months_v" + id + ".png");
+        chart.setOutputFile(outputFolder + "/image/stat_months_" + getFileNamePrefix() + id + ".png");
         for (Integer s : sortedMap.keySet()) {
             TournamentStat stat = months.get(s);
             chart.addPoint(Utils.getMonthName(stat.month % 100), stat.attendance / stat.games);

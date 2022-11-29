@@ -64,6 +64,7 @@ public class ConfigFile {
     private String filePostfixFinal = null;
     private String currentSeason = null;
     private String otherSeason = null;
+    private String fileNamePrefix = null;
     private boolean seasonReports = true;
     private boolean finalReport = true;
     private final List<String> aggregators = new ArrayList<>();
@@ -99,6 +100,8 @@ public class ConfigFile {
             newInstance.currentSeason = (node == null) ? null : node.getTextContent();
             node = document.getElementsByTagName("other").item(0);
             newInstance.otherSeason = (node == null) ? null : node.getTextContent();
+            node = document.getElementsByTagName("prefix").item(0);
+            newInstance.fileNamePrefix = (node == null) ? "v" : node.getTextContent();
 
             node = document.getElementsByTagName("seasonReports").item(0);
             newInstance.seasonReports = (node == null) ? true : Boolean.getBoolean(node.getTextContent());
@@ -174,7 +177,7 @@ public class ConfigFile {
 
         for (Season season : newInstance.seasons) {
             seasonsManager.add(season,
-                    newInstance.outputFolder + "stat_v" + season.getId() + ".html",
+                    newInstance.outputFolder + "stat_" + newInstance.fileNamePrefix + season.getId() + ".html",
                     initAggregators(newInstance.aggregators.toArray(new String[0]))
             );
         }
@@ -270,6 +273,10 @@ public class ConfigFile {
 
     public String getFilePostfixFinal() {
         return filePostfixFinal;
+    }
+
+    public String getFileNamePrefix() {
+        return fileNamePrefix;
     }
 
     public String getCurrentSeason() {

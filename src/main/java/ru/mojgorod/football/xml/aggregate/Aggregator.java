@@ -104,6 +104,10 @@ public abstract class Aggregator {
         return configFile;
     }
 
+    protected static String getFileNamePrefix() {
+        return configFile.getFileNamePrefix();
+    }
+
     protected Season getSeason() {
         return seeasonParameters.getSeason();
     }

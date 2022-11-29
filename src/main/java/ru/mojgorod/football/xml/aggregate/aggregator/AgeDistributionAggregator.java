@@ -128,7 +128,7 @@ public class AgeDistributionAggregator extends Aggregator {
 //            out.printf("%s<br>%n", playersNames);
 //        }
 //        out.println( "</p>");
-        out.println("<img src='image/stat_age_v" + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_age_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
     }
 
     public void addPlayer(final String keyPlayer) {
@@ -153,7 +153,7 @@ public class AgeDistributionAggregator extends Aggregator {
         chart.setFontSize(14);
         chart.setFontSizeTitle(20);
         chart.setTitle("Возраст игроков (" + title + ")");
-        chart.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_age_v" + id + ".png");
+        chart.setOutputFile(getConfigFile().getOutputFolder() + "/image/stat_age_" + getFileNamePrefix() + id + ".png");
         for (Map.Entry<Integer, TreeSet<String>> entry : ages.entrySet()) {
             chart.addPoint(Utils.getLocalizedYearsMessage(entry.getKey()), Double.valueOf(entry.getValue().size()));
         }

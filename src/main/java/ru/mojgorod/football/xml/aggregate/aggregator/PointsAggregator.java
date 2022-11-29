@@ -97,7 +97,7 @@ public class PointsAggregator extends Aggregator {
         }
         out.println(Utils.repeatText("=", 29 + 6 * teams.size()));
         out.println("</pre>");
-        out.println("<img src='image/stat_points_v" + getSeason().getId() + ".png'>");
+        out.println("<img src='image/stat_points_" + getFileNamePrefix() + getSeason().getId() + ".png'>");
         out.println("<pre>");
         out.println("зелёный цвет - только победы");
         out.println("синий цвет   - побед больше чем поражений");
@@ -176,7 +176,7 @@ public class PointsAggregator extends Aggregator {
         chart.setFontSizeTitle(20);
         chart.setTitle("Распределение заработанных очков (" + title + ")");
         String outputFolder = getConfigFile().getOutputFolder();
-        chart.setOutputFile(outputFolder + "/image/stat_points_v" + id + ".png");
+        chart.setOutputFile(outputFolder + "/image/stat_points_" + getFileNamePrefix() + id + ".png");
 
         int counter = 0;
         for (FootballXmlTableRow team1 : sortedList) {
