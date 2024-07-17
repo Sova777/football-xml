@@ -92,10 +92,10 @@ public class TopScoresAggregator extends Aggregator {
         sortedMap.putAll(players);
         out.println("<h2 id='TopScoresAggregator'>Список лучших бомбардиров</h2>");
         out.println("<pre>");
-        out.println("====================================================================");
-        out.println("| Игрок                     | Команда               | Голов        |");
-        out.println("|                           |                       | (с пенальти) |");
-        out.println("====================================================================");
+        out.println("======================================================================");
+        out.println("| Игрок                     | Команда                 | Голов        |");
+        out.println("|                           |                         | (с пенальти) |");
+        out.println("======================================================================");
         int index = 0;
         int previous = Integer.MAX_VALUE;
         for (String s : sortedMap.keySet()) {
@@ -117,10 +117,10 @@ public class TopScoresAggregator extends Aggregator {
                 counter++;
             }
             String goals = stat.penalty == 0 ? String.valueOf(stat.goals) : String.format("%s(%s)", stat.goals, stat.penalty);
-            out.printf("| %-25s | %-21s | %-12s |%n", stat.name, teams, goals);
+            out.printf("| %-25s | %-23s | %-12s |%n", stat.name, teams, goals);
             index++;
         }
-        out.println("====================================================================");
+        out.println("======================================================================");
         out.println( "</pre>");
     }
 

@@ -27,7 +27,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
-import java.util.HashMap;
 import java.util.List;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
@@ -57,6 +56,7 @@ public class GoalsAggregator extends Aggregator {
             switch (eventType) {
                 case GOAL:
                 case PENALTY_GOAL:
+                case AUTOGOAL:
                     goals++;
                     break;
             }
