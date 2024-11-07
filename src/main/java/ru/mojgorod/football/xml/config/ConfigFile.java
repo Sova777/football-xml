@@ -236,11 +236,13 @@ public class ConfigFile {
                 Class<?> clazz = Class.forName(Aggregator.class.getPackage().getName() + ".aggregator." + aggregatorName + "Aggregator");
                 Method method = clazz.getDeclaredMethod(methodName);
                 method.invoke(null);
+            } catch (InvocationTargetException ex) {
+                throw new RuntimeException(ex.getMessage(), ex.getCause());
             } catch (ClassNotFoundException ex) {
                 throw new RuntimeException("Неизвестное имя агрегатора: " + aggregatorName);
             } catch (IllegalAccessException ex) {
                 throw new RuntimeException("Невалидное имя агрегатора: " + aggregatorName);
-            } catch (IllegalArgumentException | InvocationTargetException | SecurityException ex) {
+            } catch (IllegalArgumentException | SecurityException ex) {
                 throw new RuntimeException("Невалидный агрегатор: " + aggregatorName);
             } catch (NoSuchMethodException ex) {
             }

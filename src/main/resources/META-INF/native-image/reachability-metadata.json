@@ -1,0 +1,2212 @@
+{
+  "reflection": [
+    {
+      "type": "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.util.concurrent.atomic.AtomicBoolean",
+      "fields": [
+        {
+          "name": "value"
+        }
+      ]
+    },
+    {
+      "type": "javax.imageio.spi.ImageReaderSpi"
+    },
+    {
+      "type": "javax.imageio.spi.ImageWriterSpi"
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AgeAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AgeBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "drawFinalCharts",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AgeByTeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "drawFinalCharts",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AgeDistributionAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AttendanceBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.AttendanceByTeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.CoachesAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.ComeBackAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.EventsByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.EventsBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.EventsByTeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "drawFinalCharts",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.FirstGoalAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalkeeperEventsByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalkeeperMatchesByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalkeeperTeamsAgainstByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalkeeperTeamsByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalkeepersAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalsAgainstAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalsAgainstBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalsForAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.GoalsForBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.HatTricsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.HatTricsBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.InfoByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MatchesAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MatchesByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MatchesBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MedianBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MonthsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MostOldAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MostYoungAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.MostYoungBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.PlayersAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.PointsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.PointsBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.RefereesAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.ScoreBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.ScoreByTeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.StadiumsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.StrongComebackAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.StrongComebackDrawAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.StrongLoseAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.StrongWinAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TeamAttendanceAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TeamsAgainstByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TeamsByPlayerAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TopScoresAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TopScoresBySeasonAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.TopScoresByTeamsAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "printFinalReport",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.aggregate.aggregator.ToursAggregator",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.font.HBShaper",
+      "methods": [
+        {
+          "name": "getFontTableData",
+          "parameterTypes": [
+            "sun.font.Font2D",
+            "int",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "get_glyph_contour_point",
+          "parameterTypes": [
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "int",
+            "int",
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "get_glyph_h_advance",
+          "parameterTypes": [
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "int",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "get_glyph_v_advance",
+          "parameterTypes": [
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "int",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "get_nominal_glyph",
+          "parameterTypes": [
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "int",
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "get_variation_glyph",
+          "parameterTypes": [
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment",
+            "int",
+            "int",
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment"
+          ]
+        },
+        {
+          "name": "store_layout_results",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "float",
+            "float",
+            "float",
+            "int",
+            "int",
+            "java.lang.foreign.MemorySegment",
+            "java.lang.foreign.MemorySegment"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.marlin.DMarlinRenderingEngine",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "glob": "META-INF/services/java.lang.System$LoggerFinder"
+    },
+    {
+      "glob": "META-INF/services/java.time.zone.ZoneRulesProvider"
+    },
+    {
+      "glob": "META-INF/services/javax.imageio.spi.ImageInputStreamSpi"
+    },
+    {
+      "glob": "META-INF/services/javax.imageio.spi.ImageOutputStreamSpi"
+    },
+    {
+      "glob": "META-INF/services/javax.imageio.spi.ImageReaderSpi"
+    },
+    {
+      "glob": "META-INF/services/javax.imageio.spi.ImageTranscoderSpi"
+    },
+    {
+      "glob": "META-INF/services/javax.imageio.spi.ImageWriterSpi"
+    },
+    {
+      "glob": "META-INF/services/javax.xml.parsers.DocumentBuilderFactory"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt74b/nfc.nrm"
+    },
+    {
+      "module": "java.base",
+      "glob": "jdk/internal/icu/impl/data/icudt74b/ubidi.icu"
+    },
+    {
+      "module": "java.desktop",
+      "glob": "sun/awt/resources/awt_ru.properties"
+    },
+    {
+      "module": "java.desktop",
+      "glob": "sun/awt/resources/awt_ru_RU.properties"
+    },
+    {
+      "module": "java.logging",
+      "glob": "sun/util/logging/resources/logging_ru.properties"
+    },
+    {
+      "module": "java.logging",
+      "glob": "sun/util/logging/resources/logging_ru_RU.properties"
+    },
+    {
+      "module": "java.xml",
+      "glob": "jdk/xml/internal/jdkcatalog/JDKCatalog.xml"
+    }
+  ],
+  "bundles": [
+    {
+      "name": "sun.awt.resources.awt",
+      "locales": [
+        "ru-RU"
+      ]
+    }
+  ],
+  "jni": [
+    {
+      "type": "[Lsun.java2d.loops.GraphicsPrimitive;"
+    },
+    {
+      "type": "java.awt.AWTEvent",
+      "fields": [
+        {
+          "name": "bdata"
+        },
+        {
+          "name": "consumed"
+        },
+        {
+          "name": "id"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.AlphaComposite",
+      "fields": [
+        {
+          "name": "extraAlpha"
+        },
+        {
+          "name": "rule"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Color",
+      "methods": [
+        {
+          "name": "getRGB",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Component",
+      "fields": [
+        {
+          "name": "appContext"
+        },
+        {
+          "name": "background"
+        },
+        {
+          "name": "cursor"
+        },
+        {
+          "name": "enabled"
+        },
+        {
+          "name": "focusable"
+        },
+        {
+          "name": "foreground"
+        },
+        {
+          "name": "graphicsConfig"
+        },
+        {
+          "name": "height"
+        },
+        {
+          "name": "parent"
+        },
+        {
+          "name": "peer"
+        },
+        {
+          "name": "visible"
+        },
+        {
+          "name": "width"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getFont_NoClientCode",
+          "parameterTypes": []
+        },
+        {
+          "name": "getLocationOnScreen_NoTreeLock",
+          "parameterTypes": []
+        },
+        {
+          "name": "getToolkitImpl",
+          "parameterTypes": []
+        },
+        {
+          "name": "isEnabledImpl",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Font",
+      "fields": [
+        {
+          "name": "name"
+        },
+        {
+          "name": "pData"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "style"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getFont",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "getFontPeer",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.FontMetrics",
+      "fields": [
+        {
+          "name": "font"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getHeight",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Insets",
+      "fields": [
+        {
+          "name": "bottom"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "top"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.Toolkit",
+      "methods": [
+        {
+          "name": "getDefaultToolkit",
+          "parameterTypes": []
+        },
+        {
+          "name": "getFontMetrics",
+          "parameterTypes": [
+            "java.awt.Font"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.desktop.UserSessionEvent$Reason",
+      "fields": [
+        {
+          "name": "CONSOLE"
+        },
+        {
+          "name": "LOCK"
+        },
+        {
+          "name": "REMOTE"
+        },
+        {
+          "name": "UNSPECIFIED"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.event.InputEvent",
+      "fields": [
+        {
+          "name": "modifiers"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getButtonDownMasks",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.AffineTransform",
+      "fields": [
+        {
+          "name": "m00"
+        },
+        {
+          "name": "m01"
+        },
+        {
+          "name": "m02"
+        },
+        {
+          "name": "m10"
+        },
+        {
+          "name": "m11"
+        },
+        {
+          "name": "m12"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.GeneralPath",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "int",
+            "byte[]",
+            "int",
+            "float[]",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.Path2D",
+      "fields": [
+        {
+          "name": "numTypes"
+        },
+        {
+          "name": "pointTypes"
+        },
+        {
+          "name": "windingRule"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.Path2D$Float",
+      "fields": [
+        {
+          "name": "floatCoords"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.Point2D$Float",
+      "fields": [
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "float",
+            "float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.geom.Rectangle2D$Float",
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "y"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "float",
+            "float",
+            "float",
+            "float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.BufferedImage",
+      "fields": [
+        {
+          "name": "colorModel"
+        },
+        {
+          "name": "imageType"
+        },
+        {
+          "name": "raster"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getRGB",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "setRGB",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.ColorModel",
+      "fields": [
+        {
+          "name": "colorSpace"
+        },
+        {
+          "name": "colorSpaceType"
+        },
+        {
+          "name": "isAlphaPremultiplied"
+        },
+        {
+          "name": "is_sRGB"
+        },
+        {
+          "name": "nBits"
+        },
+        {
+          "name": "numComponents"
+        },
+        {
+          "name": "supportsAlpha"
+        },
+        {
+          "name": "transparency"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getRGBdefault",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.IndexColorModel",
+      "fields": [
+        {
+          "name": "allgrayopaque"
+        },
+        {
+          "name": "colorData"
+        },
+        {
+          "name": "lookupcache"
+        },
+        {
+          "name": "map_size"
+        },
+        {
+          "name": "rgb"
+        },
+        {
+          "name": "transparent_index"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.Raster",
+      "fields": [
+        {
+          "name": "dataBuffer"
+        },
+        {
+          "name": "height"
+        },
+        {
+          "name": "minX"
+        },
+        {
+          "name": "minY"
+        },
+        {
+          "name": "numBands"
+        },
+        {
+          "name": "numDataElements"
+        },
+        {
+          "name": "sampleModel"
+        },
+        {
+          "name": "sampleModelTranslateX"
+        },
+        {
+          "name": "sampleModelTranslateY"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.SampleModel",
+      "fields": [
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getPixels",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "java.awt.image.DataBuffer"
+          ]
+        },
+        {
+          "name": "setPixels",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "int",
+            "int[]",
+            "java.awt.image.DataBuffer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.awt.image.SinglePixelPackedSampleModel",
+      "fields": [
+        {
+          "name": "bitMasks"
+        },
+        {
+          "name": "bitOffsets"
+        },
+        {
+          "name": "bitSizes"
+        },
+        {
+          "name": "maxBitSize"
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Boolean",
+      "methods": [
+        {
+          "name": "getBoolean",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ru.mojgorod.football.xml.PrintReports",
+      "methods": [
+        {
+          "name": "main",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.AWTAutoShutdown",
+      "methods": [
+        {
+          "name": "notifyToolkitThreadBusy",
+          "parameterTypes": []
+        },
+        {
+          "name": "notifyToolkitThreadFree",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.SunHints",
+      "fields": [
+        {
+          "name": "INTVAL_STROKE_PURE"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.SunToolkit",
+      "methods": [
+        {
+          "name": "isTouchKeyboardAutoShowEnabled",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.Win32GraphicsConfig",
+      "fields": [
+        {
+          "name": "visual"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.Win32GraphicsDevice",
+      "fields": [
+        {
+          "name": "dynamicColorModel"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.Win32GraphicsEnvironment",
+      "methods": [
+        {
+          "name": "dwmCompositionChanged",
+          "parameterTypes": [
+            "boolean"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.BufImgSurfaceData$ICMColorData",
+      "fields": [
+        {
+          "name": "pData"
+        }
+      ],
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.IntegerComponentRaster",
+      "fields": [
+        {
+          "name": "data"
+        },
+        {
+          "name": "dataOffsets"
+        },
+        {
+          "name": "pixelStride"
+        },
+        {
+          "name": "scanlineStride"
+        },
+        {
+          "name": "type"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.SunVolatileImage",
+      "fields": [
+        {
+          "name": "volSurfaceManager"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.image.VolatileSurfaceManager",
+      "fields": [
+        {
+          "name": "sdCurrent"
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WComponentPeer",
+      "fields": [
+        {
+          "name": "hwnd"
+        },
+        {
+          "name": "winGraphicsConfig"
+        }
+      ],
+      "methods": [
+        {
+          "name": "disposeLater",
+          "parameterTypes": []
+        },
+        {
+          "name": "replaceSurfaceData",
+          "parameterTypes": []
+        },
+        {
+          "name": "replaceSurfaceDataLater",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WDesktopPeer",
+      "methods": [
+        {
+          "name": "systemSleepCallback",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "userSessionCallback",
+          "parameterTypes": [
+            "boolean",
+            "java.awt.desktop.UserSessionEvent$Reason"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WObjectPeer",
+      "fields": [
+        {
+          "name": "createError"
+        },
+        {
+          "name": "destroyed"
+        },
+        {
+          "name": "pData"
+        },
+        {
+          "name": "target"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getPeerForTarget",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.awt.windows.WToolkit",
+      "methods": [
+        {
+          "name": "displayChanged",
+          "parameterTypes": []
+        },
+        {
+          "name": "paletteChanged",
+          "parameterTypes": []
+        },
+        {
+          "name": "windowsSettingChange",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.font.CharToGlyphMapper",
+      "methods": [
+        {
+          "name": "charToGlyph",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.Font2D",
+      "methods": [
+        {
+          "name": "canDisplay",
+          "parameterTypes": [
+            "char"
+          ]
+        },
+        {
+          "name": "charToGlyph",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "charToVariationGlyph",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "getMapper",
+          "parameterTypes": []
+        },
+        {
+          "name": "getTableBytes",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.FontStrike",
+      "methods": [
+        {
+          "name": "getGlyphMetrics",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.FontUtilities",
+      "methods": [
+        {
+          "name": "debugFonts",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.font.FreetypeFontScaler",
+      "methods": [
+        {
+          "name": "invalidateScaler",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.font.GlyphList",
+      "fields": [
+        {
+          "name": "gposx"
+        },
+        {
+          "name": "gposy"
+        },
+        {
+          "name": "images"
+        },
+        {
+          "name": "lcdRGBOrder"
+        },
+        {
+          "name": "lcdSubPixPos"
+        },
+        {
+          "name": "len"
+        },
+        {
+          "name": "positions"
+        },
+        {
+          "name": "usePositions"
+        }
+      ]
+    },
+    {
+      "type": "sun.font.PhysicalStrike",
+      "fields": [
+        {
+          "name": "pScalerContext"
+        }
+      ],
+      "methods": [
+        {
+          "name": "adjustPoint",
+          "parameterTypes": [
+            "java.awt.geom.Point2D$Float"
+          ]
+        },
+        {
+          "name": "getGlyphPoint",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.StrikeMetrics",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float",
+            "float"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.TrueTypeFont",
+      "methods": [
+        {
+          "name": "readBlock",
+          "parameterTypes": [
+            "java.nio.ByteBuffer",
+            "int",
+            "int"
+          ]
+        },
+        {
+          "name": "readBytes",
+          "parameterTypes": [
+            "int",
+            "int"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.font.Type1Font",
+      "methods": [
+        {
+          "name": "readFile",
+          "parameterTypes": [
+            "java.nio.ByteBuffer"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.Disposer",
+      "methods": [
+        {
+          "name": "addRecord",
+          "parameterTypes": [
+            "java.lang.Object",
+            "long",
+            "long"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.InvalidPipeException"
+    },
+    {
+      "type": "sun.java2d.NullSurfaceData"
+    },
+    {
+      "type": "sun.java2d.SunGraphics2D",
+      "fields": [
+        {
+          "name": "clipRegion"
+        },
+        {
+          "name": "composite"
+        },
+        {
+          "name": "eargb"
+        },
+        {
+          "name": "lcdTextContrast"
+        },
+        {
+          "name": "pixel"
+        },
+        {
+          "name": "strokeHint"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.SurfaceData",
+      "fields": [
+        {
+          "name": "pData"
+        },
+        {
+          "name": "valid"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DGraphicsDevice$1",
+      "methods": [
+        {
+          "name": "run",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.d3d.D3DRenderQueue$1",
+      "methods": [
+        {
+          "name": "run",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.Blit",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.BlitBg",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.CompositeType",
+      "fields": [
+        {
+          "name": "AnyAlpha"
+        },
+        {
+          "name": "Src"
+        },
+        {
+          "name": "SrcNoEa"
+        },
+        {
+          "name": "SrcOver"
+        },
+        {
+          "name": "SrcOverNoEa"
+        },
+        {
+          "name": "Xor"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawGlyphList",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawGlyphListAA",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawGlyphListLCD",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawLine",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawParallelogram",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawPath",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawPolygons",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.DrawRect",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.FillParallelogram",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.FillPath",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.FillRect",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.FillSpans",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.GraphicsPrimitive",
+      "fields": [
+        {
+          "name": "pNativePrim"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.GraphicsPrimitiveMgr",
+      "methods": [
+        {
+          "name": "register",
+          "parameterTypes": [
+            "sun.java2d.loops.GraphicsPrimitive[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.MaskBlit",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.MaskFill",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.ScaledBlit",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.SurfaceType",
+      "fields": [
+        {
+          "name": "Any3Byte"
+        },
+        {
+          "name": "Any4Byte"
+        },
+        {
+          "name": "AnyByte"
+        },
+        {
+          "name": "AnyColor"
+        },
+        {
+          "name": "AnyInt"
+        },
+        {
+          "name": "AnyShort"
+        },
+        {
+          "name": "ByteBinary1Bit"
+        },
+        {
+          "name": "ByteBinary2Bit"
+        },
+        {
+          "name": "ByteBinary4Bit"
+        },
+        {
+          "name": "ByteGray"
+        },
+        {
+          "name": "ByteIndexed"
+        },
+        {
+          "name": "ByteIndexedBm"
+        },
+        {
+          "name": "FourByteAbgr"
+        },
+        {
+          "name": "FourByteAbgrPre"
+        },
+        {
+          "name": "Index12Gray"
+        },
+        {
+          "name": "Index8Gray"
+        },
+        {
+          "name": "IntArgb"
+        },
+        {
+          "name": "IntArgbBm"
+        },
+        {
+          "name": "IntArgbPre"
+        },
+        {
+          "name": "IntBgr"
+        },
+        {
+          "name": "IntRgb"
+        },
+        {
+          "name": "IntRgbx"
+        },
+        {
+          "name": "OpaqueColor"
+        },
+        {
+          "name": "ThreeByteBgr"
+        },
+        {
+          "name": "Ushort4444Argb"
+        },
+        {
+          "name": "Ushort555Rgb"
+        },
+        {
+          "name": "Ushort555Rgbx"
+        },
+        {
+          "name": "Ushort565Rgb"
+        },
+        {
+          "name": "UshortGray"
+        },
+        {
+          "name": "UshortIndexed"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.TransformHelper",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "long",
+            "sun.java2d.loops.SurfaceType",
+            "sun.java2d.loops.CompositeType",
+            "sun.java2d.loops.SurfaceType"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.loops.XORComposite",
+      "fields": [
+        {
+          "name": "alphaMask"
+        },
+        {
+          "name": "xorColor"
+        },
+        {
+          "name": "xorPixel"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.pipe.Region",
+      "fields": [
+        {
+          "name": "bands"
+        },
+        {
+          "name": "endIndex"
+        },
+        {
+          "name": "hix"
+        },
+        {
+          "name": "hiy"
+        },
+        {
+          "name": "lox"
+        },
+        {
+          "name": "loy"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.pipe.RegionIterator",
+      "fields": [
+        {
+          "name": "curIndex"
+        },
+        {
+          "name": "numXbands"
+        },
+        {
+          "name": "region"
+        }
+      ]
+    },
+    {
+      "type": "sun.java2d.windows.WindowsFlags",
+      "fields": [
+        {
+          "name": "d3dEnabled"
+        },
+        {
+          "name": "d3dSet"
+        },
+        {
+          "name": "offscreenSharingEnabled"
+        },
+        {
+          "name": "setHighDPIAware"
+        }
+      ]
+    },
+    {
+      "type": "sun.launcher.LauncherHelper",
+      "fields": [
+        {
+          "name": "isStaticMain"
+        },
+        {
+          "name": "noArgMain"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getApplicationClass",
+          "parameterTypes": []
+        }
+      ]
+    }
+  ]
+}

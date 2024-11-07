@@ -185,7 +185,9 @@ public class BarChart {
         for (BarChartPoint point : data.get(0)) {
             Double value = point.getValue();
             g.setColor(COLOR_PURE_BLACK);
-            Rectangle2D bounds = g.getFontMetrics(verticalFont).getStringBounds(point.getTitle(), g);
+            // FIXME: вертикальный шрифт не работает в gradlevm, использую пока обычный шрифт
+            //Rectangle2D bounds = g.getFontMetrics(verticalFont).getStringBounds(point.getTitle(), g);
+            Rectangle2D bounds = g.getFontMetrics(DEFAULT_FONT/*verticalFont*/).getStringBounds(point.getTitle(), g);
             if (isDisplayValueOnTop) {
                 g.drawString(point.getTitle(), getLocalX(i + 1) - ((int)scaleX - fontSize) / 2, getLocalY(value) - 1);
             } else {
@@ -327,7 +329,9 @@ public class BarChart {
                 Double value = point.getValue();
                 if (value != null) {
                     Rectangle2D bounds = g.getFontMetrics(font).getStringBounds(nf.format(point.getValue()), g);
-                    Rectangle2D boundsVertical = g.getFontMetrics(verticalFont).getStringBounds(point.getTitle(), g);
+                    // FIXME: вертикальный шрифт не работает в gradlevm, использую пока обычный шрифт
+                    //Rectangle2D boundsVertical = g.getFontMetrics(verticalFont).getStringBounds(point.getTitle(), g);
+                    Rectangle2D boundsVertical = g.getFontMetrics(font/*verticalFont*/).getStringBounds(point.getTitle(), g);
                     double titleValueWidth = bounds.getWidth();
                     double titleVerticalWidth = boundsVertical.getWidth();
                     if (titleValueWidth > maxYLength) {
