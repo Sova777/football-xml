@@ -54,8 +54,15 @@ public class ToursAggregator extends Aggregator {
         }
 
         String round = xmlReport.getRound();
-        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+
+        int attendanceValue;
+        if (xmlReport.isBehindClosedDoors()) {
+            attendanceValue = 0;
+        } else {
+            Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+            attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+        }
+
         TournamentStat stat = TournamentStat.get(tours, round);
         stat.attendance += attendanceValue;
         stat.games++;

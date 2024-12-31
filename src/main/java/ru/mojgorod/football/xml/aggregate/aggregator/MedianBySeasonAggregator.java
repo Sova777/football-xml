@@ -59,8 +59,14 @@ public class MedianBySeasonAggregator extends Aggregator {
             return;
         }
 
-        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
-        int attendance = (attendanceInteger == null) ? 0 : attendanceInteger;
+        int attendance;
+        if (xmlReport.isBehindClosedDoors()) {
+            attendance = 0;
+        } else {
+            Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+            attendance = (attendanceInteger == null) ? 0 : attendanceInteger;
+        }
+
         attendanceArray.add(attendance);
         Integer date = xmlReport.getDateInt();
         if (maxDate < date) {

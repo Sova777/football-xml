@@ -47,8 +47,14 @@ public class AttendanceBySeasonAggregator extends Aggregator {
             return;
         }
 
-        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+        int attendanceValue;
+        if (xmlReport.isBehindClosedDoors()) {
+            attendanceValue = 0;
+        } else {
+            Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+            attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+        }
+
         attendance += attendanceValue;
         games++;
     }

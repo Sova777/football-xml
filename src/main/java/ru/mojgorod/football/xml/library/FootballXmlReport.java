@@ -306,6 +306,11 @@ public class FootballXmlReport {
         return matchAttendance;
     }
 
+    public Boolean isBehindClosedDoors() {
+        String matchAttendance = getStadiumAttendance();
+        return "без зрителей".equals(matchAttendance);
+    }
+
     public void setReferee(final String referee) {
         this.referee = referee;
     }

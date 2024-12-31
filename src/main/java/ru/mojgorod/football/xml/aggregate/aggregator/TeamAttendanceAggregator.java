@@ -51,8 +51,14 @@ public class TeamAttendanceAggregator extends Aggregator {
 
         String teamKey1 = xmlReport.getTeamKey1();
         String teamKey2 = xmlReport.getTeamKey2();
-        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+
+        int attendanceValue;
+        if (xmlReport.isBehindClosedDoors()) {
+            attendanceValue = 0;
+        } else {
+            Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+            attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+        }
 
         TournamentStat stat1 = TournamentStat.get(teams, teamKey1);
         stat1.team = xmlReport.getTeam1();

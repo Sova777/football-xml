@@ -56,8 +56,15 @@ public class StadiumsAggregator extends Aggregator {
         }
 
         String stadiumKey = xmlReport.getStadiumKey();
-        Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
-        int attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+
+        int attendanceValue;
+        if (xmlReport.isBehindClosedDoors()) {
+            attendanceValue = 0;
+        } else {
+            Integer attendanceInteger = xmlReport.getStadiumAttendanceInt();
+            attendanceValue = (attendanceInteger == null) ? 0 : attendanceInteger;
+        }
+
         TournamentStat stat = TournamentStat.get(stadiums, stadiumKey);
         stat.attendance += attendanceValue;
         if (attendanceValue < stat.minAttendance) {
