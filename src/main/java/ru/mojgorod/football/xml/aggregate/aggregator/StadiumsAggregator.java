@@ -113,7 +113,7 @@ public class StadiumsAggregator extends Aggregator {
                 games, average, minAttendance, maxAttendance);
         out.println("===========================================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_attendance_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_attendance_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'><br>");
     }
 
     private String fixStadiumName(String name) {

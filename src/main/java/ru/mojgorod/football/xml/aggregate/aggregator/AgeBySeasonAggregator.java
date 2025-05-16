@@ -178,7 +178,7 @@ public class AgeBySeasonAggregator extends Aggregator {
         out.println("============================================================================================================================");
         out.println( "* - означает, что на данный момент нет данных по возрасту одного или более игроков");
         out.println( "</pre>");
-        out.println("<img src='image/stat_age.png'>");
+        out.println("<img src='image/stat_age.png' alt='График'>");
     }
 
     static private class SeasonStat {

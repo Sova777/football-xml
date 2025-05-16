@@ -175,7 +175,7 @@ public class AgeByTeamsAggregator extends Aggregator {
         out.println(Utils.repeatText("=", 19 + 19 * teams));
         out.println( "На графике синяя линия - Зенит, зелёная - Краснодар, серая - Локомотив, красная - Спартак, чёрная - ЦСКА.");
         out.println( "</pre>");
-        out.println("<img src='image/stat_teams_age.png'>");
+        out.println("<img src='image/stat_teams_age.png' alt='График'>");
     }
 
     static private class SeasonStat {

@@ -97,7 +97,7 @@ public class MonthsAggregator extends Aggregator {
         }
         out.println("============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_months_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_months_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'><br>");
     }
 
     static private class TournamentStat {

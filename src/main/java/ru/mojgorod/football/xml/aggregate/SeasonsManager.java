@@ -217,7 +217,7 @@ public class SeasonsManager {
                 outFinalReport = System.out;
             } else {
                 try {
-                    outFinalReport = new PrintStream(new FileOutputStream(filePath), true, "Windows-1251");
+                    outFinalReport = new PrintStream(new FileOutputStream(filePath), true, "UTF-8");
                 } catch (IOException ex) {
                     if (outFinalReport != null) {
                         outFinalReport.close();

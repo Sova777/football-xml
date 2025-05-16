@@ -124,8 +124,8 @@ public class GoalsForAggregator extends Aggregator {
         }
         out.println("==============================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_goalsfor1_" + getFileNamePrefix() + getSeason().getId() + ".png'>");
-        out.println("<img src='image/stat_goalsfor2_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_goalsfor1_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'>");
+        out.println("<img src='image/stat_goalsfor2_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'><br>");
     }
 
     static private class TournamentStat {

@@ -128,7 +128,7 @@ public class AgeDistributionAggregator extends Aggregator {
 //            out.printf("%s<br>%n", playersNames);
 //        }
 //        out.println( "</p>");
-        out.println("<img src='image/stat_age_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_age_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'><br>");
     }
 
     public void addPlayer(final String keyPlayer) {

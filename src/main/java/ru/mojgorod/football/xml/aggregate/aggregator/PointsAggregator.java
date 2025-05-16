@@ -97,7 +97,7 @@ public class PointsAggregator extends Aggregator {
         }
         out.println(Utils.repeatText("=", 29 + 6 * teams.size()));
         out.println("</pre>");
-        out.println("<img src='image/stat_points_" + getFileNamePrefix() + getSeason().getId() + ".png'>");
+        out.println("<img src='image/stat_points_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'>");
         out.println("<pre>");
         out.println("зелёный цвет - только победы");
         out.println("синий цвет   - побед больше чем поражений");

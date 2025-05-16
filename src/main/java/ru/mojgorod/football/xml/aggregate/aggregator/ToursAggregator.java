@@ -113,7 +113,7 @@ public class ToursAggregator extends Aggregator {
         }
         out.println("=======================================================================================================");
         out.println("</pre>");
-        out.println("<img src='image/stat_tours_" + getFileNamePrefix() + getSeason().getId() + ".png'><br>");
+        out.println("<img src='image/stat_tours_" + getFileNamePrefix() + getSeason().getId() + ".png' alt='График'><br>");
     }
 
     static private class TournamentStat {

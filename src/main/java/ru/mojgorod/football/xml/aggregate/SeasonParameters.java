@@ -90,7 +90,7 @@ public class SeasonParameters {
                 out = System.out;
             } else {
                 try {
-                    out = new PrintStream(new FileOutputStream(filePath), true, "Windows-1251");
+                    out = new PrintStream(new FileOutputStream(filePath), true, "UTF-8");
                 } catch (IOException ex) {
                     if (out != null) {
                         out.close();

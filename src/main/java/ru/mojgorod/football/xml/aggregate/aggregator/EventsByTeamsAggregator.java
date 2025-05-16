@@ -175,8 +175,8 @@ public class EventsByTeamsAggregator extends Aggregator {
         out.println(Utils.repeatText("=", 19 + 36 * teams));
         out.println( "На графике синяя линия - Зенит, зелёная - Краснодар, серая - Локомотив, красная - Спартак, чёрная - ЦСКА.");
         out.println( "</pre>");
-        out.println("<img src='image/stat_teams_penalty.png'>");
-        out.println("<img src='image/stat_teams_red.png'>");
+        out.println("<img src='image/stat_teams_penalty.png' alt='График'>");
+        out.println("<img src='image/stat_teams_red.png' alt='График'>");
     }
 
     static private class SeasonStat {
