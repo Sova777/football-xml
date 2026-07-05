@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2018, Valeriy Soldatov
+Copyright (c) 2026, Valeriy Soldatov
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -27,12 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package ru.mojgorod.football.xml.aggregate.aggregator;
 
 import java.io.PrintStream;
-import java.text.Collator;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TreeMap;
 import ru.mojgorod.football.xml.aggregate.Aggregator;
 import ru.mojgorod.football.xml.library.FootballEventType;
 import ru.mojgorod.football.xml.library.FootballXmlEvent;
@@ -42,9 +38,9 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
  *
  * @author sova
  */
-public class StrongLoseAggregator extends Aggregator {
+public class StrongWinListAggregator extends Aggregator {
 
-    private final HashMap<String, TournamentStat> teams = new HashMap<>();
+    private final ArrayList<TournamentStat> matches = new ArrayList<>();
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -60,36 +56,37 @@ public class StrongLoseAggregator extends Aggregator {
         }
 
         String team1 = xmlReport.getTeam1();
-        String teamKey1 = xmlReport.getTeamKey1();
         String team2 = xmlReport.getTeam2();
-        String teamKey2 = xmlReport.getTeamKey2();
 
         int difference = 0;
-        String looserKey = xmlReport.isFinalLooseTeam1() ? teamKey1 : teamKey2;
-        String looserName = xmlReport.isFinalLooseTeam1() ? team1 : team2;
+        String winnerName = xmlReport.isFinalWinTeam1() ? team1 : team2;
+        String looserName = (winnerName.equals(team1)) ? team2 : team1;
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
             FootballEventType eventType = event.getEventType();
             if (eventType.isAnyGoal()) {
                 String team = event.getTeam();
                 if (eventType.isGoal() || eventType.isPenaltyGoal()) {
-                    if (team.equals(looserName)) {
+                    if (team.equals(winnerName)) {
                         difference++;
                     } else {
                         difference--;
                     }
                 } else if (eventType.isAutoGoal()) {
-                    if (team.equals(looserName)) {
+                    if (team.equals(winnerName)) {
                         difference--;
                     } else {
                         difference++;
                     }
                 }
             }
-            if (difference > 0) {
-                TournamentStat stat = TournamentStat.get(teams, looserKey);
-                stat.team = looserName;
-                stat.games++;
+            if (difference < 0) {
+                TournamentStat tournamentStat = new TournamentStat();
+                tournamentStat.teamWinner = winnerName;
+                tournamentStat.teamLooser = looserName;
+                tournamentStat.match = String.format("%s %s - %s %s",
+                        xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getFormattedScore());
+                matches.add(tournamentStat);
                 return;
             }
         }
@@ -98,59 +95,25 @@ public class StrongLoseAggregator extends Aggregator {
     @Override
     public void print() {
         PrintStream out = getOutput();
-        TreeMap<String, TournamentStat> sortedMap = new TreeMap<>(new StatComparator(teams));
-        sortedMap.putAll(teams);
-        out.println("<h2 id='StrongLoseAggregator'>Соперник одержал волевую победу</h2>");
+        out.println("<h2 id='StrongWinListAggregator'>Волевые победы (список)</h2>");
         out.println("<pre>");
-        out.println("=====================================");
-        out.println("| Команда              | Поражений  |");
-        out.println("=====================================");
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            out.printf("| %-20s | %-10d |%n",
-                    stat.team, stat.games);
+        out.println("====================================================================================================");
+        out.println("| Победитель           | Проигравший          | Матч                                               |");
+        out.println("====================================================================================================");
+        for (TournamentStat stat : matches) {
+            out.printf("| %-20s | %-20s | %-50s |%n",
+                    stat.teamWinner, stat.teamLooser, stat.match);
         }
-        out.println("=====================================");
+        out.println("====================================================================================================");
         out.println("</pre>");
     }
 
     static private class TournamentStat {
 
-        private String team = "";
-        private int games = 0;
+        private String teamWinner = "";
+        private String teamLooser = "";
+        private String match = "";
 
-        public static TournamentStat get(final HashMap<String, TournamentStat> hashStat, final String keyStat) {
-            if (!hashStat.containsKey(keyStat)) {
-                hashStat.put(keyStat, new TournamentStat());
-            }
-            return hashStat.get(keyStat);
-        }
-
-    }
-
-    static private class StatComparator implements Comparator<String> {
-
-        Collator collator = Collator.getInstance(new Locale("ru", "RU"));
-        private final HashMap<String, TournamentStat> map;
-
-        public StatComparator(final HashMap<String, TournamentStat> map) {
-            this.map = map;
-        }
-
-        @Override
-        public int compare(String key1, String key2) {
-            TournamentStat stat1 = map.get(key1);
-            TournamentStat stat2 = map.get(key2);
-            String value1 = stat1.team;
-            String value2 = stat2.team;
-            if (stat1.games > stat2.games) {
-                return -1;
-            } else if (stat1.games < stat2.games) {
-                return 1;
-            }
-            return collator.compare(value1, value2);
-        }
-        
     }
 
 }

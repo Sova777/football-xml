@@ -56,10 +56,14 @@ public class StrongComebackDrawAggregator extends Aggregator {
             return;
         }
         int maxDifference=0;
-        int goals1 = xmlReport.getGoalsInt1();
-        int goals2 = xmlReport.getGoalsInt2();
+        int goals1 = xmlReport.getFinalGoalsInt1();
+        int goals2 = xmlReport.getFinalGoalsInt2();
         if (goals1 != goals2) {
-            return;
+            if (!xmlReport.hasExtraPenalties()) {
+                return;
+            } else if (!xmlReport.getPenaltiesInt1().equals(xmlReport.getPenaltiesInt2())) {
+                return;
+            }
         }
 
         int currentGoals1 = 0;
@@ -93,8 +97,8 @@ public class StrongComebackDrawAggregator extends Aggregator {
         }
         if (Math.abs(maxDifference) > 1) {
             TournamentStat tournamentStat = new TournamentStat();
-            tournamentStat.match = String.format("%s %s - %s %s:%s",
-                    xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getGoals1(), xmlReport.getGoals2());
+            tournamentStat.match = String.format("%s %s - %s %s",
+                    xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getFormattedScore());
             tournamentStat.teamWinner = (maxDifference > 0) ? xmlReport.getTeam1() : xmlReport.getTeam2();
             tournamentStat.teamLooser = (maxDifference > 0) ? xmlReport.getTeam2() : xmlReport.getTeam1();
             tournamentStat.difference = Math.abs(maxDifference);

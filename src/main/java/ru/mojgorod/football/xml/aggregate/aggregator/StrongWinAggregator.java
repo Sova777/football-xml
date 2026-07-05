@@ -55,9 +55,7 @@ public class StrongWinAggregator extends Aggregator {
         if (!xmlReport.isValidScore()) {
             return;
         }
-        int goals1 = xmlReport.getGoalsInt1();
-        int goals2 = xmlReport.getGoalsInt2();
-        if (goals1 == goals2) {
+        if (xmlReport.isFinalDrawTeam1()) {
             return;
         }
 
@@ -67,8 +65,8 @@ public class StrongWinAggregator extends Aggregator {
         String teamKey2 = xmlReport.getTeamKey2();
 
         int difference = 0;
-        String winnerKey = (goals1 > goals2) ? teamKey1 : teamKey2;
-        String winnerName = (goals1 > goals2) ? team1 : team2;
+        String winnerKey = xmlReport.isFinalWinTeam1() ? teamKey1 : teamKey2;
+        String winnerName = xmlReport.isFinalWinTeam1() ? team1 : team2;
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
             FootballEventType eventType = event.getEventType();

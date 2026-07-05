@@ -154,15 +154,37 @@ public class FootballXmlReport {
     }
 
     public Integer getGoalsInt1() {
-        int goals1;
+        int g1;
         try {
-            goals1 = Integer.parseInt(getGoals1());
+            g1 = Integer.parseInt(getGoals1());
         } catch (NumberFormatException ex) {
             Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
                     "Match ID: " + matchId + ", Date: " + date, ex);
             return null;
         }
-        return goals1;
+        return g1;
+    }
+
+    public String getFinalGoals1() {
+        String g1;
+        if (getExtra1() == null || getExtra1().equals("")) {
+            g1 = getGoals1();
+        } else {
+            g1 = getExtra1();
+        }
+        return g1;
+    }
+
+    public Integer getFinalGoalsInt1() {
+        int g1;
+        try {
+            g1 = Integer.parseInt(getFinalGoals1());
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date, ex);
+            return null;
+        }
+        return g1;
     }
 
     public void setGoals2(final String goals2) {
@@ -174,14 +196,36 @@ public class FootballXmlReport {
     }
 
     public Integer getGoalsInt2() {
-        int goals2;
+        int g2;
         try {
-            goals2 = Integer.parseInt(getGoals2());
+            g2 = Integer.parseInt(getGoals2());
         } catch (NumberFormatException ex) {
             Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        return goals2;
+        return g2;
+    }
+
+    public String getFinalGoals2() {
+        String g2;
+        if (getExtra2() == null || getExtra2().equals("")) {
+            g2 = getGoals2();
+        } else {
+            g2 = getExtra2();
+        }
+        return g2;
+    }
+
+    public Integer getFinalGoalsInt2() {
+        int g2;
+        try {
+            g2 = Integer.parseInt(getFinalGoals2());
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date, ex);
+            return null;
+        }
+        return g2;
     }
 
     public void setExtra1(final String extra1) {
@@ -200,6 +244,10 @@ public class FootballXmlReport {
         return extra2;
     }
 
+    public boolean hasExtraTime() {
+        return extra1 != null && extra2 != null && !extra1.equals("") && !extra2.equals("");
+    }
+
     public void setPenalties1(final String penalties1) {
         this.penalties1 = penalties1;
     }
@@ -208,12 +256,53 @@ public class FootballXmlReport {
         return penalties1;
     }
 
+    public Integer getPenaltiesInt1() {
+        int p1;
+        try {
+            p1 = Integer.parseInt(getPenalties1());
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date, ex);
+            return null;
+        }
+        return p1;
+    }
+
     public void setPenalties2(final String penalties2) {
         this.penalties2 = penalties2;
     }
 
     public String getPenalties2() {
         return penalties2;
+    }
+
+    public Integer getPenaltiesInt2() {
+        int p2;
+        try {
+            p2 = Integer.parseInt(getPenalties2());
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(PrintReports.class.getName()).log(Level.SEVERE,
+                    "Match ID: " + matchId + ", Date: " + date, ex);
+            return null;
+        }
+        return p2;
+    }
+
+    public boolean hasExtraPenalties() {
+        return penalties1 != null && penalties2 != null && !penalties1.equals("") && !penalties2.equals("");
+    }
+
+    public String getFormattedScore() {
+        String score = String.format("%s:%s", getFinalGoals1(), getFinalGoals2());
+
+        if (hasExtraTime()) {
+            score += " д.в.";
+        }
+        if (hasExtraPenalties()) {
+            score += "(пен." + getPenalties1() + ":" + getPenalties2() + ")";
+        }
+
+        return score;
     }
 
     public void setDate(final String date) {
@@ -232,7 +321,7 @@ public class FootballXmlReport {
             Logger.getLogger(FootballXmlReport.class.getName()).log(Level.SEVERE, "Wrong date format: '{0}'", date);
             return null;
         }
-        return Integer.valueOf(date.substring(6, 8)) + 100 * Integer.valueOf(date.substring(4, 6)) + 10000 * Integer.valueOf(date.substring(0, 4));
+        return Integer.parseInt(date.substring(6, 8)) + 100 * Integer.parseInt(date.substring(4, 6)) + 10000 * Integer.parseInt(date.substring(0, 4));
     }
 
     public String getDateString() {
@@ -519,6 +608,20 @@ public class FootballXmlReport {
         return (g1 > g2);
     }
 
+    public boolean isFinalWinTeam1() {
+        if (!isValidScore()) {
+            return CODE_WIN.equals(goals1);
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 > pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
+        return (g1 > g2);
+    }
+
     public boolean isDrawTeam1() {
         if (!isValidScore()) {
             return false;
@@ -528,12 +631,40 @@ public class FootballXmlReport {
         return (g1 == g2);
     }
 
-    public boolean isLoseTeam1() {
+    public boolean isFinalDrawTeam1() {
+        if (!isValidScore()) {
+            return false;
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 == pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
+        return (g1 == g2);
+    }
+
+    public boolean isLooseTeam1() {
         if (!isValidScore()) {
             return CODE_LOSE.equals(goals1);
         }
         int g1 = getGoalsInt1();
         int g2 = getGoalsInt2();
+        return (g1 < g2);
+    }
+
+    public boolean isFinalLooseTeam1() {
+        if (!isValidScore()) {
+            return CODE_LOSE.equals(goals1);
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 < pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
         return (g1 < g2);
     }
 
@@ -546,6 +677,20 @@ public class FootballXmlReport {
         return (g1 < g2);
     }
 
+    public boolean isFinalWinTeam2() {
+        if (!isValidScore()) {
+            return CODE_WIN.equals(goals2);
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 < pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
+        return (g1 < g2);
+    }
+
     public boolean isDrawTeam2() {
         if (!isValidScore()) {
             return false;
@@ -555,12 +700,40 @@ public class FootballXmlReport {
         return (g1 == g2);
     }
 
-    public boolean isLoseTeam2() {
+    public boolean isFinalDrawTeam2() {
+        if (!isValidScore()) {
+            return false;
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 == pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
+        return (g1 == g2);
+    }
+
+    public boolean isLooseTeam2() {
         if (!isValidScore()) {
             return CODE_LOSE.equals(goals2);
         }
         int g1 = getGoalsInt1();
         int g2 = getGoalsInt2();
+        return (g1 > g2);
+    }
+
+    public boolean isFinalLooseTeam2() {
+        if (!isValidScore()) {
+            return CODE_LOSE.equals(goals2);
+        }
+        if (hasExtraPenalties()) {
+            int pen1 = getPenaltiesInt1();
+            int pen2 = getPenaltiesInt2();
+            return (pen1 > pen2);
+        }
+        int g1 = getFinalGoalsInt1();
+        int g2 = getFinalGoalsInt2();
         return (g1 > g2);
     }
 

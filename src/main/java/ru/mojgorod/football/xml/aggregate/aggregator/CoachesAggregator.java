@@ -72,7 +72,7 @@ public class CoachesAggregator extends Aggregator {
         if (xmlReport.isDrawTeam1()) {
             stat1.draw++;
         }
-        if (xmlReport.isLoseTeam1()) {
+        if (xmlReport.isLooseTeam1()) {
             stat1.loses++;
         }
         stat1.goals1 += xmlReport.getGoalsInt1();
@@ -88,7 +88,7 @@ public class CoachesAggregator extends Aggregator {
         if (xmlReport.isDrawTeam2()) {
             stat2.draw++;
         }
-        if (xmlReport.isLoseTeam2()) {
+        if (xmlReport.isLooseTeam2()) {
             stat2.loses++;
         }
         stat2.goals1 += xmlReport.getGoalsInt2();

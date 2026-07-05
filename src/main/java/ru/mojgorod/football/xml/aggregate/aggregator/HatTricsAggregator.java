@@ -71,8 +71,8 @@ public class HatTricsAggregator extends Aggregator {
                 TournamentStat tournamentStat = new TournamentStat();
                 tournamentStat.name = itemStat.name;
                 tournamentStat.team = itemStat.team;
-                tournamentStat.match = String.format("%s %s - %s %s:%s",
-                        xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getGoals1(), xmlReport.getGoals2());
+                tournamentStat.match = String.format("%s %s - %s %s",
+                        xmlReport.getDateString(), xmlReport.getTeam1(), xmlReport.getTeam2(), xmlReport.getFormattedScore());
                 tournamentStat.goals = itemStat.goals;
                 tournamentStat.key = itemStat.key;
                 tournamentStat.date = xmlReport.getDate();

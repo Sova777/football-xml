@@ -46,6 +46,7 @@ import ru.mojgorod.football.xml.library.FootballXmlReport;
 public class GoalsAgainstAggregator extends Aggregator {
 
     private final HashMap<String, TournamentStat> teams = new HashMap<>();
+    private boolean hasExtraTime = false;
 
     @Override
     public void add(FootballXmlReport xmlReport) {
@@ -57,6 +58,9 @@ public class GoalsAgainstAggregator extends Aggregator {
         String teamKey1 = xmlReport.getTeamKey1();
         String team2 = xmlReport.getTeam2();
         String teamKey2 = xmlReport.getTeamKey2();
+        if (xmlReport.hasExtraTime()) {
+            hasExtraTime = true;
+        }
 
         List<FootballXmlEvent> events = xmlReport.getEvents();
         for (FootballXmlEvent event : events) {
@@ -91,6 +95,10 @@ public class GoalsAgainstAggregator extends Aggregator {
                     stat.time60++;
                 } else if (time < 90) {
                     stat.time75++;
+                } else if (time > 90 && time < 106) {
+                    stat.time91++;
+                } else if (time >= 106) {
+                    stat.time106++;
                 } else {
                     stat.time90++;
                 }
@@ -111,16 +119,29 @@ public class GoalsAgainstAggregator extends Aggregator {
         sortedMap.putAll(teams);
         out.println("<h2 id='GoalsAgainstAggregetor'>Время матча и пропущенные мячи</h2>");
         out.println("<pre>");
-        out.println("==============================================================================================================");
-        out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");
-        out.println("==============================================================================================================");
-        for (String s : sortedMap.keySet()) {
-            TournamentStat stat = teams.get(s);
-            out.printf("| %-20s | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-8d | %-8d |%n",
-                    stat.team, stat.time0, stat.time15, stat.time30, stat.time45,
-                    stat.time46, stat.time60, stat.time75, stat.time90, stat.half1, stat.half2);
+        if (hasExtraTime) {
+            out.println("==================================================================================================================================");
+            out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм | 91-105  | 106-120 |");
+            out.println("==================================================================================================================================");
+            for (String s : sortedMap.keySet()) {
+                TournamentStat stat = teams.get(s);
+                out.printf("| %-20s | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-8d | %-8d | %-7d | %-7d |%n",
+                        stat.team, stat.time0, stat.time15, stat.time30, stat.time45,
+                        stat.time46, stat.time60, stat.time75, stat.time90, stat.half1, stat.half2, stat.time91, stat.time106);
+            }
+            out.println("==================================================================================================================================");
+        } else {
+            out.println("==============================================================================================================");
+            out.println("| Команда              | 0-14  | 15-29 | 30-44 | 45+   | 46-59 | 60-74 | 75-89 | 90+   | 1-й тайм | 2-й тайм |");
+            out.println("==============================================================================================================");
+            for (String s : sortedMap.keySet()) {
+                TournamentStat stat = teams.get(s);
+                out.printf("| %-20s | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-5d | %-8d | %-8d |%n",
+                        stat.team, stat.time0, stat.time15, stat.time30, stat.time45,
+                        stat.time46, stat.time60, stat.time75, stat.time90, stat.half1, stat.half2);
+            }
+            out.println("==============================================================================================================");
         }
-        out.println("==============================================================================================================");
         out.println("</pre>");
     }
 
@@ -135,6 +156,8 @@ public class GoalsAgainstAggregator extends Aggregator {
         private int time60 = 0;
         private int time75 = 0;
         private int time90 = 0;
+        private int time91 = 0;
+        private int time106 = 0;
         private int half1 = 0;
         private int half2 = 0;
 

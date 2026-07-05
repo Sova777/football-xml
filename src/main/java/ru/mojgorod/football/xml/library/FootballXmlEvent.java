@@ -185,6 +185,10 @@ public class FootballXmlEvent {
                 return FootballEventType.PENALTY_MISSED;
             case "Гол в свои ворота":
                 return FootballEventType.AUTOGOAL;
+            case "Гол в серии пенальти":
+                return FootballEventType.ADDITIONAL_PENALTY_GOAL;
+            case "Незабитый гол в серии пенальти":
+                return FootballEventType.ADDITIONAL_PENALTY_MISSED;
             case "Замена":
                 return FootballEventType.SUBSTITUTION;
             case "Замена вратаря":

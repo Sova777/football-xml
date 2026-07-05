@@ -32,7 +32,7 @@ package ru.mojgorod.football.xml.library;
  */
 public enum FootballEventType {
 
-    GOAL, PENALTY_GOAL, AUTOGOAL, PENALTY_MISSED, RED_CARD, RED_CARD_STAFF,
+    GOAL, PENALTY_GOAL, AUTOGOAL, PENALTY_MISSED, ADDITIONAL_PENALTY_GOAL, ADDITIONAL_PENALTY_MISSED, RED_CARD, RED_CARD_STAFF,
     YELLOW_CARD, YELLOW_CARD_STAFF, RED_AND_YELLOW_CARD, RED_AND_YELLOW_CARD_STAFF,
     SUBSTITUTION, SUBSTITUTION_GOALKEEPER, UNKNOWN;
 
@@ -56,6 +56,14 @@ public enum FootballEventType {
 
     public boolean isPenaltyMissed() {
         return this.equals(FootballEventType.PENALTY_MISSED);
+    }
+
+    public boolean isAdditionalPenaltyGoal() {
+        return this.equals(FootballEventType.ADDITIONAL_PENALTY_GOAL);
+    }
+
+    public boolean isAdditionalPenaltyMissed() {
+        return this.equals(FootballEventType.ADDITIONAL_PENALTY_MISSED);
     }
 
     public boolean isRedCard() {
